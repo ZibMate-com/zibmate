@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&family=Dancing+Script:wght@400..700&family=Krona+One&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Syne:wght@400..800&display=swap');
+@import "tailwindcss";
+
+.font-Syne {
+  font-family: Syne;
+}
+
+.font-Krona {
+  font-family: Krona One;
+}
+
+.font-Montserrat {
+  font-family: Montserrat;
+}
+
+.font-Cormorant {
+  font-family: Cormorant;
+}
+
+.font-Lato {
+  font-family: Lato;
+}
+
+.font-Oswald {
+  font-family: Oswald;
+}
+
+.font-Raleway {
+  font-family: Raleway;
+}
+
+.scroll-offset {
+  scroll-margin-top: 100px;
+}
