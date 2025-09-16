@@ -1,21 +1,27 @@
 import { Hotel, SparkleIcon, SparklesIcon, UserStarIcon } from "lucide-react"
 export const Brandshowcase = ()=>{
     return (
-      <section className="w-full p-6 md:p-10 mt-3">
-            <div className="flex justify-evenly ">
+      <section className="w-full p-4  mt-10">
+            <div className="flex justify-between ">
                 <span className="w-2xs">
-                    <Hotel className="size-10 text-blue-900"/>
-                    <h1 className=" font-semibold bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent md:text-xl font-Montserrat text-xl">Choose form over 10,000+ pg's and hostels.</h1>
+                   <h1 className="font-bold text-3xl">5K +</h1>
+                    <h2 className=" bg-gradient-to-r bg-clip-text text-black md:text-xl font-Montserrat text-lg">Active Users</h2>
+                    <p className="text-gray-400">Owners and Tenants using our  platform</p>
                 </span>
                 <span className="w-2xs">
-                    <UserStarIcon className="size-10 text-blue-900"/>
-                    <h1 className=" font-semibold bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent md:text-xl font-Montserrat text-xl">
-                        Find best pg's based on reviews.
-                    </h1>
+                     <h1 className="font-bold text-3xl">1.2K +</h1>
+                    <h2 className=" bg-gradient-to-r bg-clip-text text-black md:text-xl font-Montserrat text-lg">Buildings Listed</h2>
+                    <p className="text-gray-400">Properties Managed Through Our Systems.</p>
                 </span>
                 <span className="w-2xs">
-                    <SparklesIcon className = "size-10 text-blue-900 "/>
-                    <h1 className=" font-semibold bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent md:text-xl font-Montserrat text-xl">It's our duty to help you find best pg for your choice</h1>
+                   <h1 className="font-bold text-3xl">8K +</h1>
+                    <h2 className=" bg-gradient-to-r bg-clip-text text-black md:text-xl font-Montserrat text-lg">Payments processed</h2>
+                    <p className="text-gray-400">Monthly transactions on the platform.</p>
+                </span>
+                <span className="w-2xs">
+                   <h1 className="font-bold text-3xl">24/7</h1>
+                    <h2 className=" bg-gradient-to-r bg-clip-text text-black md:text-xl font-Montserrat text-lg">Support Avaible</h2>
+                    <p className="text-gray-400">Assistance for Owners and Tenants</p>
                 </span>
             </div>
       </section>
