@@ -5,7 +5,7 @@ import { About } from './view/AboutPage';
 import { Categories } from './view/Cartegories';
 import { Toplistsection } from './view/Toplistsection';
 import { Brandshowcase } from './view/brandShowcase';
-import { Heart, RefreshCcw, Sparkle } from 'lucide-react';
+import { Heart, RefreshCcw, Sparkle,StickyNote } from 'lucide-react';
 import { PlatformFeatures } from './view/platformFeatures';
 import { PgManagement } from './view/pgManagement';
 import { Hero } from './view/hero';

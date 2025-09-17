@@ -1,5 +1,6 @@
 import { FaWifi, FaRegSnowflake, FaDumbbell } from "react-icons/fa6";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
+import { Component, Heart, MapPin, MessageCircle, Sparkle, Sparkles, StickyNote } from "lucide-react"
 export const TopPglist = [
     {
         price: 6500,
