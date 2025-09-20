@@ -4,11 +4,7 @@ import { useEffect, useState } from "react"
 import { PgData } from "./models/pgdata";
 import { usefilterPGs } from "./viewmodels/filterFunction";
 import { Navigate, useNavigate } from "react-router";
-<<<<<<< HEAD
-import { FilterSection } from "./view/filterSection";
-=======
 import { Heart } from "lucide-react";
->>>>>>> pglistpage
 export const Pglist = () => {
     const navigate = useNavigate();
     const [isSortOpen, setSortOpen] = useState(false);
@@ -130,13 +126,8 @@ export const Pglist = () => {
 
     return (
         <section className="w-full min-h-screen flex justify-center ">
-<<<<<<< HEAD
-            <div className="w-7xl  gap-4 justify-center mt-10 mb-10">
-                {/* <div className=" w-1/3 h-max flex flex-col gap-4 p-4 shadow-2xl shadow-blue-300 rounded-xl border border-blue-300">
-=======
             <div className="w-7xl flex gap-4 justify-center mt-10 mb-10">
                 <div className=" w-max h-max flex flex-col gap-4 p-4 rounded-xl border border-gray-400">
->>>>>>> pglistpage
                     <span className="w-full flex justify-between items-center">
                         <h1 className="text-2xl text-orange-500 font-bold">Filters</h1>
                         <h2 className="text-gray-600 cursor-pointer hover:underline text-md font-semibold" onClick={handleRemoveFilters}>remove all</h2>
@@ -170,9 +161,6 @@ export const Pglist = () => {
                 </div> */}
                 <FilterSection />
                 <div>
-<<<<<<< HEAD
-                    <div className=" flex flex-col gap-4  p-4">
-=======
                     <div className=" w-max flex gap-6 justify-between items-center border border-gray-400 shadow-2xs p-4 rounded-xl ">
                         <div className=" p-3 flex  gap-4 text-lg font-semibold rounded-xl">
                             <select name="city" className=" focus:outline-0" id="" onChange={(event) => handlefilters({ title: "city", values: event.target.value.toString() })}>
