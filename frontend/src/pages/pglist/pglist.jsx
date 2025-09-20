@@ -4,7 +4,11 @@ import { useEffect, useState } from "react"
 import { PgData } from "./models/pgdata";
 import { usefilterPGs } from "./viewmodels/filterFunction";
 import { Navigate, useNavigate } from "react-router";
+<<<<<<< HEAD
 import { FilterSection } from "./view/filterSection";
+=======
+import { Heart } from "lucide-react";
+>>>>>>> pglistpage
 export const Pglist = () => {
     const navigate = useNavigate();
     const [isSortOpen, setSortOpen] = useState(false);
@@ -50,7 +54,7 @@ export const Pglist = () => {
                     pg.priceRange = "above 25,000";
                     break;
                 default:
-                    pg.priceRange = "N/A";
+                    pg.priceRange = "Select Budget";
             }
         })
     }
@@ -84,8 +88,7 @@ export const Pglist = () => {
                     pg.facilities?.includes(fac)
                 );
             const matchPrice =
-                !filters.price ||
-                pg.priceRange === filters.price;
+                !filters.price || filters.price === "Select Budget" || pg.priceRange === filters.price;
 
             const matchCity =
                 !filters.city ||
@@ -127,24 +130,29 @@ export const Pglist = () => {
 
     return (
         <section className="w-full min-h-screen flex justify-center ">
+<<<<<<< HEAD
             <div className="w-7xl  gap-4 justify-center mt-10 mb-10">
                 {/* <div className=" w-1/3 h-max flex flex-col gap-4 p-4 shadow-2xl shadow-blue-300 rounded-xl border border-blue-300">
+=======
+            <div className="w-7xl flex gap-4 justify-center mt-10 mb-10">
+                <div className=" w-max h-max flex flex-col gap-4 p-4 rounded-xl border border-gray-400">
+>>>>>>> pglistpage
                     <span className="w-full flex justify-between items-center">
-                        <h1 className="text-2xl text-blue-800 font-bold">Filters</h1>
-                        <h2 className="text-purple-600 cursor-pointer hover:underline text-md font-semibold" onClick={handleRemoveFilters}>remove all</h2>
+                        <h1 className="text-2xl text-orange-500 font-bold">Filters</h1>
+                        <h2 className="text-gray-600 cursor-pointer hover:underline text-md font-semibold" onClick={handleRemoveFilters}>remove all</h2>
                     </span>
                     {
                         Filters.map((filter, index) => {
                             return (
                                 <div className=" flex flex-col gap-2">
                                     <span className="text-xl font-semibold font-Syne">{filter.title}</span>
-                                    <div className="grid grid-cols-2 gap-3 border-b p-3">
+                                    <div className="grid grid-cols-2 gap-3 border-b border-gray-400 p-3">
                                         {
                                             filter.values.map(values => {
                                                 return (
                                                     <span
                                                         id={index}
-                                                        className={`w-max px-4 py-2 rounded-3xl shadow-md shadow-gray-300 cursor-pointer hover:scale-105 hover:shadow-gray-400 transition-all ${filters[filter.title]?.includes(values) ? "bg-blue-600 text-white border-none" : ""
+                                                        className={`w-max px-4 py-2 rounded-3xl shadow-md  cursor-pointer hover:scale-105 hover:shadow-gray-400 transition-all ${filters[filter.title]?.includes(values) ? "bg-orange-500 text-white border-none" : ""
                                                             }`}
                                                         onClick={() => handlefilters({ title: filter.title, values })}
                                                     >
@@ -162,17 +170,84 @@ export const Pglist = () => {
                 </div> */}
                 <FilterSection />
                 <div>
+<<<<<<< HEAD
                     <div className=" flex flex-col gap-4  p-4">
+=======
+                    <div className=" w-max flex gap-6 justify-between items-center border border-gray-400 shadow-2xs p-4 rounded-xl ">
+                        <div className=" p-3 flex  gap-4 text-lg font-semibold rounded-xl">
+                            <select name="city" className=" focus:outline-0" id="" onChange={(event) => handlefilters({ title: "city", values: event.target.value.toString() })}>
+                                <option value="Select City">Select location</option>
+                                {
+                                    locationList.map((location) => {
+                                        return (
+                                            <option value={location}>{location}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                            <select name="price" className="focus: outline-0" id="" onChange={(event) => handlefilters({ title: "price", values: event.target.value })}>
+                                <option value="Select Budget">Select Budget</option>
+                                {
+                                    priceRange.map((price) => {
+                                        return (
+                                            <option value={price}>{price}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                            <input type="text" className="border p-1 w-3xs rounded-lg text-md placeholder:text-sm placeholder:font-medium placeholder:pl-2" placeholder="search for pg in your location" />
+                        </div>
+                        <div className="relative flex gap-4 ">
+                            <span className="text-md p-2 font-semibold border border-gray-400 rounded-3xl">Students Friendly</span>
+                            {/* <span className=" flex w-max gap-2 font-medium text-lg items-center" onClick={handleSort}>Sort By <FaChevronDown /></span> */}
+                            <span className=" flex w-max gap-2 font-medium text-lg items-center">
+                                {
+                                    <select name="sort" id="">
+                                        <option value="sort by">Sort by</option>
+                                        {
+                                            sortBy.map((ele) => {
+                                                return (
+                                                    <option value={ele}>{ele}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
+                                    // sortBy.map((ele) => {
+                                    //     return (
+                                    //         <>
+                                    //             {
+                                    //                 isSortOpen && <span className="absolute bg-white p-4 mt-2 right-0 rounded-2xl w-max flex flex-col gap-3 border">
+                                    //                     <h1 className="font-bold">{ele.title}</h1>
+                                    //                     {
+                                    //                         ele.values.map((value) => {
+                                    //                             return (
+                                    //                                 <h2 className="hover:bg-orange-200 p-2 w-full">{value}</h2>
+                                    //                             )
+                                    //                         })}
+                                    //                 </span>
+                                    //             }
+
+                                    //         </>
+
+
+                                    //     )
+                                    // })
+                                }
+                            </span>
+                        </div>
+                    </div>
+                    <div className=" flex flex-col gap-4 overflow-y-scroll p-4">
+>>>>>>> pglistpage
                         {
                             filteredPg.map((pg, index) => {
                                 return (
-                                    <div key={index} className="flex h-53 gap-6 bg-gradient-to-r  shadow-md shadow-blue-200 border-3 border-blue-700 transition-all"
+                                    <div key={index} className="flex h-53 gap-6 bg-gradient-to-r  border-2 border-gray-300 transition-all p-4 rounded-xl"
                                         onClick={() => navigate(`/pgdetails/${pg.id}`)}>
                                         <span className="w-2xs relative">
                                             <button className="absolute m-3 right-0"><FaImages className="size-5 fill-white" /></button>
-                                            <img className="w-full h-full  object-cover" src={pg.images[0]} alt="" />
+                                            <img className="w-full h-full rounded-2xl object-cover" src={pg.images[0]} alt="" />
                                         </span>
-                                        <div className="flex justify-between">
+                                        <div className="flex justify-between items-center h-full">
                                             <div className="h-full flex flex-col justify-center gap-5 w-2xs">
                                                 <span className="flex gap-2 text-yellow-400">
                                                     <FaStar />
@@ -191,25 +266,25 @@ export const Pglist = () => {
                                                 </span>
 
                                             </div>
-                                            <div className="h-full flex flex-col justify-end gap-5 w-2xs items-end p-3">
-                                                <span className="flex items-center gap-2 hover:underline cursor-pointer">
+                                            <div className="h-full flex flex-col justify-center gap-5 w-2xs items-end p-3">
+                                                <span className="flex items-center text-sm gap-2 hover:underline cursor-pointer">
                                                     <FaMap /> view on Map
                                                     {/* <iframe title="Google Map" className=" w-20 h-5 rounded-lg" src={pg.locationLink} allowFullScreen="" loading="lazy"></iframe> */}
                                                 </span>
 
                                                 {/* <span className="flex items-center gap-2 hover:underline cursor-pointer"></span> */}
-                                                <span className="flex items-center text-xl font-bold">
+                                                <span className="flex items-center text-xl text-orange-600 font-bold">
                                                     <FaRupeeSign />
                                                     {pg.price}
                                                 </span>
-                                                <p>
+                                                <p className="">
                                                     save Rs. {pg.discount}
                                                 </p>
                                                 <span className=" flex gap-5">
-                                                    <button className="flex gap-1 items-center">
-                                                        <FaHeart /> Favourite
+                                                    <button className="flex gap-1  items-center w-max border border-gray-400 p-2 rounded-xl">
+                                                        <Heart className="size-5" />Add to Favourite
                                                     </button>
-                                                    <button className="w-max bg-blue-500 text-white p-3 rounded-xl">
+                                                    <button className="w-max bg-orange-500 text-white p-2 rounded-xl">
                                                         Contact Owner
                                                     </button>
                                                 </span>

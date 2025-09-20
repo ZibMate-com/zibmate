@@ -1,7 +1,8 @@
 import { Heart, RefreshCcw, Sparkle } from 'lucide-react';
+import MotionSection from '../../../components/view/motionComponents';
 export const Hero = ()=>{
     return (
-         <div className='w-full p-3 flex gap-25'>
+         <MotionSection className='w-full p-3 flex gap-25'>
         <div className='w-1/2'>
           <img src="assets/brandon-griggs-wR11KBaB86U-unsplash.jpg" className='rounded-xl w-full h-full' alt="" />
         </div>
@@ -9,7 +10,7 @@ export const Hero = ()=>{
           <h1 className='text-7xl font-semibold'>Manage PG's Connect Simplyfy.</h1>
           <p className='text-xl text-gray-400 mt-8'>A modern platform for owners and tenants to manage paying guest stays, payments, and communication—all in one place.</p>
 
-          <div className='grid grid-cols-2 gap-10 mt-8'>
+          <div className='flex gap-10 w-max mt-8'>
             <span className='flex items-center gap-2'>
               <Sparkle className='size-6 text-orange-500' />
               Easy Onboarding
@@ -29,6 +30,6 @@ export const Hero = ()=>{
                <a href="/features"><button className="p-4 w-36 bg-white rounded-2xl text-md border border-orange-500 text-orange-500 font-semibold">See features</button></a> 
             </div>
         </div>
-      </div>
+      </MotionSection>
     )
 }

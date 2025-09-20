@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 // ...existing imports...
 import { FAQ } from '../model/homepage';
+import MotionSection from '../../../components/view/motionComponents';
 const Contact = () => {
     const [form, setForm] = useState({
         firstname: '',
@@ -49,7 +50,7 @@ const Contact = () => {
     };
 
     return (
-        <section className='w-full p-6 md:p-10 md:flex justify-between gap-4'>
+        <MotionSection className='w-full p-6 md:p-10 md:flex justify-between gap-4'>
             <div className='w-1/2'>
                 <h2 className='md:text-lg text-2xl text-gray-500'>
                     FAQ's
@@ -133,7 +134,7 @@ const Contact = () => {
                     </button>
                 </form>
             </div>
-        </section>
+        </MotionSection>
     )
 }
 

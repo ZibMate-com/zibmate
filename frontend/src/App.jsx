@@ -8,6 +8,8 @@ import { About } from "./pages/homepage/view/AboutPage"
 import { Pglist } from "./pages/pglist/pglist"
 import { PgDetails } from "./pages/pglist/pgDetails"
 import { BookingPage } from "./booking page/bookingpage"
+import { Login } from "./auth/login/login"
+import { SignUp } from "./auth/signup/signup"
 
 
 const router = createBrowserRouter([
@@ -39,7 +41,15 @@ const router = createBrowserRouter([
       {
         path : "/booking",
         element : <BookingPage/>
-      }
+      },
+      {
+        path : "/login",
+        element : <Login/>
+      },
+      {
+        path : "/signup",
+        element : <SignUp/>
+      },
      
     ]
   }

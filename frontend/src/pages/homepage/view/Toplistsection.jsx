@@ -2,9 +2,10 @@ import { FaWifi, FaRegSnowflake, FaDumbbell } from "react-icons/fa6";
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import { LuIndianRupee } from "react-icons/lu";
 import { TopPglist } from "../model/homepage";
+import MotionSection from "../../../components/view/motionComponents";
 // import {topPglist} from "./model/homepage.js"
 export const Toplistsection = () => {
-  return <section className='w-full p-6 md:p-10'>
+  return <MotionSection className='w-full p-4'>
     <h1 className='font-bold text-blue-9  00 text-2xl md:text-4xl'>Handpicked for your in loaction </h1>
     <div className='w-full grid grid-cols-1 md:grid-cols-4 gap-3 mt-6'>
       {
@@ -37,5 +38,5 @@ export const Toplistsection = () => {
     <div className="w-full text-center">
     <button className="p-4 w-40 bg-orange-500 rounded-2xl text-white text-md font-semibold mt-10">Load more</button>
     </div>
-  </section>
+  </MotionSection>
 }

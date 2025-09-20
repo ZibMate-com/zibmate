@@ -1,6 +1,8 @@
+import MotionSection from "../../../components/view/motionComponents"
+
 export const PgManagement = () => {
     return (
-        <section className="w-full mt-10 p-4">
+        <MotionSection className="w-full mt-10 p-4">
             <div>
                 <h1 className="text-4xl font-semibold">Streamline your PG mangement</h1>
                 <p className="text-lg text-gray-600 mt-3">Effortlessly manage your properties with our all-in-one platform, designed for seamless tenant coordination, payment tracking, and building management.</p>
@@ -43,6 +45,6 @@ export const PgManagement = () => {
                 </div>
                  </div>
             </div>
-        </section>
+        </MotionSection>
     )
 }
