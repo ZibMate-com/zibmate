@@ -5,6 +5,7 @@ import { PgData } from "./models/pgdata";
 import { usefilterPGs } from "./viewmodels/filterFunction";
 import { Navigate, useNavigate } from "react-router";
 import { Heart } from "lucide-react";
+import { FilterSection } from "./view/filterSection";
 export const Pglist = () => {
     const navigate = useNavigate();
     const [isSortOpen, setSortOpen] = useState(false);
@@ -158,7 +159,7 @@ export const Pglist = () => {
                         })
                     }
 
-                </div> */}
+                </div> 
                 <FilterSection />
                 <div>
                     <div className=" w-max flex gap-6 justify-between items-center border border-gray-400 shadow-2xs p-4 rounded-xl ">
@@ -225,7 +226,6 @@ export const Pglist = () => {
                         </div>
                     </div>
                     <div className=" flex flex-col gap-4 overflow-y-scroll p-4">
->>>>>>> pglistpage
                         {
                             filteredPg.map((pg, index) => {
                                 return (
