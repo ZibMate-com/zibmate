@@ -27,12 +27,12 @@ export const Filters = [
         component : Wifi
     },
     {
-        title: "Price Range",
+        title: "price",
         values: ["under 10,000", "10,000 - 15,000", "15,000 - 25,000", "above 25,0000"],
         component : Wallet        
     },
     {
-        title: "Location List",
+        title: "city",
         values: [
             "Gurugram",
             "Noida",

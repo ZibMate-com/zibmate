@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { signupUser } from "../repository/signup";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Auth, Firedb } from "../../../firebase/firebaseconfig";
+import { useNavigate } from "react-router";
 export const useSignup = () => {
+    const navigate = useNavigate();
     const [role, setRole] = useState("owner");
     const [errors, setErrors] = useState({});
     const [userdata, setUserData] = useState({
@@ -10,6 +15,49 @@ export const useSignup = () => {
         password: "",
         phone: "",
     });
+
+    const userSignupFunction = async () => {
+        if (userdata.firstName === "" || userdata.email === "" || userdata.password === "") {
+            alert("All fields are empty");
+            return false;
+        }
+        // setLoading(true);
+        try {
+            const users = await createUserWithEmailAndPassword(Auth, userdata.email, userdata.password);
+
+            const user = {
+                name: userdata.firstName,
+                email: users.user.email,
+                uid: users.user.uid,
+                role: role,
+                time: Timestamp.now(),
+                date: new Date().toLocaleString("en-US", {
+                    month: "short",
+                    day: "2-digit",
+                    year: "numeric",
+                })
+            };
+
+            const UserRef = collection(Firedb, "user");
+            await addDoc(UserRef, user);
+
+            setUserData({
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+                phone: "",
+            });
+
+            // setLoading(false);
+            navigate("/login");
+            return true;
+        } catch (error) {
+            // setLoading(false);
+            console.log(error);
+            throw error;
+        }
+    };
 
     const validate = () => {
         const newErrors = {};
@@ -55,35 +103,35 @@ export const useSignup = () => {
     }, [userdata]);
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (validate()) {
-            try {
-                const users = JSON.parse(localStorage.getItem("users")) || [];
-                users.push(userdata);
-                localStorage.setItem("users", JSON.stringify(users));
-                await signupUser(userdata);
-                alert("Signup successful!");
-                setUserData({
-                    firstName: "",
-                    lastName: "",
-                    email: "",
-                    password: "",
-                    phone: "",
-                });
-            } catch (error) {
-                alert("Signup failed");
-            }
-        }
-    };
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     if (validate()) {
+    //         try {
+    //             const users = JSON.parse(localStorage.getItem("users")) || [];
+    //             users.push(userdata);
+    //             localStorage.setItem("users", JSON.stringify(users));
+    //             await userSignupFunction();
+    //             alert("Signup successful!");
+    //             setUserData({
+    //                 firstName: "",
+    //                 lastName: "",
+    //                 email: "",
+    //                 password: "",
+    //                 phone: "",
+    //             });
+    //         } catch (error) {
+    //             alert(error.message || "Signup failed");
+    //         }
+    //     }
+    // };
 
     return {
         role,
         userdata,
         errors,
         validate,
-        handleSubmit,
         setRole,
-        setUserData
+        setUserData,
+        userSignupFunction
     }
 }
