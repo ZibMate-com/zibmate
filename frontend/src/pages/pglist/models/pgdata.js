@@ -1,4 +1,6 @@
+import { collection, getDocs } from "firebase/firestore";
 import { Filters, priceRange } from "./pglist";
+import { Firedb } from "../../../features/firebase/firebaseconfig";
 
 export const PgData = [
     {
@@ -134,3 +136,18 @@ export const PgData = [
     },
 
 ]
+
+
+export const getPgData = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(Firedb, "pgData"));
+    const pgList = querySnapshot.docs.map((doc) => ({
+      id: doc.id,       
+      ...doc.data(),   
+    }));
+    return pgList;
+  } catch (error) {
+    console.error("Error fetching PG data:", error);
+    return [];
+  }
+};

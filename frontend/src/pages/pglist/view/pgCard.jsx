@@ -3,9 +3,7 @@ import { Button } from "@/components/ui/button";
 import { PgData } from "./pglist";
 import { MapPin, Users, Tag, Building2 } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-
 const PgCards = () => {
- 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
       {PgData.map((pg) => (

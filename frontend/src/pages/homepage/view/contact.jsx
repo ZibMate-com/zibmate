@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 // ...existing imports...
 import { FAQ } from '../model/homepage';
 import MotionSection from '../../../components/view/motionComponents';
+import Mycontext from '../../../features/context/mycontext';
+import { Loader } from '../../../components/view/loader';
 const Contact = () => {
+    const {loading} = useContext(Mycontext);
+
     const [form, setForm] = useState({
         firstname: '',
         lastname: '',
@@ -48,7 +52,9 @@ const Contact = () => {
             })
         }
     };
-
+    if(loading){
+        return <Loader/>
+    }
     return (
         <MotionSection className='w-full p-6 md:p-10 md:flex justify-between gap-4'>
             <div className='w-1/2'>
