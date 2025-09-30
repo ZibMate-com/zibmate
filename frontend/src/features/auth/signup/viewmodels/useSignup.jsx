@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { signupUser, userSignupFunction } from "../repository/signupFuncion";
 import { useNavigate } from "react-router";
 import Mycontext from "../../../context/mycontext";
-import { token, verifyToken } from "../repository/token";
+// import { token, verifyToken } from "../repository/token";
 export const useSignup = () => {
     const navigate = useNavigate();
     const context = useContext(Mycontext);

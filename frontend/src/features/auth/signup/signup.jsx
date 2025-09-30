@@ -2,11 +2,11 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignup } from "./viewmodels/useSignup";
 import {Loader} from "../../../components/view/loader"
-import { token } from "./repository/token";
+// import { token } from "./repository/token";
 const Signup = () => {
   const { role, userdata, errors, setRole, setUserData,handleSignup,loading,isLoggedIn } = useSignup();
   console.log(isLoggedIn);
-  console.log(token);
+  // console.log(token);
   
   return (
     <div className='flex justify-center items-center h-screen'>
