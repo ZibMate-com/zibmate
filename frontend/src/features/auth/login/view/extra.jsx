@@ -3,27 +3,27 @@ import { useSignup } from "../signup/viewmodels/useSignup";
 import { useLogin } from "./viewmodels/uselogin";
 
 export const Login = () => {
-    const {
+  const {
     role,
     userCred,
     setRole,
     errors,
     setUserCred,
-    handleSubmit
-    } = useLogin()
+    handleLogin
+  } = useLogin()
 
   return (
     <div className="flex items-center justify-center min-h-screen  p-4">
       <div className="w-full max-w-md bg-white p-6 rounded-2xl border border-gray-500">
-        <form onSubmit={handleSubmit} className="text-center space-y-4">
+        <form onSubmit={handleLogin} className="text-center space-y-4">
           <h2 className="text-3xl font-semibold font-Montserrat">Login</h2>
 
           <div className="flex justify-center gap-3">
             <button
               type="button"
               className={`px-6 py-2 rounded-full border font-Lato ${role === "owner"
-                  ? "bg-orange-500 text-white border-orange-500"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                ? "bg-orange-500 text-white border-orange-500"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
                 }`}
               onClick={() => setRole("owner")}
             >
@@ -32,8 +32,8 @@ export const Login = () => {
             <button
               type="button"
               className={`px-6 py-2 rounded-full border  font-Lato ${role === "buyer"
-                  ? "bg-orange-500 text-white border-orange-500"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                ? "bg-orange-500 text-white border-orange-500"
+                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
                 }`}
               onClick={() => setRole("buyer")}
             >
@@ -49,7 +49,7 @@ export const Login = () => {
                   value={userCred.email}
                   onChange={(e) => setUserCred({
                     ...userCred,
-                    email : e.target.value
+                    email: e.target.value
                   })}
                   className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.email ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
                     }`}
@@ -65,7 +65,7 @@ export const Login = () => {
                   value={userCred.password}
                   onChange={(e) => setUserCred({
                     ...userCred,
-                    password : e.target.value
+                    password: e.target.value
                   })}
                   className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.password ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
                     }`}
@@ -83,7 +83,7 @@ export const Login = () => {
                 value={userCred.phone}
                 onChange={(e) => setPhone({
                   ...userCred,
-                  phone : e.target.value
+                  phone: e.target.value
                 })}
                 className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.phone ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
                   }`}

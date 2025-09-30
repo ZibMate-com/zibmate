@@ -1,6 +1,14 @@
 import { Heart, RefreshCcw, Sparkle } from 'lucide-react';
 import MotionSection from '../../../components/view/motionComponents';
+import { useContext } from 'react';
+import Mycontext from '../../../features/context/mycontext';
+import { Loader } from '../../../components/view/loader';
 export const Hero = ()=>{
+  const {loading} = useContext(Mycontext);
+
+    if (loading) {
+      return <Loader/>
+    }
     return (
          <MotionSection className='w-full p-3 flex gap-25'>
         <div className='w-1/2'>

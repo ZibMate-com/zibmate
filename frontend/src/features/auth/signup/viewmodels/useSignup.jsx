@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { signupUser } from "../repository/signup";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { Timestamp, addDoc, collection } from "firebase/firestore";
-import { Auth, Firedb } from "../../../firebase/firebaseconfig";
+import React, { useState, useEffect, useContext } from "react";
+import { signupUser, userSignupFunction } from "../repository/signupFuncion";
 import { useNavigate } from "react-router";
+import Mycontext from "../../../context/mycontext";
+// import { token, verifyToken } from "../repository/token";
 export const useSignup = () => {
     const navigate = useNavigate();
+    const context = useContext(Mycontext);
+    const { setloading, setisLoggedIn, loading, isLoggedIn} = context;
     const [role, setRole] = useState("owner");
     const [errors, setErrors] = useState({});
     const [userdata, setUserData] = useState({
@@ -102,28 +103,37 @@ export const useSignup = () => {
         validate();
     }, [userdata]);
 
+    const handleSignup = async () => {
+        // Only validate form inputs here
+        if (!validate()) {
+            setisLoggedIn(false);
+            return;
+        }
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     if (validate()) {
-    //         try {
-    //             const users = JSON.parse(localStorage.getItem("users")) || [];
-    //             users.push(userdata);
-    //             localStorage.setItem("users", JSON.stringify(users));
-    //             await userSignupFunction();
-    //             alert("Signup successful!");
-    //             setUserData({
-    //                 firstName: "",
-    //                 lastName: "",
-    //                 email: "",
-    //                 password: "",
-    //                 phone: "",
-    //             });
-    //         } catch (error) {
-    //             alert(error.message || "Signup failed");
-    //         }
-    //     }
-    // };
+        setloading(true);
+
+        try {
+            const { success, token } = await userSignupFunction({ role, userdata, setUserData });
+            if (success) {
+                  localStorage.setItem("token", token);
+                //   if (verifyToken()) {
+                setisLoggedIn(true);
+                navigate("/pglist");
+                console.log(token);
+                //   } else {
+                    setisLoggedIn(false);
+                //   }
+            } else {
+                setisLoggedIn(false);
+            }
+
+            setloading(false);
+        } catch (error) {
+            setloading(false);
+            setisLoggedIn(false);
+            setErrors({ general: error.message });
+        }
+    };
 
     return {
         role,
@@ -132,6 +142,8 @@ export const useSignup = () => {
         validate,
         setRole,
         setUserData,
-        userSignupFunction
+        handleSignup,
+        loading,
+        isLoggedIn
     }
 }

@@ -1,5 +1,4 @@
-import React from 'react'
-import "../../pages/page.css"
+
 import Contact from './view/contact';
 import { About } from './view/AboutPage';
 import { Categories } from './view/Cartegories';
