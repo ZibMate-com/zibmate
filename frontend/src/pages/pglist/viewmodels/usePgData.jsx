@@ -12,14 +12,16 @@ export const usePgData = () => {
                 const data = await getPgData();
                 setPgs(data);
                 setloading(false)
+                return data
             } catch (error) {
                 console.log(error);
                 setloading(false)
-                
             }
         };
-        fetchData();
+       setPgs(fetchData);
     }, []);
+    console.log("pglist two",pgs);
+    
     return {
         pgs,
         setPgs,

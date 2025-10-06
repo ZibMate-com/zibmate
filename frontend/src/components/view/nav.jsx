@@ -23,7 +23,9 @@ export const NavBar = () => {
                 </div>
             </div>
             <div className="flex gap-8">
+                <NavLink to="/postproperty">
                 <button className="p-2 w-40 bg-orange-500 rounded-2xl text-xl font-semibold">Post Property</button>
+                </NavLink>
                 {
                     isLoggedIn ? 
                     <NavLink to="/profile">
