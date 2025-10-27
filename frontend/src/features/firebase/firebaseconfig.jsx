@@ -11,14 +11,14 @@ import{ getStorage} from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCPCiDI0zbMLm1qUjUvK3ftyoc-1B0em8s",
-  authDomain: "zibmate-04.firebaseapp.com",
-  databaseURL: "https://zibmate-04-default-rtdb.firebaseio.com",
-  projectId: "zibmate-04",
-  storageBucket: "zibmate-04.firebasestorage.app",
-  messagingSenderId: "469473925295",
-  appId: "1:469473925295:web:07c4497c9417a3bbf29c5a",
-  measurementId: "G-79E865ZJVY"
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_DATABASE_URL,
+  projectId:  import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
+  measurementId:  import.meta.env.VITE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
@@ -27,6 +27,5 @@ const analytics = getAnalytics(app);
 const Auth = getAuth(app)
 const Firedb = getFirestore(app)
 const provider = new GoogleAuthProvider();
-
 
 export { app, analytics, Auth, Firedb, provider };

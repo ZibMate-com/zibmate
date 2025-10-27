@@ -9,9 +9,10 @@ export const NavBar = () => {
         <nav className="w-full bg-black/95 flex justify-between items-center text-white p-4">
             <div className="w-max flex justify-between items-center gap-10">
                 <NavLink to="/">
-                <div className="flex items-center gap-3 border p-2 rounded-2xl">
-                    <GiHouse className="size-6"/>
-                    <span className="text-2xl font-bold font-Syne">ZibMate</span>
+                <div className=" rounded-2xl w-50 border">
+                    {/* <GiHouse className="size-6"/>
+                    <span className="text-2xl font-bold font-Syne">ZibMate</span> */}
+                    <img src="assets/logonobg.png" className="w-full h-full object-contain" alt="" />
                 </div>
                 </NavLink>
                 <div >
@@ -24,17 +25,17 @@ export const NavBar = () => {
             </div>
             <div className="flex gap-8">
                 <NavLink to="/postproperty">
-                <button className="p-2 w-40 bg-orange-500 rounded-2xl text-xl font-semibold">Post Property</button>
+                <button className="px-4 py-3 w-40 bg-orange-500 rounded-2xl text-xl font-semibold">Post Property</button>
                 </NavLink>
                 {
                     isLoggedIn ? 
                     <NavLink to="/profile">
-                    <button className="p-2 w-max bg-white outline-2 outline-orange-500 text-orange-500 flex items-center gap-2 rounded-2xl text-xl font-semibold">
+                    <button className="px-4 py-3 w-max bg-white outline-2 outline-orange-500 text-orange-500 flex items-center gap-2 rounded-2xl text-xl font-semibold">
                         <UserCircleIcon className="size-7"/>
                        Welcome! {loggedUser?.displayName || "Profile"}</button>
                     </NavLink> : 
                 <NavLink to="/login">
-                    <button className="p-2 w-36 bg-orange-500 rounded-2xl text-xl font-semibold">Sign In</button>
+                    <button className="px-4 py-3 w-36 bg-orange-500 rounded-2xl text-xl font-semibold">Sign In</button>
                 </NavLink>
                 }
               

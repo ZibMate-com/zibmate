@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { getPgData } from "../models/pgdata";
-import Mycontext from "../../../features/context/mycontext";
+import Mycontext from "../../context/mycontext";
 
 export const usePgData = () => {
     const [pgs, setPgs] = useState([]);

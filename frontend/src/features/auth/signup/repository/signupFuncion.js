@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://zibmate.com/"
+const BASE_URL = `${import.meta.env.VITE_BASE_URL}`;
 import { Auth,Firedb } from "../../../firebase/firebaseconfig";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";

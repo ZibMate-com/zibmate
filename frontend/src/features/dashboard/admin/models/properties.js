@@ -1,8 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
-import { Filters, priceRange } from "./pglist";
-import { Firedb } from "../../../features/firebase/firebaseconfig";
-
-export const PgData = [
+export const Properties = [
     {
         id : 1,
         name: "MG Club and Resorts",
@@ -17,7 +13,8 @@ export const PgData = [
         occupancy : "double",
         lookingFor : "proffesionals",
         facilities : ["Ac" ,"Laundry" , "Food"],
-        city : "Mumbai"
+        city : "Mumbai",
+        status : "incomplete"
         
 
     },
@@ -35,7 +32,8 @@ export const PgData = [
         occupancy : "triple",
         lookingFor : "students",
         facilities : ["Ac" ,"Laundry" , "Food", "WiFi"],
-        city : "Noida"
+        city : "Noida",
+        status : "active"
     },
     {
         id : 3,
@@ -51,7 +49,8 @@ export const PgData = [
         occupancy : "single",
         lookingFor : "students",
         facilities : ["Microwave"],
-        city : "Bangalore"
+        city : "Bangalore",
+        status : "inactive"
 
     },
     {
@@ -136,18 +135,3 @@ export const PgData = [
     },
 
 ]
-
-
-export const getPgData = async () => {
-  try {
-    const querySnapshot = await getDocs(collection(Firedb, "pgData"));
-    const pgList = querySnapshot.docs.map((doc) => ({
-      id: doc.id,       
-      ...doc.data(),   
-    }));
-    return pgList;
-  } catch (error) {
-    console.error("Error fetching PG data:", error);
-    return [];
-  }
-};
