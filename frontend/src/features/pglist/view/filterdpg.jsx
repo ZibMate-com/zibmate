@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { MapPin, Users, Tag, Building2 } from "lucide-react";
+import { NavLink } from "react-router";
+
 export const FilteredPg = ({ filteredPg }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
@@ -48,7 +50,9 @@ export const FilteredPg = ({ filteredPg }) => {
                             </div>
 
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                <button className="w-full mt-2 rounded-xl bg-orange-500 p-3 text-white">View Details</button>
+                                <NavLink to={`/findpg/${pg.docId}`}>
+                                    <button className="w-full py-3 text-white font-semibold mt-2 rounded-xl bg-orange-500">View Details</button>
+                                </NavLink>
                             </motion.div>
                         </div>
                     </div>

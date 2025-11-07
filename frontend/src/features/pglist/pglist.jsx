@@ -15,11 +15,7 @@ export const Pglist = () => {
         filters,
         handleRemoveFilters
     } = useFilterPGs();
-    // const {pgs} = usePgData();
     const {pgs,loading} = usePgData();
-    // console.log("Real Pgs:" , pgs);
-    console.log("filteredPg :" , filteredPg);   
-    
     if(loading){
         return <Loader/>
     }

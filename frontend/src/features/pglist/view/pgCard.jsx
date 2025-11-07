@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { PgData } from "./pglist";
 import { MapPin, Users, Tag, Building2 } from "lucide-react";
 import { motion, useInView } from "framer-motion";
+import { NavLink } from "react-router";
 const PgCards = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
@@ -50,7 +51,9 @@ const PgCards = () => {
               </div>
 
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <NavLink to={`/findpg/${pg.docId}`}>
                 <Button className="w-full mt-2 rounded-xl">View Details</Button>
+                </NavLink>
               </motion.div>
             </div>
           </div>
@@ -61,7 +64,6 @@ const PgCards = () => {
 };
 
 export default PgCards;
-// import React, { use, useRef,useState } from "react";
 // import { Button } from "@/components/ui/button";
 // import { PgData } from "./pglist";
 // import { MapPin, Users, Tag, Building2 } from "lucide-react";

@@ -5,7 +5,6 @@ import Mycontext from "../../context/mycontext";
 export const usePgForm = () => {
     const {loading,setloading} = useContext(Mycontext);
     const [formData, setFormData] = useState({
-        id: "",
         name: "",
         description: "",
         images: [""],
@@ -49,7 +48,6 @@ export const usePgForm = () => {
             });
            setloading(false)
             setFormData({
-                id: "",
                 name: "",
                 description: "",
                 images: [""],

@@ -10,6 +10,7 @@ export const usePgData = () => {
             setloading(true)
             try {
                 const data = await getPgData();
+                console.log(data);
                 setPgs(data);
                 setloading(false)
                 return data
@@ -20,8 +21,6 @@ export const usePgData = () => {
         };
        setPgs(fetchData);
     }, []);
-    console.log("pglist two",pgs);
-    
     return {
         pgs,
         setPgs,

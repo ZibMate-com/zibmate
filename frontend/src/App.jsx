@@ -17,6 +17,7 @@ import PgForm from "./features/PropertyForm/postPropertyForm"
 import { AboutUs } from "./pages/aboutUs/aboutus"
 import { AdminDashboard } from "./features/dashboard/admin/adminDashboard"
 import { UserDashBoard } from "./features/dashboard/user/userDashboard"
+import { IndividualPg } from "./features/individualPg/individual-pg"
 
 const router = createBrowserRouter([
   {
@@ -37,12 +38,12 @@ const router = createBrowserRouter([
         element : <AboutUs/>
       },
       {
-        path : "/pglist",
+        path : "/findpg",
         element : <Pglist/>
       },
       {
-        path : "/pgdetails/:id",
-        element : <PgDetails/>
+        path : "/findpg/:id",
+        element : <IndividualPg/>
       },
       {
         path : "/booking",
@@ -61,13 +62,13 @@ const router = createBrowserRouter([
         element : <PgForm/>
       },
       {
-        path : "/owner",
+        path : "/profile/owner",
         element : <AdminDashboard/>
       },
       {
-        path : "/user",
+        path : "/profile/user",
         element : <UserDashBoard/>
-      }
+      },
      
     ]
   }
