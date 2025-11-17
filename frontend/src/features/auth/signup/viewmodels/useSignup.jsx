@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import { signupUser, userSignupFunction } from "../repository/signupFuncion";
 import { useNavigate } from "react-router";
-import Mycontext from "../../../context/mycontext";
+import Mycontext from "../../../context/mycontext";import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Auth,Firedb } from "../../../firebase/firebaseconfig";
+import { addDoc, collection, Timestamp } from "firebase/firestore";
+
 // import { token, verifyToken } from "../repository/token";
 export const useSignup = () => {
     const navigate = useNavigate();
     const context = useContext(Mycontext);
-    const { setloading, setisLoggedIn, loading, isLoggedIn} = context;
+    const { setloading, setisLoggedIn, loading, isLoggedIn } = context;
     const [role, setRole] = useState("owner");
     const [errors, setErrors] = useState({});
     const [userdata, setUserData] = useState({
@@ -18,11 +21,6 @@ export const useSignup = () => {
     });
 
     const userSignupFunction = async () => {
-        if (userdata.firstName === "" || userdata.email === "" || userdata.password === "") {
-            alert("All fields are empty");
-            return false;
-        }
-        // setLoading(true);
         try {
             const users = await createUserWithEmailAndPassword(Auth, userdata.email, userdata.password);
 
@@ -49,9 +47,11 @@ export const useSignup = () => {
                 password: "",
                 phone: "",
             });
-
+            localStorage.setItem("users",JSON.stringify(user))
             // setLoading(false);
-            navigate("/login");
+            if (role.toLowerCase() === "owner") {
+                navigate("/postproperty")
+            }else navigate("/findpg")
             return true;
         } catch (error) {
             // setLoading(false);
@@ -115,13 +115,12 @@ export const useSignup = () => {
         try {
             const { success, token } = await userSignupFunction({ role, userdata, setUserData });
             if (success) {
-                  localStorage.setItem("token", token);
+                localStorage.setItem("token", token);
                 //   if (verifyToken()) {
                 setisLoggedIn(true);
-                navigate("/pglist");
                 console.log(token);
                 //   } else {
-                    setisLoggedIn(false);
+                setisLoggedIn(false);
                 //   }
             } else {
                 setisLoggedIn(false);
@@ -134,14 +133,17 @@ export const useSignup = () => {
             setErrors({ general: error.message });
         }
     };
-
+     const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUserData(prev => ({ ...prev, [name]: value }));
+    };
     return {
         role,
         userdata,
         errors,
         validate,
         setRole,
-        setUserData,
+        handleInputChange,
         handleSignup,
         loading,
         isLoggedIn

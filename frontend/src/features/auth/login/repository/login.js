@@ -1,8 +1,9 @@
 import axios from "axios";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 import { Auth, Firedb } from "../../../firebase/firebaseconfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { collection, query, where, getDocs } from "firebase/firestore";
+
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const loginUser = async ({ email, password, phone }) => {
   try {

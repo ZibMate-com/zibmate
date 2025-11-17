@@ -1,19 +1,17 @@
 import { LogOut, MapPin, Phone, Pin, User, Users } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useState,useContext } from "react"
 import { SavedProperties } from "./view/properties"
 import { SentRequests } from "./view/requests"
 import { NullData } from "../../../components/view/null-data"
+import Mycontext from "../../context/mycontext"
+import { useNavigate } from "react-router"
 
 export const UserDashBoard = () => {
-    const Tenant = {
-        name: "John Doe",
-        email: "johndoe@mail.com",
-        phone: "9999999999",
-        resgisterdas: "Tenant"
-    }
+    const user = JSON.parse(localStorage.getItem("users"));
     const [viewTab, setviewtab] = useState("Saved Properties");
     const [activeTab, setactiveTab] = useState();
-
+     const {setisLoggedIn} = useContext(Mycontext)
+    const navigate = useNavigate();
 
     const renderTab = () => {
         switch (viewTab) {
@@ -31,14 +29,19 @@ export const UserDashBoard = () => {
         renderTab()
     }, [viewTab])
     console.log(viewTab);
-    
+
+      const handlelogout =()=>{
+        localStorage.removeItem("users");
+        setisLoggedIn(false)
+       navigate("/login")
+    }
 
 
     return (
         <section className="">
             <div className="flex p-4 justify-between">
             <h1 className="text-3xl text-black font-Montserrat font-bold  underline">My Profile</h1>
-            <span className="flex items-center gap-2 text-xl px-4 py-2 bg-orange-500 text-white rounded-2xl justify-center hover:bg-orange-600 transition-all font-semibold font-Montserrat">
+            <span className="flex items-center gap-2 text-xl px-4 py-2 bg-orange-500 text-white rounded-2xl justify-center hover:bg-orange-600 transition-all font-semibold font-Montserrat" onClick={handlelogout}>
                 Logout
                 <LogOut/>
             </span>
@@ -52,10 +55,10 @@ export const UserDashBoard = () => {
                             </div>
                         </div>
                         <div className=" w-full h-1/2  flex text-center flex-col gap-2 p-4">
-                            <span className="text-4xl text-zinc-700 font-semibold"> {Tenant.name}</span>
-                            <span className="text-xl font-semibold text-zinc-500"> {Tenant.email}</span>
-                            <span className="text-xl font-semibold text-zinc-500"> {Tenant.phone}</span>
-                            <span className="text-lg  font-semibold text-zinc-600">Registered As : {Tenant.resgisterdas}</span>
+                            <span className="text-4xl text-zinc-700 font-semibold"> {user.name}</span>
+                            <span className="text-xl font-semibold text-zinc-500"> {user.email}</span>
+                            <span className="text-xl font-semibold text-zinc-500"> {user.phone}</span>
+                            <span className="text-lg  font-semibold text-zinc-600">Registered As : {user.role}</span>
                         </div>
                     </div>
                     <div className="flex flex-wrap justify-between cursor-pointer text-sm gap-5 text-orange-700 underline p-4">

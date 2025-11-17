@@ -1,19 +1,17 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignup } from "./viewmodels/useSignup";
-import {Loader} from "../../../components/view/loader"
+import { Loader } from "../../../components/view/loader"
 const Signup = () => {
-  const { role, userdata, errors, setRole, setUserData,handleSignup,loading,isLoggedIn } = useSignup();
-  console.log(isLoggedIn);
-   const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setUserData(prev => ({ ...prev, [name]: value }));
-    };
-  return (
-    <div className='flex justify-center items-center h-screen bg-gray-50 p-4'>
+    const { role, userdata, errors, setRole,
+        handleInputChange, handleSignup, loading, isLoggedIn } = useSignup();
+    console.log(isLoggedIn);
+
+    return (
+        <div className='flex justify-center items-center h-screen bg-gray-50 p-4'>
             {loading && <Loader />}
             <div className="w-full max-w-md px-8 py-8 border border-gray-200 rounded-xl shadow-xl bg-white relative">
-                
+
                 <div className="mb-6">
                     <h2 className='text-center text-3xl font-extrabold text-orange-600 '>
                         Signup
@@ -58,7 +56,7 @@ const Signup = () => {
                         <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
                     )}
                 </div>
-                
+
                 <div className="mb-4">
                     <input
                         type="text"
@@ -90,7 +88,7 @@ const Signup = () => {
                 </div>
 
                 {role === "owner" ? (
-                   
+
                     <div className="mb-5">
                         <input
                             type="password"
@@ -106,24 +104,42 @@ const Signup = () => {
                         )}
                     </div>
                 ) : (
-                  
-                    <div className="mb-5">
-                        <input
-                            type="tel"
-                            name="phone"
-                            placeholder="Phone Number"
-                            value={userdata.phone}
-                            onChange={handleInputChange }
-                            className='w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-700 placeholder-gray-500 outline-none transition duration-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
-                            disabled={loading}
-                        />
-                        {errors.phone && (
-                            <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-                        )}
+                    <div>
+                           <div className="mb-5">
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                value={userdata.password}
+                                onChange={handleInputChange}
+                                className='w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-700 placeholder-gray-500 outline-none transition duration-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+                                disabled={loading}
+                            />
+                            {errors.password && (
+                                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                            )}
+                        </div>
+
+                        <div className="mb-5">
+                            <input
+                                type="tel"
+                                name="phone"
+                                placeholder="Phone Number"
+                                value={userdata.phone}
+                                onChange={handleInputChange}
+                                className='w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-700 placeholder-gray-500 outline-none transition duration-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500'
+                                disabled={loading}
+                            />
+                            {errors.phone && (
+                                <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                            )}
+                        </div>
+                     
                     </div>
+
                 )}
-                
-        
+
+
                 <div className="mb-6">
                     <button
                         type='button'
@@ -134,7 +150,7 @@ const Signup = () => {
                         {loading ? 'Signing Up...' : 'Create Account'}
                     </button>
                 </div>
-         
+
                 <div className="mt-6 text-center">
                     <p className='text-gray-600 text-sm'>
                         Have an account? <Link className='text-orange-500 hover:text-orange-700 font-bold transition duration-200' to={'/login'}>Login</Link>
@@ -142,7 +158,7 @@ const Signup = () => {
                 </div>
             </div>
         </div>
-  );
+    );
 }
 
 export default Signup;

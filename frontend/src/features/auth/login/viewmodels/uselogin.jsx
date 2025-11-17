@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { loginUser, userLoginFunction } from "../repository/login";
 import { useNavigate } from "react-router-dom";
 import Mycontext from "../../../context/mycontext";
-import { signInWithPopup } from "firebase/auth";
-import { Auth,provider } from "../../../firebase/firebaseconfig";
+import { EmailAuthProvider, linkWithCredential, signInWithPopup } from "firebase/auth";
+import { Auth, Firedb, provider } from "../../../firebase/firebaseconfig";
 import { onAuthStateChanged } from "firebase/auth";
+import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/firestore";
+
 export const useLogin = () => {
     const navigate = useNavigate();
-    const { setloading, setisLoggedIn, loading, isLoggedIn , loggedUser , setUser } = useContext(Mycontext);
+    const { setloading, setisLoggedIn, loading, isLoggedIn, loggedUser, setUser } = useContext(Mycontext);
 
     const [role, setRole] = useState("owner");
     const [userCred, setUserCred] = useState({
@@ -15,16 +17,17 @@ export const useLogin = () => {
         password: "",
         phone: ""
     });
+    // const [googleUser , setgoogleUser] = useState({})
     const [errors, setErrors] = useState({});
 
-    useEffect(()=>{
-    const unSubscribe = onAuthStateChanged(Auth, (currentUser)=>{
-      setUser(currentUser);
-    }); 
-    return ()=>{
-      unSubscribe();
-    }
-  },[])
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(Auth, (currentUser) => {
+            setUser(currentUser);
+        });
+        return () => {
+            unSubscribe();
+        }
+    }, [])
 
     const validate = () => {
         const newErrors = {};
@@ -68,7 +71,8 @@ export const useLogin = () => {
             if (success) {
                 setisLoggedIn(true);
                 if (role === "buyer") {
-                    navigate("/pglist");
+                    navigate("/findpg");
+                    localStorage.setItem("role", JSON.stringify(role))
                 } else {
                     navigate(`/`);
                 }
@@ -83,21 +87,63 @@ export const useLogin = () => {
         }
     };
 
-    const handleGoogleSignIn = async() => {
+    const handleGoogleSignIn = async () => {
         setloading(true);
         try {
-            const result = await signInWithPopup(Auth,provider);
-            const user = result.user;
-            console.log(user);
-            setloading(false);
+            const result = await signInWithPopup(Auth, provider);
+            const userAuth = result.user;
+            const { displayName, email, uid } = userAuth;
+
+            const userRef = collection(Firedb, "user");
+            const q = query(userRef, where("email", "==", email));
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+              
+                const existingUser = querySnapshot.docs[0].data();
+
+                if (existingUser.role !== role) {
+                    alert(`This email is already registered as a ${existingUser.role}. Please log in as ${existingUser.role}.`);
+                    setloading(false);
+                    return;
+                }
+
+                localStorage.setItem("users", JSON.stringify(existingUser));
+                setisLoggedIn(true);
+                navigate(role === "buyer" ? "/findpg" : "/");
+                setloading(false);
+                return;
+            }
+
+        
+            const newUser = {
+                name: displayName,
+                email: email,
+                role: role,
+                uid: uid,
+                time: Timestamp.now(),
+                date: new Date().toLocaleString("en-US", {
+                    month: "short",
+                    day: "2-digit",
+                    year: "numeric",
+                }),
+            };
+
+            await addDoc(userRef, newUser);
+
+            localStorage.setItem("users", JSON.stringify(newUser));
             setisLoggedIn(true);
-            navigate(`/`);
+            navigate(role === "buyer" ? "/findpg" : "/");
+            setloading(false);
+
         } catch (error) {
+            console.error("Google sign-in error:", error);
             setloading(false);
             setisLoggedIn(false);
             setErrors({ general: error.message });
         }
-    }
+    };
+
     return {
         role,
         setRole,

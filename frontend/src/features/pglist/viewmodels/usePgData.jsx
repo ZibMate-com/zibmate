@@ -10,7 +10,6 @@ export const usePgData = () => {
             setloading(true)
             try {
                 const data = await getPgData();
-                console.log(data);
                 setPgs(data);
                 setloading(false)
                 return data
