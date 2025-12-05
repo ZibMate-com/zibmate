@@ -9,7 +9,8 @@ const Applayout = () => {
   const hideRoutes = [
     '/login',
     '/signup',
-    '/booking'  
+    '/booking',
+    '/postproperty'  
   ]
   const shouldHideHeaderFooter = hideRoutes.includes(location.pathname);
   return (

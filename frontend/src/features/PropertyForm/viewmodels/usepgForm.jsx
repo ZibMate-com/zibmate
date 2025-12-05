@@ -4,6 +4,7 @@ import { collection, addDoc } from "firebase/firestore";
 import Mycontext from "../../context/mycontext";
 export const usePgForm = () => {
     const {loading,setloading} = useContext(Mycontext);
+ 
     const [formData, setFormData] = useState({
         name: "",
         description: "",
@@ -72,6 +73,7 @@ return {
     handleSubmit,
     handleArrayChange,
     addArrayField,
-    loading
+    loading,
+    activeStep
 }
 }
