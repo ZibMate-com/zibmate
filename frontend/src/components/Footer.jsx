@@ -1,7 +1,7 @@
 import { Copyright, Facebook, Instagram, Linkedin, Twitter, Youtube, Home } from 'lucide-react'
 import React from 'react'
 import { GiHouse } from 'react-icons/gi'
-import { NavLink } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 const Footer = () => {
   const company = [

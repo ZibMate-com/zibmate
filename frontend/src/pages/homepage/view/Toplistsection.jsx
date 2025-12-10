@@ -11,7 +11,7 @@ export const Toplistsection = () => {
       {
         TopPglist.map((pg, index) => {
           return (
-            <div className='md:w-xs md:h-[440px] h-[480px] shadow-lg   rounded-md transition-all'>
+            <div className='md:w-xs md:h-[440px] h-[480px] shadow-lg   rounded-md transition-all'key={index}>
               <span className='w-full'>
                 <img className='w-full md:h-[40%] h-[50%] object-cover rounded-md rounded-b-none' src={pg.image} alt="" />
               </span>

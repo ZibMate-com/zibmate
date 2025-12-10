@@ -7,11 +7,7 @@ export const PlatformFeatures = () => {
     const container = useRef(null);
     const ref = useRef(null);
     const isInView = useInView(ref);
-
-    useEffect(()=> {
-        console.log("Elemnet is in View", isInView);
-        
-    },[isInView])
+    
     return (
         <MotionSection ref={container}
              initial = {{opacity : 0 , translateY : 500}}

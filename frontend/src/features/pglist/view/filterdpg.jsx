@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { MapPin, Users, Tag, Building2 } from "lucide-react";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 
 export const FilteredPg = ({ filteredPg }) => {
     return (

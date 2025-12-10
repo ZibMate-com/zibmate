@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react"
 import MotionSection from "../../../components/view/motionComponents"
-import { NavLink } from "react-router"
+import { NavLink } from "react-router-dom"
 
 export const SectionThree = ()=>{
     return (

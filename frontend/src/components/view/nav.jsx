@@ -1,8 +1,9 @@
 import { GiHouse, GiNestBirds } from "react-icons/gi";
-import { NavLink } from "react-router"
 import Mycontext from "../../features/context/mycontext";
 import { useContext } from "react";
 import { UserCircleIcon,HomeIcon,LayoutDashboard } from "lucide-react";
+import { NavLink } from "react-router-dom";
+
 export const NavBar = () => {
     const { isLoggedIn, loggedUser } = useContext(Mycontext);
     const user = JSON.parse(localStorage.getItem("users"));
@@ -11,9 +12,9 @@ export const NavBar = () => {
         <nav className="w-full bg-zinc-950 flex justify-between items-center text-white p-4 md:p-5 shadow-lg sticky top-0 z-10">
             
             <div className="flex items-center gap-4 md:gap-12">
-                <NavLink to="/" >
+                <a href="/" >
                 <img src="assets/logonobg.png" className="w-52" alt="" />
-                </NavLink>
+                </a>
 
                 <div className='hidden md:block'> 
                     <ul className="flex text-gray-400 text-lg font-medium gap-8">
