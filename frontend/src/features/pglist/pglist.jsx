@@ -1,21 +1,20 @@
-import { FaChevronDown, FaHeart, FaImages, FaLocationArrow, FaMap, FaRupeeSign, FaSearchLocation, FaStar, FaStarHalf } from "react-icons/fa"
-import { useContext, useEffect, useState } from "react"
-import { PgData } from "./models/pgdata";
 import { useFilterPGs } from "./viewmodels/filterFunction";
 import { FilterSection } from "./view/filterSection";
 import { FilteredPg } from "./view/filterdpg";
 import MotionSection from "../../components/view/motionComponents";
 import Mycontext from "../../features/context/mycontext";
 import { Loader } from "../../components/view/loader";
-import { usePgData } from "./viewmodels/usePgData";
+// import { usePgData } from "./viewmodels/usePgData";
+import { useContext } from "react";
 export const Pglist = () => {
     const {
         filteredPg,
         handlefilters,
         filters,
-        handleRemoveFilters
+        handleRemoveFilters,
+        handleSearch
     } = useFilterPGs();
-    const {pgs,loading} = usePgData();
+   const {loading} = useContext(Mycontext)
     if(loading){
         return <Loader/>
     }
@@ -26,6 +25,7 @@ export const Pglist = () => {
                     handlefilters={handlefilters}
                     filters={filters}
                     handleRemoveFilters={handleRemoveFilters}
+                    handleSearch={handleSearch}
                 />
                 <div>
                     <FilteredPg filteredPg={filteredPg} />

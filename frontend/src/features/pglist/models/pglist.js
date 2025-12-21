@@ -1,12 +1,11 @@
-import { MapPin, User, Users, Wallet, Wifi } from "lucide-react"
+import { MapPin, User, Users, Wallet, Wifi, BedIcon } from "lucide-react"
 
 export const Filters = [
     {
         title: "Occupancy",
-        values: [
-            "single", "double", "triple"
-        ],
-        component : Users
+        type: "singleselect",
+        component: BedIcon,
+        values: ["single", "double", "triple"],
     },
     {
         title: "lookingFor",
@@ -16,23 +15,24 @@ export const Filters = [
         subvalue: [
             "for boys", "for girls", "both"
         ],
-        component : User
+        component: User
     },
 
     {
         title: "facilities",
-        values: [
-            "Ac", "Laundry", "Food", "Room Cleaning", "Gym", "Microwave"
-        ],
-        component : Wifi
+        type: "multiselect",
+        component: Wifi,
+        values: ["High-Speed Wi-Fi", "Laundry Service", "Gym Access", "Parking","Ac","Food"],
     },
     {
         title: "price",
+        type: "singleselect",
         values: ["under 10,000", "10,000 - 15,000", "15,000 - 25,000", "above 25,0000"],
-        component : Wallet        
+        component: Wallet
     },
     {
         title: "city",
+        type: "singleselect",
         values: [
             "Gurugram",
             "Noida",
@@ -40,7 +40,7 @@ export const Filters = [
             "Bangalore",
             "Mumbai"
         ],
-        component : MapPin
+        component: MapPin
     }
 
 ]

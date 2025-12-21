@@ -1,204 +1,245 @@
-import { Bed, Wifi, Feather, Shirt, Bath, Utensils, Shield, Heart, Home } from "lucide-react"
+import { Bed, Wifi, Feather, Shirt, Bath, Utensils, Shield, Heart, Home, MapPin, CheckCircle } from "lucide-react"
 import { BookingForm } from "./views/booking-form";
 import { useParams } from "react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Firedb } from "../firebase/firebaseconfig";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import Header from "../../components/Header";
-
+import { doc, getDoc } from "firebase/firestore";
+import Mycontext from "../context/mycontext";
+import { Loader } from "../../components/view/loader";
+import { motion } from "framer-motion";
 
 export const IndividualPg = () => {
-    const pgDetails = {
-        title: "My Tenant PG (The Cozyness)",
-        location: "Sector 45, Gurugram",
-        startingPrice: "13,999",
-        imageUrl: "pg data/pg5/IMG-20250806-WA0047.jpg",
-        pricingPlans: [
-            {
-                name: "Private Plan (Single)",
-                description: "Entire room for yourself with access to premium amenities",
-                price: "30,999",
-                icon: Bed,
-                isFeatured: true
-            },
-            {
-                name: "Double Sharing",
-                description: "Shared room with one roommate, access to standard amenities",
-                price: "18,499",
-                icon: Bed,
-                isFeatured: false
-            },
-            {
-                name: "Triple Sharing",
-                description: "Shared room with two roommates, our most budget-friendly option",
-                price: "13,999",
-                icon: Bed,
-                isFeatured: false
-            }
-        ],
-        amenities: [
-            { name: "High-speed WiFi", icon: 'Wifi', detail: "Fiber optic connection" },
-            { name: "Daily Housekeeping", icon: 'Feather', detail: "Cleaning six days a week" },
-            { name: "Laundry Services", icon: 'Shirt', detail: "Free two loads per week" },
-            { name: "Attached Bathrooms", icon: 'Bath', detail: "Private facilities in most rooms" },
-            { name: "Fully Equipped Kitchen", icon: 'Utensils', detail: "For self-cooking (shared)" },
-            { name: "24/7 Security", icon: 'Shield', detail: "CCTV & On-site Guards" },
-        ],
-        about: "Discover comfortable and affordable living at Cozy Homes in Sector 52, Gurgaon with CoFynd. Offering fully furnished single, double, and triple sharing rooms, this PG provides modern amenities like high-speed WiFi, housekeeping, laundry, attached bathrooms, kitchen, and 24/7 security. Perfect for students and working professionals, Cozy Homes ensures a safe, convenient, and vibrant community lifestyle in a prime Gurgaon location — all with zero brokerage.",
-        locationlink: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27870.533525461677!2d75.73012479999998!3d29.170073600000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391233b67c4878d9%3A0x67d85cf672dde2e7!2sMG%20Club%20and%20Resorts!5e0!3m2!1sen!2sin!4v1755797518352!5m2!1sen!2sin",
-    };
-
-    const PricingCard = ({ icon: Icon, name, description, price, isFeatured }) => {
-        const cardClasses = isFeatured
-            ? "bg-gradient-to-br from-orange-50 via-orange-100 to-white border-2 border-orange-300 shadow-lg"
-            : "bg-white border border-gray-200 shadow-md";
-
-        return (
-            <div className={`w-full flex flex-col sm:flex-row mt-6 justify-between items-start sm:items-center p-5 rounded-xl transition-all hover:shadow-xl ${cardClasses}`}>
-                <div className="flex items-center gap-4 mb-3 sm:mb-0">
-                    <Icon className="size-10 text-orange-500 flex-shrink-0" />
-                    <span className="flex flex-col">
-                        <h1 className="text-xl font-semibold text-gray-800">{name}</h1>
-                        <h2 className="text-sm text-zinc-500 hidden md:block">{description}</h2>
-                    </span>
-                </div>
-                <span className="text-right flex flex-col items-start sm:items-end">
-                    <b className="text-2xl font-bold text-gray-900">Rs {price}</b>
-                    <p className="text-orange-500 font-semibold text-base cursor-pointer hover:underline">Enquire Now</p>
-                </span>
-            </div>
-        );
-    };
-
-    const AmenityIconMap = { Wifi, Feather, Shirt, Bath, Utensils, Shield, Heart };
-
-    const AmenityItem = ({ name, iconName, detail }) => {
-        const Icon = AmenityIconMap[iconName] || Heart;
-
-        return (
-            <div className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                <Icon className="size-6 text-orange-500 flex-shrink-0" />
-                <div>
-                    <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
-                    <p className="text-sm text-gray-500">{detail}</p>
-                </div>
-            </div>
-        );
-    };
+    const { loading, setloading } = useContext(Mycontext);
     const { id } = useParams();
-    console.log(id);
+
     const [product, setProduct] = useState({
         name: "",
         description: "",
-        images: [""],
+        images: [],
         price: "",
         discount: "",
         address: "",
         locationLink: "",
         occupancy: "",
         lookingFor: "",
-        facilities: [""],
-        city: "",
+        facilities: [],
     });
+
+    // Mock pricing plans (ideally these come from your DB)
+    const pricingPlans = [
+        { name: "Private Room", price: product.price, desc: "Single occupancy with premium privacy", icon: Bed, featured: true },
+        { name: "Double Sharing", price: Math.floor(Number(product.price) * 0.7), desc: "Perfect for friends", icon: Bed, featured: false },
+    ];
 
     useEffect(() => {
         async function fetchProduct() {
+            setloading(true);
             try {
                 const docRef = doc(Firedb, "pgData", id);
                 const snap = await getDoc(docRef);
-                // console.log(snap);
-
                 if (snap.exists()) {
                     setProduct({ id: snap.id, ...snap.data() });
-                } else {
-                    console.log("❌ Product not found");
-                    // setError("Product not found");
                 }
             } catch (err) {
-                console.error("🔥 Error fetching product:", err);
-                // setError("Failed to load product");
+                console.error("Error:", err);
             } finally {
-                // setLoading(false);
+                setloading(false);
             }
         }
-
         if (id) fetchProduct();
-    }, [id])
-    console.log(product);
+    }, [id]);
+
+    if (loading) return <Loader />;
 
     return (
-        <section className="min-h-screen pt-10 pb-20 bg-gray-50">
-            <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-end p-6 border-b border-gray-200 mb-6 bg-white rounded-xl shadow-lg">
-                    <span className="mb-4 sm:mb-0">
-                        <h1 className="text-4xl text-zinc-800 font-extrabold mb-1">{product.name}</h1>
-                        <h2 className="text-xl font-normal text-zinc-600 flex items-center gap-2">
-                            <Home className='size-5 text-orange-500' /> {product.address}
-                        </h2>
-                    </span>
-                    <span className="text-right">
-                        <p className="text-sm text-zinc-500 font-medium">Starting from</p>
-                        <b className="text-3xl font-bold text-orange-600"> Rs.{product.price}</b>/month
-                    </span>
-                </div>
-
-
-                <div className="w-full max-h-88 flex  rounded-2xl overflow-hidden shadow-2xl mb-10">
-                    {
-                        product.images.map((img) => {
-                            return (
-                                <div className="w-full h-full">
-                                <img
-                                    src={img}
-                                    className="w-full h-full object-contain"
-                                    alt={`Image of ${product.name}`}
-                                    onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/1000x400/9CA3AF/ffffff?text=Image+Not+Available" }}
-                                />
-                                </div>
-                            )
-                        })
-                    }
-
-                </div>
-                <div className="flex w-full gap-10 justify-between">
-                    <div className="space-y-12 min-w-4xl">
-                        <div className="bg-white p-6 rounded-xl shadow-lg">
-                            <h1 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-3">Pricing Plans</h1>
-                            <div className="space-y-4">
-                                {pgDetails.pricingPlans.map((plan, index) => (
-                                    <PricingCard key={index} {...plan} />
-                                ))}
+        <section className="min-h-screen bg-[#F8FAFC] pb-20">
+            {/* Header Area */}
+            <div className="bg-white border-b border-gray-200 pt-16 pb-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                        <div>
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Zero Brokerage</span>
+                                <span className="bg-blue-100 text-blue-600 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                                    <CheckCircle className="size-3" /> Verified Property
+                                </span>
                             </div>
-                            <div className="mt-8 p-4 bg-gray-50 rounded-lg text-sm text-gray-600 space-y-2">
-                                <p className="text-orange-600 font-semibold">*Prices mentioned are starting price and may vary as per plan, availability & services</p>
-                                <p>*GST on the price shall be as applicable</p>
+                            <h1 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">{product.name}</h1>
+                            <div className="flex items-center gap-2 mt-3 text-slate-500">
+                                <MapPin className="size-5 text-orange-500" />
+                                <span className="text-lg">{product.address}</span>
                             </div>
                         </div>
-
-
-                        <div className="bg-white p-6 rounded-xl shadow-lg">
-                            <h1 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-3">Amenities</h1>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {pgDetails.amenities.map((amenity, index) => (
-                                    <AmenityItem key={index} name={amenity.name} iconName={amenity.icon} detail={amenity.detail} />
-                                ))}
+                        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-right">
+                            <p className="text-sm text-slate-500 font-medium italic">Monthly starts at</p>
+                            <div className="flex items-baseline gap-1">
+                                <span className="text-4xl font-black text-slate-900">₹{product.price}</span>
+                                <span className="text-slate-500 font-medium">/mo</span>
                             </div>
                         </div>
-                        <div className="bg-white p-6 rounded-xl shadow-lg">
-                            <iframe title="Google Map" className=" w-full h-full rounded-lg" src={product.locationLink} allowFullScreen="" loading="lazy"></iframe>
-                        </div>
-
-                        <div className="bg-white p-6 rounded-xl shadow-lg">
-                            <h1 className="text-3xl font-bold text-gray-900 mb-6 border-b pb-3">About this Property</h1>
-                            <p className="text-lg text-gray-700 leading-relaxed">
-                                {product.description}
-                            </p>
-                        </div>
-
                     </div>
-                    <BookingForm />
+                </div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+                {/* Modern Bento Gallery */}
+                <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-[500px] mb-12">
+                    <div className="md:col-span-2 md:row-span-2 rounded-3xl overflow-hidden group relative">
+                        <img src={product.images[0]} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Main" />
+                        <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition duration-300"></div>
+                    </div>
+                    <div className="hidden md:block md:col-span-1 rounded-3xl overflow-hidden group relative">
+                        <img src={product.images[1] || product.images[0]} className="w-full h-full object-cover group-hover:scale-105 transition" alt="Room" />
+                    </div>
+                    <div className="hidden md:block md:col-span-1 rounded-3xl overflow-hidden group relative">
+                        <img src={product.images[2] || product.images[0]} className="w-full h-full object-cover group-hover:scale-105 transition" alt="Interior" />
+                    </div>
+                    <div className="hidden md:block md:col-span-2 rounded-3xl overflow-hidden group relative">
+                        <img src={product.images[3] || product.images[0]} className="w-full h-full object-cover group-hover:scale-105 transition" alt="View" />
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition duration-300">
+                            <button className="bg-white text-black px-6 py-2 rounded-full font-bold shadow-lg">View All Photos</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    {/* Left Column: Details */}
+                    <div className="lg:col-span-2 space-y-10">
+
+                        {/* Pricing Section */}
+                        <section>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                                <span className="w-2 h-8 bg-orange-500 rounded-full"></span> Choosing Your Stay
+                            </h3>
+                            <div className="grid gap-4">
+                                {pricingPlans.map((plan, i) => (
+                                    <motion.div
+                                        whileHover={{ x: 10 }}
+                                        key={i}
+                                        className={`p-6 rounded-3xl border-2 flex flex-col md:flex-row justify-between items-center transition-all ${plan.featured ? 'border-orange-500 bg-orange-50/30' : 'border-slate-100 bg-white'}`}
+                                    >
+                                        <div className="flex items-center gap-5">
+                                            <div className={`p-4 rounded-2xl ${plan.featured ? 'bg-orange-500 text-white' : 'bg-slate-100 text-slate-600'}`}>
+                                                <plan.icon size={28} />
+                                            </div>
+                                            <div>
+                                                <h4 className="text-xl font-bold text-slate-900">{plan.name}</h4>
+                                                <p className="text-slate-500 text-sm">{plan.desc}</p>
+                                            </div>
+                                        </div>
+                                        <div className="text-right mt-4 md:mt-0">
+                                            <p className="text-2xl font-black text-slate-900">₹{plan.price}</p>
+                                            <button className="text-orange-600 font-bold hover:underline transition">Select Plan</button>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* Amenities Grid */}
+                        <section className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                            <h3 className="text-2xl font-bold text-slate-900 mb-8">What this place offers</h3>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-8">
+                                {['Wifi', 'Utensils', 'Shield', 'Bath', 'Feather', 'Shirt'].map((item, idx) => (
+                                    <div key={idx} className="flex flex-col items-center text-center gap-3">
+                                        <div className="p-4 bg-orange-50 rounded-2xl text-orange-500">
+                                            <Wifi size={24} />
+                                        </div>
+                                        <span className="font-semibold text-slate-700">{item}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* Description */}
+                        <section>
+                            <h3 className="text-2xl font-bold text-slate-900 mb-4">About the Property</h3>
+                            <p className="text-slate-600 leading-relaxed text-lg italic bg-white p-8 rounded-[2rem] border-l-4 border-orange-500">
+                                "{product.description}"
+                            </p>
+                        </section>
+
+                        <section className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-100">
+                            <div className="">
+                                {/* Owner Image & Badge */}
+                                <div className="flex flex-col md:flex-row items-center gap-8">
+                                <div className="relative">
+                                    <div className="size-24 md:size-32 rounded-full overflow-hidden border-4 border-orange-100 shadow-lg">
+                                        {/* <img
+                                            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" // Or product.ownerImage
+                                            alt="Property Owner"
+                                            className="w-full h-full object-cover bg-orange-50"
+                                        /> */}
+                                    </div>
+                                    <div className="absolute -bottom-2 right-2 bg-blue-600 text-white p-1.5 rounded-full border-2 border-white">
+                                        <Shield className="size-4" fill="currentColor" />
+                                    </div>
+                                </div>
+
+                                {/* Owner Details */}
+                                <div className="flex-1 text-center md:text-left">
+                                    <div className="flex flex-col md:flex-row md:items-center gap-2 mb-2">
+                                        <h3 className="text-2xl font-bold text-slate-900">Hosted by Rahul Sharma</h3>
+                                        <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-md w-fit mx-auto md:mx-0">
+                                            ID VERIFIED
+                                        </span>
+                                    </div>
+                                    <p className="text-slate-500 mb-4 line-clamp-2">
+                                        "I take pride in maintaining a clean, quiet, and friendly environment for students and professionals. My goal is to make you feel at home while providing top-notch facilities."
+                                    </p>
+
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                                        <div className="bg-slate-50 p-3 rounded-xl">
+                                            <p className="text-slate-400">Response Rate</p>
+                                            <p className="font-bold text-slate-800">100%</p>
+                                        </div>
+                                        <div className="bg-slate-50 p-3 rounded-xl">
+                                            <p className="text-slate-400">Response Time</p>
+                                            <p className="font-bold text-slate-800">Within an hour</p>
+                                        </div>
+                                        <div className="hidden md:block bg-slate-50 p-3 rounded-xl">
+                                            <p className="text-slate-400">Member Since</p>
+                                            <p className="font-bold text-slate-800">Aug 2023</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                {/* Action Button */}
+                                <div className="w-full md:w-auto mt-5 flex justify-end">
+                                    <button className="w-full md:w-auto px-8 py-3 bg-orange-500 border-2 border-orange-500 text-white font-bold rounded-2xl hover:bg-orange-600 hover:text-white transition-all duration-300">
+                                        Contact Owner
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                         {/* Map */}
+                        <section className="h-96 w-full rounded-[2.5rem] overflow-hidden shadow-inner border-4 border-white">
+                            <iframe title="Map" className="w-full h-full grayscale-[0.3]" src={product.locationLink} allowFullScreen loading="lazy"></iframe>
+                        </section>
+                    </div>
+
+                    {/* Right Column: Sticky Booking Form */}
+                    <div className="lg:col-span-1">
+                        <div className="sticky top-28">
+                            <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200 border border-slate-100 overflow-hidden">
+                                <div className="bg-slate-900 p-6 text-white">
+                                    <h3 className="text-xl font-bold">Book a Visit</h3>
+                                    <p className="text-slate-400 text-sm">Schedule a tour or book instantly</p>
+                                </div>
+                                <div className="p-6">
+                                    <BookingForm />
+                                </div>
+                            </div>
+
+                            {/* Trust Badge */}
+                            <div className="mt-6 flex items-center justify-center gap-4 p-4 border border-dashed border-slate-300 rounded-2xl">
+                                <Shield className="text-green-500" />
+                                <span className="text-sm font-medium text-slate-500">Secure Payment & Verified Listing</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};

@@ -1,6 +1,5 @@
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePgData } from "./usePgData";
 import { getPgData } from "../models/pgdata";
 import Mycontext from "../../../features/context/mycontext";
 // import { pgs } from "../models/pgs";
@@ -9,36 +8,47 @@ import Mycontext from "../../../features/context/mycontext";
 export const useFilterPGs = () => {
   const navigate = useNavigate();
   // const {pgs ,setpgs} = usePgData();
-   const [pgs, setPgs] = useState([]);
-    const {loading ,setloading} =useContext(Mycontext);
-    const [filteredPg, setFilteredPg] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            setloading(true)
-            try {
-                const data = await getPgData();
-                setPgs(data);
-                setloading(false)
-                setFilteredPg(data)
-                return data
-            } catch (error) {
-                console.log(error);
-                setloading(false)
-            }
-        };
-       fetchData();
-    }, []);
+  const [pgs, setPgs] = useState([]);
+  const { loading, setloading } = useContext(Mycontext);
+  const [filteredPg, setFilteredPg] = useState([]);
+  const FilterRef = useRef();
   const [isSortOpen, setSortOpen] = useState(false);
   const handleSort = () => setSortOpen(prev => !prev);
-
-
   const [filters, setFilters] = useState({
     Occupancy: "",
     lookingFor: "",
-    facilities: "",
+    facilities: [],
     price: "",
     city: ""
   });
+
+  // useEffect(() => {
+  //   const handleOutside = (event) => {
+  //     if (FilterRef.current && !FilterRef.current.contains(event.target)) {
+  //       setFilters()
+  //     }
+  //   }
+  //   document.addEventListener('mousedown', handleOutside);
+  //   return () => document.removeEventListener('mousedown', handleOutside)
+  // })
+  useEffect(() => {
+    const fetchData = async () => {
+      setloading(true)
+      try {
+          const data = await getPgData();
+          setPgs(data);
+          setloading(false)
+          setFilteredPg(data)
+        return data
+      } catch (error) {
+        console.log(error);
+        setloading(false)
+      }
+    };
+    
+      fetchData();
+
+  }, []);
 
   const addPriceRange = () => {
     pgs.forEach(pg => {
@@ -82,6 +92,10 @@ export const useFilterPGs = () => {
   const handlePgdetails = (id) => {
     navigate(`/pgdetails/${id}`);
   };
+  const handleSearch = (query) => {
+    const result = filteredPg.filter(item => item.name.toLowerCase().includes(query) || item.address.toLowerCase().includes(query) || item.city.toLowerCase().includes(query))
+    setFilteredPg(result);
+  }
 
   useEffect(() => {
     addPriceRange();
@@ -93,7 +107,7 @@ export const useFilterPGs = () => {
         !filters.lookingFor || pg.lookingFor === filters.lookingFor;
 
       const matchFacilities =
-        !filters.facilities || (pg.facilities && pg.facilities.includes(filters.facilities));
+        !filters.facilities?.length || filters.facilities.some(faci => pg.facilities.includes(faci));
 
       const matchPrice =
         !filters.price || filters.price === "Price Range" || pg.priceRange === filters.price;
@@ -101,10 +115,10 @@ export const useFilterPGs = () => {
       const matchCity =
         !filters.city || (pg.city && pg.city.toLowerCase() === filters.city.toLowerCase());
 
-      return matchOccupancy && matchLookingFor && matchFacilities  && matchCity && matchPrice;
+      return matchOccupancy && matchLookingFor && matchFacilities && matchCity && matchPrice;
     });
     setFilteredPg(filteredpgs);
-  }, [filters.city, filters.Occupancy, filters.lookingFor, filters.facilities,filters.price]);
+  }, [filters.city, filters.Occupancy, filters.lookingFor, filters.facilities, filters.price]);
 
   return {
     filteredPg,
@@ -114,5 +128,6 @@ export const useFilterPGs = () => {
     handleRemoveFilters,
     isSortOpen,
     handleSort,
+    handleSearch
   };
 };

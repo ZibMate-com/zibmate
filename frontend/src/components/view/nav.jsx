@@ -1,53 +1,103 @@
-import { GiHouse, GiNestBirds } from "react-icons/gi";
+import { useContext, useState, useEffect } from "react";
+import { UserCircleIcon, LayoutDashboard, PlusCircle, LogIn, ChevronRight } from "lucide-react";
+import { NavLink, useLocation } from "react-router-dom";
 import Mycontext from "../../features/context/mycontext";
-import { useContext } from "react";
-import { UserCircleIcon,HomeIcon,LayoutDashboard } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import logo from "../../assets/logoblack.png";
 
 export const NavBar = () => {
-    const { isLoggedIn, loggedUser } = useContext(Mycontext);
+    const { isLoggedIn } = useContext(Mycontext);
+    const [isScrolled, setIsScrolled] = useState(false);
     const user = JSON.parse(localStorage.getItem("users"));
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    const navLinks = [
+        { name: "Find PG", path: "/findpg" },
+        { name: "About", path: "/aboutus" },
+        { name: "Help", path: "/contact" },
+    ];
+
     return (
-        <nav className="w-full bg-zinc-950 flex justify-between items-center text-white p-4 md:p-5 shadow-lg sticky top-0 z-10">
-            
-            <div className="flex items-center gap-4 md:gap-12">
-                <a href="/" >
-                <img src="assets/logonobg.png" className="w-52" alt="" />
-                </a>
-
-                <div className='hidden md:block'> 
-                    <ul className="flex text-gray-400 text-lg font-medium gap-8">
-                        <a href="/findpg" className="transition-colors hover:text-white"><li>Find PG</li></a>
-                        <a href="/aboutus" className="transition-colors hover:text-white"><li>About</li></a>
-                        <a href="/contact" className="transition-colors hover:text-white"><li>Help</li></a>
-                    </ul>
-                </div>
-            </div>
- 
-            <div className="flex gap-3 md:gap-4 items-center">
-
-                <a href={`${user ? "/postproperty":"/login"}`} className='hidden sm:block'> 
-                    <button className="px-4 py-2 bg-orange-500 rounded-lg text-sm md:text-lg font-semibold hover:bg-orange-600 transition-colors shadow-md">
-                        Post Property
-                    </button>
-                </a>
-                {user ? (
-                    <NavLink to={`/profile/${user.role}`}>
-                        <button className="px-3 py-2 bg-white text-orange-500 flex items-center gap-2 rounded-lg text-sm md:text-lg font-semibold border-2 border-orange-500 hover:bg-orange-50 transition-colors shadow-md">
-                            <UserCircleIcon className="size-5 md:size-6"/>
-                            <span className='hidden md:inline'>Welcome! {user.name || "User"}</span>
-                        </button>
+        <nav className={`w-full fixed top-0 left-0 z-50 bg-black transition-all duration-300 ${
+            isScrolled 
+            ? "bg-black backdrop-blur-md border-b border-slate-100 py-3" 
+            : "bg-black py-5"
+        }`}>
+            <div className="max-w-7xl mx-auto px-6 md:px-10 flex justify-between items-center">
+                
+                {/* Logo Section */}
+                <div className="flex items-center gap-12">
+                    <NavLink to="/" className="flex items-center">
+                        <img src={logo} className="w-45 md:w-50 rounded-2xl object-contain" alt="Logo" />
                     </NavLink>
-                ) : (
-                  
-                    <a href="/login">
-                        <button className="px-4 py-2 bg-white text-orange-500 rounded-lg text-sm md:text-lg font-semibold border-2 border-orange-500 hover:bg-orange-50 transition-colors shadow-md">
-                            Sign In
-                        </button>
-                    </a>
-                )}
-                <LayoutDashboard className='md:hidden size-6 text-white cursor-pointer'/>
+
+                    {/* Desktop Navigation */}
+                    <div className='hidden lg:block'> 
+                        <ul className="flex items-center gap-10">
+                            {navLinks.map((link) => (
+                                <NavLink 
+                                    key={link.path}
+                                    to={link.path} 
+                                    className={({ isActive }) => `
+                                        text-[17px] font-medium transition-all duration-200
+                                        ${isActive ? "text-orange-500" : "text-slate-400 hover:text-orange-500"}
+                                    `}
+                                >
+                                    {link.name}
+                                </NavLink>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Right Side Actions */}
+                <div className="flex gap-4 items-center">
+                    
+                    {/* Post Property Button - Casual/Pro Accent */}
+                    <NavLink 
+                        to={user ? "/postproperty" : "/login"} 
+                        className='hidden sm:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg  active:scale-95'
+                    >
+                        <PlusCircle className="size-4" />
+                        Post Property
+                    </NavLink>
+
+                    <div className="h-8 w-[1px] bg-slate-200 mx-2 hidden sm:block" />
+
+                    {user ? (
+                        <NavLink to={`/profile/${user.role}`}>
+                            <div className="flex items-center gap-3 p-1 pr-4 bg-slate-50 border border-slate-100 rounded-full hover:border-orange-200 transition-all group">
+                                <div className="size-9 rounded-full bg-slate-900 flex items-center justify-center text-white font-bold text-sm">
+                                    {user.name?.charAt(0) || "U"}
+                                </div>
+                                <div className="hidden md:flex flex-col">
+                                    <span className="text-[10px] uppercase font-black text-slate-400 leading-none">Member</span>
+                                    <span className="text-sm font-bold text-slate-700 group-hover:text-orange-600 transition-colors">
+                                        {user.name?.split(' ')[0]}
+                                    </span>
+                                </div>
+                            </div>
+                        </NavLink>
+                    ) : (
+                        <NavLink to="/login">
+                            <button className="flex items-center gap-2 text-slate-700 font-bold text-sm hover:text-orange-500 transition-colors">
+                                Sign In
+                                <ChevronRight className="size-4" />
+                            </button>
+                        </NavLink>
+                    )}
+
+                    {/* Mobile Dashboard Icon */}
+                    <button className="lg:hidden p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+                        <LayoutDashboard className='size-5 text-slate-700'/>
+                    </button>
+                </div>
             </div>
         </nav>
     );

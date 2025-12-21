@@ -1,62 +1,87 @@
 import { motion } from "framer-motion";
-import { MapPin, Users, Tag, Building2 } from "lucide-react";
+import { MapPin, Users, Tag, Building2,Star } from "lucide-react";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import Mycontext from "../../context/mycontext";
 
 export const FilteredPg = ({ filteredPg }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
             {filteredPg.map((pg) => (
                 <motion.div
-                    key={pg.id}
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 15 }}
-                >
-                    <div className="rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
-                        <motion.div className="h-48 w-full overflow-hidden">
-                            <motion.img
-                                src={pg.images[0]}
-                                alt={pg.name}
-                                className="h-full w-full object-cover"
-                                whileHover={{ scale: 1.1 }}
-                                transition={{ duration: 0.4 }}
-                            />
-                        </motion.div>
+              key={pg.docId ?? pg.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              whileHover={{ y: -10 }}
+              className="group bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300"
+            >
+              {/* Image Container */}
+              <div className="relative h-56 w-full overflow-hidden">
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="bg-white/90 backdrop-blur-md text-xs font-bold px-3 py-1.5 rounded-full shadow-sm flex items-center gap-1">
+                    <Star className="w-3 h-3 fill-orange-400 text-orange-400" /> 4.8
+                  </span>
+                </div>
+                {pg.discount > 0 && (
+                  <div className="absolute top-3 right-3 z-10">
+                    <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                      OFFER
+                    </span>
+                  </div>
+                )}
+                <motion.img
+                  src={pg.images[0]}
+                  alt={pg.name}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
 
-                        <div className="p-4 space-y-3">
-                            <div>
-                                <h2 className="text-lg font-semibold line-clamp-1">{pg.name}</h2>
-                                <div className="flex items-center text-sm text-gray-500">
-                                    <MapPin className="h-4 w-4 mr-1" /> {pg.location}
-                                </div>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <p className="text-xl font-bold text-gray-800">
-                                    ₹{pg.price - pg.discount}
-                                </p>
-                                {pg.discount > 0 && (
-                                    <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-lg">
-                                        Save ₹{pg.discount}
-                                    </span>
-                                )}
-                            </div>
+              {/* Content Section */}
+              <div className="p-5">
+                <div className="mb-4">
+                  <h2 className="text-xl font-bold text-slate-800 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                    {pg.name}
+                  </h2>
+                  <div className="flex items-center text-sm text-gray-400 mt-1">
+                    <MapPin className="h-3.5 w-3.5 mr-1 text-orange-500" /> {pg.location}
+                  </div>
+                </div>
 
-                            <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
-                                <span className="flex items-center"><Users className="h-4 w-4 mr-1" /> {pg.occupancy}</span>
-                                <span className="flex items-center"><Building2 className="h-4 w-4 mr-1" /> {pg.lookingFor}</span>
-                                <span className="flex items-center col-span-2">
-                                    <Tag className="h-4 w-4 mr-1" /> {pg.facilities.join(", ")}
-                                </span>
-                            </div>
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <span className="text-2xl font-black text-slate-900">₹{pg.price - pg.discount}</span>
+                    <span className="text-xs text-gray-400 ml-1">/mo</span>
+                  </div>
+                  {pg.discount > 0 && (
+                    <span className="text-[10px] font-bold text-green-600 bg-green-50 border border-green-100 px-2 py-1 rounded-md uppercase">
+                      Save ₹{pg.discount}
+                    </span>
+                  )}
+                </div>
 
-                            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                <NavLink to={`/findpg/${pg.docId}`}>
-                                    <button className="w-full py-3 text-white font-semibold mt-2 rounded-xl bg-orange-500">View Details</button>
-                                </NavLink>
-                            </motion.div>
-                        </div>
-                    </div>
-                </motion.div>
+                {/* Features Tags */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="flex items-center bg-slate-50 px-2 py-1 rounded-md text-[11px] font-medium text-slate-600">
+                    <Users className="h-3 w-3 mr-1" /> {pg.occupancy}
+                  </div>
+                  <div className="flex items-center bg-slate-50 px-2 py-1 rounded-md text-[11px] font-medium text-slate-600">
+                    <Building2 className="h-3 w-3 mr-1" /> {pg.lookingFor}
+                  </div>
+                </div>
+
+                {/* CTA Button */}
+                <NavLink to={`/findpg/${pg.docId}`}>
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    className="w-full py-3.5 bg-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-slate-200 group-hover:bg-orange-600 group-hover:shadow-orange-200 transition-all duration-300"
+                  >
+                    View Details
+                  </motion.button>
+                </NavLink>
+              </div>
+            </motion.div>
             ))}
         </div>
     )

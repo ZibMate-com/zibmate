@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, limit, query } from "firebase/firestore";
 import { Filters, priceRange } from "./pglist";
 import { Firedb } from "../../firebase/firebaseconfig";
 
@@ -141,7 +141,11 @@ export const PgData = [
 
 export const getPgData = async () => {
     try {
-        const querySnapshot = await getDocs(collection(Firedb, "pgData"));
+        const q = query(
+            collection(Firedb, "pgData"),
+            limit(2)
+        )
+        const querySnapshot = await getDocs(q);
         const pgList = querySnapshot.docs.map((doc) => (
         {
             ...doc.data(),

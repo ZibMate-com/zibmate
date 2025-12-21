@@ -1,140 +1,111 @@
-// PgForm.js
-import React, { useEffect, useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { Firedb } from "../firebase/firebaseconfig";
-import { usePgForm } from "./viewmodels/usepgForm";
+import React, { useContext } from "react";
+import { motion, AnimatePresence } from "framer-motion"; 
+import Mycontext from "../context/mycontext";
 import { Loader } from "../../components/view/loader";
 import PersonalDetailsForm from "./view/personal-detail-form";
 import PropertyDetailsForm from "./view/property-detail-form";
 import { ReviewandSubmit } from "./view/review-submit-form";
-import { useVerificationForm } from "./viewmodels/use-verification-form";
-import { useContext } from "react";
-import Mycontext from "../context/mycontext";
-import { ArrowBigLeft, MoveLeft } from "lucide-react";
+import { MoveLeft, Check, User, Home, FileCheck } from "lucide-react";
 
 const PgForm = () => {
-  // const {
-  //   formData,
-  //   handleChange,
-  //   handleSubmit,
-  //   handleArrayChange,
-  //   addArrayField,
-  //   loading,
-  //   activeStep
-  // } = usePgForm();
-  // const [activeStep , setActiveStep] = useState(1);
   const { activeStep, loading } = useContext(Mycontext);
 
+  const steps = [
+    { id: 0, label: "Personal Info", icon: <User className="size-5" /> },
+    { id: 1, label: "Property Info", icon: <Home className="size-5" /> },
+    { id: 2, label: "Review", icon: <FileCheck className="size-5" /> },
+  ];
 
   return (
-    <section>
-      
-        <a href="/"> 
-        <span className="flex text-orange-500 gap-4 text-xl items-center font-medium mt-5 ml-5 "> <MoveLeft className="size-8"  />Go back Home</span></a>
-
-      <div className="max-w-2xl mx-auto p-6 bg-white  rounded-lg">
-        {
-          loading && <Loader />
-        }
-        {/* <h2 className="text-2xl font-bold mb-4">Add PG Data</h2> */}
-        {/* <form onSubmit={handleSubmit} className="space-y-4">
-        {[ "name", "description", "price", "discount", "address", "locationLink", "occupancy", "lookingFor", "city"].map(
-          (field) => (
-            <input
-              key={field}
-              type="text"
-              name={field}
-              value={formData[field]}
-              onChange={handleChange}
-              placeholder={field}
-              className="w-full p-2 border rounded"
-              required={field !== "discount"} 
-            />
-          )
-        )}
-
-        <div>
-          <label className="font-semibold">Images</label>
-          {formData.images.map((img, index) => (
-            <input
-              key={index}
-              type="text"
-              value={img}
-              onChange={(e) => handleArrayChange(e, index, "images")}
-              placeholder={`Image URL ${index + 1}`}
-              className="w-full p-2 border rounded mt-2"
-            />
-          ))}
-          <button
-            type="button"
-            onClick={() => addArrayField("images")}
-            className="mt-2 px-3 py-1 bg-blue-500 text-white rounded"
-          >
-            + Add Image
-          </button>
-        </div>
-
-        <div>
-          <label className="font-semibold">Facilities</label>
-          {formData.facilities.map((facility, index) => (
-            <input
-              key={index}
-              type="text"
-              value={facility}
-              onChange={(e) => handleArrayChange(e, index, "facilities")}
-              placeholder={`Facility ${index + 1}`}
-              className="w-full p-2 border rounded mt-2"
-            />
-          ))}
-          <button
-            type="button"
-            onClick={() => addArrayField("facilities")}
-            className="mt-2 px-3 py-1 bg-green-500 text-white rounded"
-          >
-            + Add Facility
-          </button>
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-purple-600 text-white py-2 rounded-lg font-semibold"
+    <section className="min-h-screen bg-slate-50 pb-20">
+     
+      <div className="max-w-7xl mx-auto p-6">
+        <a 
+          href="/" 
+          className="inline-flex items-center gap-2 text-slate-600 hover:text-orange-500 transition-colors group"
         >
-          Submit
-        </button>
-      </form> */}
-        <div className="flex justify-center gap-5 items-center">
-          <div className="flex flex-col items-center gap-2 ">
-            <div className={`${activeStep == 0 ? "bg-orange-500 text-white" : ""} w-10 h-10 p-3 border-2 border-orange-500 flex justify-center items-center rounded-full text-xl`}>
-              1
+          <MoveLeft className="size-5 group-hover:-translate-x-1 transition-transform" />
+          <span className="font-medium">Back to Home</span>
+        </a>
+      </div>
+
+      <div className="max-w-3xl mx-auto px-4">
+        {loading && <Loader />}
+
+        <div className="relative flex justify-between items-center mb-12 px-2">
+        
+          <div className="absolute top-5 left-0 w-full h-0.5 bg-slate-200 -z-10" />
+          
+          <div 
+            className="absolute top-5 left-0 h-1 bg-orange-500 transition-all duration-500 z-0" 
+            style={{ width: `${(activeStep / (steps.length - 1)) * 100}%` }}
+          />
+
+          {steps.map((step) => (
+            <div key={step.id} className="flex flex-col items-center">
+              <div 
+                className={`
+                  w-11 h-11 flex items-center justify-center rounded-full border-2 transition-all duration-500 z-10
+                  ${activeStep > step.id ? "bg-orange-500 border-orange-500 text-white" : 
+                    activeStep === step.id ? "bg-white border-orange-500 text-orange-500 ring-4 ring-orange-100" : 
+                    "bg-white border-slate-300 text-slate-400"}
+                `}
+              >
+                {activeStep > step.id ? <Check className="size-6" /> : step.icon}
+              </div>
+              
+              <span 
+                className={`mt-3 text-xs md:text-sm font-semibold transition-colors duration-300
+                  ${activeStep >= step.id ? "text-slate-800" : "text-slate-400"}
+                `}
+              >
+                {step.label}
+              </span>
+            
             </div>
-            <span className="text-sm font-medium">Personal details</span>
-          </div>
-          <div className="h-1 w-20  bg-zinc-800 rounded-3xl" />
-          <div className="flex flex-col items-center gap-2 ">
-            <div className={`${activeStep == 1 ? "bg-orange-500 text-white" : ""} w-10 h-10 p-3 border-2 border-orange-500 flex justify-center items-center rounded-full text-xl`}>
-              2
-            </div>
-            <span className="text-sm font-medium">Property details</span>
-          </div>
-          <div className="h-1 w-20  bg-zinc-800 rounded-3xl" />
-          <div className="flex flex-col items-center gap-2 ">
-            <div className={`${activeStep == 2 ? "bg-orange-500 text-white" : ""} w-10 h-10 p-3 border-2 border-orange-500 flex justify-center items-center rounded-full text-xl`}>
-              3
-            </div>
-            <span className="text-sm font-medium">Review & Submit</span>
-          </div>
+          ))}
         </div>
-        {
-          activeStep == 0 && <PersonalDetailsForm />
-        }
-        {
-          activeStep == 1 && <PropertyDetailsForm />
-        }
-        {
-          activeStep == 2 && <ReviewandSubmit />
-        }
 
+        <motion.div 
+          layout
+          className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden"
+        >
+          <div className=" md:p-6">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeStep}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                {activeStep === 0 && (
+                  <div className="space-y-6">
+                    <PersonalDetailsForm />
+                  </div>
+                )}
+                
+                {activeStep === 1 && (
+                  <div className="space-y-6">
+                    <PropertyDetailsForm />
+                  </div>
+                )}
+                
+                {activeStep === 2 && (
+                  <div className="space-y-6">
 
+                    <ReviewandSubmit />
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Optional: Simple Footer inside the card for Branding */}
+          <div className="bg-slate-50 p-4 text-center border-t border-slate-100">
+             <p className="text-xs text-slate-400">Step {activeStep + 1} of 3 • Secure Listing</p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

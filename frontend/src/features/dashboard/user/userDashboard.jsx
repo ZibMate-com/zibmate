@@ -1,83 +1,161 @@
-import { LogOut, MapPin, Phone, Pin, User, Users } from "lucide-react"
-import { useEffect, useState,useContext } from "react"
+import { LogOut, User, Mail, Phone, ShieldCheck, Heart, Send, BookOpen, Edit3, Lock, Trash2, Camera } from "lucide-react"
+import { useEffect, useState, useContext, useMemo } from "react"
 import { SavedProperties } from "./view/properties"
 import { SentRequests } from "./view/requests"
 import { NullData } from "../../../components/view/null-data"
 import Mycontext from "../../context/mycontext"
 import { useNavigate } from "react-router"
+import { motion, AnimatePresence } from "framer-motion"
 
 export const UserDashBoard = () => {
-    const user = JSON.parse(localStorage.getItem("users"));
+    const user = JSON.parse(localStorage.getItem("users")) || {};
     const [viewTab, setviewtab] = useState("Saved Properties");
-    const [activeTab, setactiveTab] = useState();
-     const {setisLoggedIn} = useContext(Mycontext)
+    const { setisLoggedIn } = useContext(Mycontext)
     const navigate = useNavigate();
 
-    const renderTab = () => {
-        switch (viewTab) {
-            case "Saved Properties":
-                return setactiveTab(<SavedProperties />);
-            case "Sent Requests":
-                return setactiveTab(<SentRequests/>);
-            case "Bookings":
-                return setactiveTab();
-            default:
-                return setactiveTab(<SavedProperties />);
-        }
-    };
-    useEffect(() => {
-        renderTab()
-    }, [viewTab])
-    console.log(viewTab);
-
-      const handlelogout =()=>{
+    const handlelogout = () => {
         localStorage.removeItem("users");
         setisLoggedIn(false)
-       navigate("/login")
+        navigate("/login")
     }
 
+    // Mapping tabs to components for cleaner code
+    const tabContent = {
+        "Saved Properties": <SavedProperties />,
+        "Sent Requests": <SentRequests />,
+        "Bookings": null // Add <Bookings /> component here when ready
+    };
+
+    const tabs = [
+        { id: "Saved Properties", icon: <Heart className="size-4" /> },
+        { id: "Sent Requests", icon: <Send className="size-4" /> },
+        { id: "Bookings", icon: <BookOpen className="size-4" /> },
+    ];
 
     return (
-        <section className="">
-            <div className="flex p-4 justify-between">
-            <h1 className="text-3xl text-black font-Montserrat font-bold  underline">My Profile</h1>
-            <span className="flex items-center gap-2 text-xl px-4 py-2 bg-orange-500 text-white rounded-2xl justify-center hover:bg-orange-600 transition-all font-semibold font-Montserrat" onClick={handlelogout}>
-                Logout
-                <LogOut/>
-            </span>
-            </div>
-            <div className="p-4 flex gap-5">
-                <div className="flex  flex-col gap-4 w-1/3 h-max justify-between shadow-xl rounded-2xl  ">
-                    <div className="flex flex-col items-center gap-6 ">
-                        <div className="flex justify-center items-center bg-gradient-to-b  from-gray-100 to-gray-200 rounded-2xl w-full h-1/2 p-4  ">
-                            <div className="rounded-full w-max h-max border">
-                                <img src="/assets/User.svg" className="w-40 h-40" alt="" />
+        <section className="min-h-screen bg-[#F8FAFC] p-4 md:p-8">
+            <div className="max-w-7xl mx-auto">
+                
+                {/* Header Area */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h1 className="text-3xl font-black text-slate-900 tracking-tight">Dashboard</h1>
+                        <p className="text-slate-500 text-sm mt-1">Manage your activity and profile settings</p>
+                    </div>
+                    <button 
+                        onClick={handlelogout}
+                        className="flex items-center gap-2 px-5 py-2.5 bg-white text-rose-600 border border-rose-100 rounded-xl font-bold text-sm hover:bg-rose-50 transition-all shadow-sm active:scale-95"
+                    >
+                        <span>Logout</span>
+                        <LogOut className="size-4"/>
+                    </button>
+                </div>
+
+                <div className="flex flex-col lg:flex-row gap-8">
+                    
+                    {/* LEFT COLUMN: Profile Card */}
+                    <div className="w-full lg:w-1/3 flex flex-col gap-6">
+                        <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 overflow-hidden">
+                            {/* Profile Cover/Header Accent */}
+                            <div className="h-24 bg-gradient-to-r from-orange-400 to-orange-600" />
+                            
+                            <div className="px-6 pb-8">
+                                <div className="relative -mt-12 mb-4 flex justify-center">
+                                    <div className="relative group">
+                                        <div className="size-32 rounded-[2rem] border-4 border-white bg-slate-100 overflow-hidden shadow-lg">
+                                            <img src="/assets/User.svg" className="w-full h-full object-cover" alt="Avatar" />
+                                        </div>
+                                        <button className="absolute bottom-1 right-1 p-2 bg-white rounded-xl shadow-md border border-slate-100 text-slate-600 hover:text-orange-500 transition-colors">
+                                            <Camera className="size-4" />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="text-center mb-8">
+                                    <h2 className="text-2xl font-bold text-slate-900">{user.name}</h2>
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-orange-600 text-[10px] font-black uppercase tracking-wider mt-2 border border-orange-100">
+                                        <ShieldCheck className="size-3" />
+                                        Verified {user.role}
+                                    </span>
+                                </div>
+
+                                {/* Contact Details */}
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-4 p-3 rounded-2xl bg-slate-50 border border-transparent hover:border-slate-200 transition-all">
+                                        <div className="size-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-slate-400">
+                                            <Mail className="size-4" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Email Address</span>
+                                            <span className="text-sm font-semibold text-slate-700">{user.email}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-4 p-3 rounded-2xl bg-slate-50 border border-transparent hover:border-slate-200 transition-all">
+                                        <div className="size-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-slate-400">
+                                            <Phone className="size-4" />
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Phone Number</span>
+                                            <span className="text-sm font-semibold text-slate-700">{user.phone}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Action Links */}
+                            <div className="border-t border-slate-50 p-4 bg-slate-50/50 flex flex-col gap-2">
+                                <button className="flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-600 hover:text-orange-600 hover:bg-white rounded-xl transition-all w-full text-left group">
+                                    <Edit3 className="size-4 group-hover:scale-110 transition-transform" /> Edit Profile
+                                </button>
+                                <button className="flex items-center gap-3 px-4 py-2 text-sm font-bold text-slate-600 hover:text-orange-600 hover:bg-white rounded-xl transition-all w-full text-left group">
+                                    <Lock className="size-4 group-hover:scale-110 transition-transform" /> Security Settings
+                                </button>
+                                <button className="flex items-center gap-3 px-4 py-2 text-sm font-bold text-rose-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all w-full text-left mt-2">
+                                    <Trash2 className="size-4" /> Deactivate
+                                </button>
                             </div>
                         </div>
-                        <div className=" w-full h-1/2  flex text-center flex-col gap-2 p-4">
-                            <span className="text-4xl text-zinc-700 font-semibold"> {user.name}</span>
-                            <span className="text-xl font-semibold text-zinc-500"> {user.email}</span>
-                            <span className="text-xl font-semibold text-zinc-500"> {user.phone}</span>
-                            <span className="text-lg  font-semibold text-zinc-600">Registered As : {user.role}</span>
+                    </div>
+
+                    {/* RIGHT COLUMN: Content Tabs */}
+                    <div className="w-full lg:w-2/3">
+                        <div className="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 min-h-[600px] flex flex-col overflow-hidden">
+                            
+                            {/* Tab Switcher */}
+                            <div className="flex items-center gap-2 p-4 bg-slate-50/50 border-b border-slate-100 overflow-x-auto no-scrollbar">
+                                {tabs.map((tab) => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setviewtab(tab.id)}
+                                        className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold transition-all whitespace-nowrap
+                                            ${viewTab === tab.id 
+                                                ? "bg-white text-orange-600 shadow-sm border border-slate-200 translate-y-0" 
+                                                : "text-slate-500 hover:bg-white/50 hover:text-slate-700"
+                                            }`}
+                                    >
+                                        {tab.icon}
+                                        {tab.id}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Content Area */}
+                            <div className="flex-1 p-6">
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={viewTab}
+                                        initial={{ opacity: 0, x: 10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        exit={{ opacity: 0, x: -10 }}
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        {tabContent[viewTab] ? tabContent[viewTab] : <NullData viewTab={viewTab} />}
+                                    </motion.div>
+                                </AnimatePresence>
+                            </div>
                         </div>
                     </div>
-                    <div className="flex flex-wrap justify-between cursor-pointer text-sm gap-5 text-orange-700 underline p-4">
-                        <span>Edit Profile Details</span>
-                        <span>Change Password</span>
-                        <span>Deactivate Account</span>
-                    </div>
-                    
-                </div>
-                <div className="p-4 w-10/12 shadow-xl rounded-2xl ">
-                    <div className="w-full flex justify-between text-2xl mb-4 cursor-pointer">
-                        <span onClick={() => setviewtab("Saved Properties")} className={`${viewTab === 'Saved Properties' ? "bg-orange-500 text-white border-orange-500 translate-x-0" : "translate-x-2"} px-4 py-2 rounded-3xl transition-all`}>Saved Properties</span>
-                        <span onClick={() => setviewtab("Sent Requests")} className={`${viewTab === 'Sent Requests' ? "bg-orange-500 text-white border-orange-500 translate-x-0" : "translate-x-2"} px-4 py-2 rounded-3xl transition-all`}>Sent Requests</span>
-                        <span onClick={() => setviewtab("Bookings")} className={`${viewTab === 'Bookings' ? "bg-orange-500 text-white border-orange-500 translate-x-0" : "translate-x-2"} px-4 py-2 rounded-3xl transition-all`}>Bookings</span>
-                    </div>
-                    <hr />
-                    {
-                        activeTab ? activeTab : <NullData viewTab = {viewTab}/>
-                    }
                 </div>
             </div>
         </section>

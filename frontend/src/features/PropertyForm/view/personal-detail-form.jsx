@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useVerificationForm } from "../viewmodels/use-verification-form";
+import { motion } from "framer-motion";
+import { User, Mail, Phone, Globe, CreditCard, ChevronRight, UserCircle } from "lucide-react";
 
 export default function PersonalDetailsForm() {
     const {
@@ -7,143 +9,168 @@ export default function PersonalDetailsForm() {
         formData,
         handleChange,
         handleNext,
-    } = useVerificationForm()
+    } = useVerificationForm();
 
     return (
-        <div className="flex justify-center items-center max-h-screen p-4 sm:p-6">
-            <div
-                className="w-full max-w-xl bg-zinc-50 p-6 sm:p-8 rounded-2xl shadow-xl space-y-4"
+        <div className="flex justify-center items-center min-h-[calc(100vh-80px)] md:p-6 bg-slate-50/50 font-Montserrat">
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-full max-w-2xl bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-2xl shadow-slate-200/50"
             >
-                <h2 className="text-3xl font-extrabold text-orange-600 mb-6 text-center">
-                    Personal Details Registration
-                </h2>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <input
-                            name="firstname"
-                            data-section="PersonalData"
-                            placeholder="Enter first name"
-                            value={formData.PersonalData.firstname}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-3 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500
-                                ${errors.firstname ? "border-red-500" : "border-gray-300"}`}
-                        />
-                        {errors.firstname && (
-                            <p className="text-red-500 text-sm mt-1 font-medium">{errors.firstname}</p>
-                        )}
+                {/* Header Section */}
+                <div className="text-center mb-10">
+                    <div className="inline-flex items-center justify-center size-14 bg-orange-100 rounded-2xl mb-4">
+                        <UserCircle className="size-8 text-orange-600" />
                     </div>
-
-                    <div>
-                        <input
-                            name="lastname"
-                            data-section="PersonalData"
-                            placeholder="Enter last name"
-                            value={formData.PersonalData.lastname}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-3 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500
-                                ${errors.lastname ? "border-red-500" : "border-gray-300"}`}
-                        />
-                        {errors.lastname && (
-                            <p className="text-red-500 text-sm mt-1 font-medium">{errors.lastname}</p>
-                        )}
-                    </div>
+                    <h2 className="text-3xl font-black text-slate-900 tracking-tight">
+                        Personal Information
+                    </h2>
+                    <p className="text-slate-500 font-medium mt-2">
+                        Help us verify your identity to secure your account.
+                    </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <input
-                            name="email"
-                            type="email"
-                            data-section="PersonalData"
-                            placeholder="type@email.com"
-                            value={formData.PersonalData.email}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-3 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500
-                                ${errors.email ? "border-red-500" : "border-gray-300"}`}
-                        />
-                        {errors.email && (
-                            <p className="text-red-500 text-sm mt-1 font-medium">{errors.email}</p>
-                        )}
+                <div className="space-y-6">
+                    {/* Name Group */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">First Name</label>
+                            <div className="relative">
+                                <User className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+                                <input
+                                    name="firstname"
+                                    data-section="PersonalData"
+                                    placeholder="e.g., John"
+                                    value={formData.PersonalData.firstname}
+                                    onChange={handleChange}
+                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                        ${errors.firstname ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
+                                />
+                            </div>
+                            {errors.firstname && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.firstname}</p>}
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Last Name</label>
+                            <input
+                                name="lastname"
+                                data-section="PersonalData"
+                                placeholder="e.g., Doe"
+                                value={formData.PersonalData.lastname}
+                                onChange={handleChange}
+                                className={`w-full px-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                    ${errors.lastname ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
+                            />
+                            {errors.lastname && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.lastname}</p>}
+                        </div>
                     </div>
 
-                    <div>
-                        <input
-                            name="phone"
-                            type="tel"
-                            data-section="PersonalData"
-                            placeholder="10-digit phone number"
-                            value={formData.PersonalData.phone}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-3 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500
-                                ${errors.phone ? "border-red-500" : "border-gray-300"}`}
-                        />
-                        {errors.phone && (
-                            <p className="text-red-500 text-sm mt-1 font-medium">{errors.phone}</p>
-                        )}
+                    {/* Contact Group */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Email Address</label>
+                            <div className="relative">
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+                                <input
+                                    name="email"
+                                    type="email"
+                                    data-section="PersonalData"
+                                    placeholder="john@example.com"
+                                    value={formData.PersonalData.email}
+                                    onChange={handleChange}
+                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                        ${errors.email ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
+                                />
+                            </div>
+                            {errors.email && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.email}</p>}
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Phone Number</label>
+                            <div className="relative">
+                                <Phone className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+                                <input
+                                    name="phone"
+                                    type="tel"
+                                    data-section="PersonalData"
+                                    placeholder="10-digit mobile"
+                                    value={formData.PersonalData.phone}
+                                    onChange={handleChange}
+                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                        ${errors.phone ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
+                                />
+                            </div>
+                            {errors.phone && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.phone}</p>}
+                        </div>
                     </div>
+
+                    {/* Meta Group */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Gender</label>
+                            <select
+                                name="gender"
+                                data-section="PersonalData"
+                                value={formData.PersonalData.gender}
+                                onChange={handleChange}
+                                className={`w-full px-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700 appearance-none cursor-pointer
+                                    ${errors.gender ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
+                            >
+                                <option value="" disabled>Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                            {errors.gender && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.gender}</p>}
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Nationality</label>
+                            <div className="relative">
+                                <Globe className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+                                <input
+                                    name="nationality"
+                                    data-section="PersonalData"
+                                    placeholder="Indian"
+                                    value={formData.PersonalData.nationality}
+                                    onChange={handleChange}
+                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                        ${errors.nationality ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
+                                />
+                            </div>
+                            {errors.nationality && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.nationality}</p>}
+                        </div>
+                    </div>
+
+                    {/* Full Width Aadhaar */}
+                    <div className="space-y-1.5">
+                        <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Aadhaar Number</label>
+                        <div className="relative">
+                            <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+                            <input
+                                name="aadhar"
+                                data-section="PersonalData"
+                                placeholder="XXXX XXXX XXXX"
+                                value={formData.PersonalData.aadhar}
+                                onChange={handleChange}
+                                className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                    ${errors.aadhar ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
+                            />
+                        </div>
+                        {errors.aadhar && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.aadhar}</p>}
+                    </div>
+
+                    <button
+                        type="submit"
+                        onClick={handleNext}
+                        className="w-full mt-6 bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-2xl text-lg font-bold shadow-xl shadow-orange-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2 group"
+                    >
+                        Save & Continue
+                        <ChevronRight className="size-5 group-hover:translate-x-1 transition-transform" />
+                    </button>
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <select
-                            name="gender"
-                            data-section="PersonalData"
-                            value={formData.PersonalData.gender}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-3 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500
-                                ${errors.gender ? "border-red-500" : "border-gray-300"}`}
-                        >
-                            <option value="" disabled>Select gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                        {errors.gender && (
-                            <p className="text-red-500 text-sm mt-1 font-medium">{errors.gender}</p>
-                        )}
-                    </div>
-
-                    <div>
-                        <input
-                            name="nationality"
-                            data-section="PersonalData"
-                            placeholder="e.g., Indian"
-                            value={formData.PersonalData.nationality}
-                            onChange={handleChange}
-                            className={`w-full px-4 py-3 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500
-                                ${errors.nationality ? "border-red-500" : "border-gray-300"}`}
-                        />
-                        {errors.nationality && (
-                            <p className="text-red-500 text-sm mt-1 font-medium">{errors.nationality}</p>
-                        )}
-                    </div>
-                </div>
-
-                <div>
-                    <input
-                        name="aadhar"
-                        data-section="PersonalData"
-                        placeholder="12-digit Aadhaar number"
-                        value={formData.PersonalData.aadhar}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-lg transition duration-150 ease-in-out focus:outline-none focus:ring-1 focus:ring-orange-500 focus:border-orange-500
-                            ${errors.aadhar ? "border-red-500" : "border-gray-300"}`}
-                    />
-                    {errors.aadhar && (
-                        <p className="text-red-500 text-sm mt-1 font-medium">{errors.aadhar}</p>
-                    )}
-                </div>
-
-                <button
-                    type="submit"
-                    onClick={handleNext}
-                    className="w-full bg-orange-500 text-white py-3 rounded-xl text-lg font-bold shadow-md
-                        hover:bg-orange-600 transition duration-200 focus:ring-4 focus:ring-orange-300"
-                >
-                    Save & Next
-                </button>
-            </div>
+            </motion.div>
         </div>
     );
 }

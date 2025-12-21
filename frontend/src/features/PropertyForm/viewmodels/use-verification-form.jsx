@@ -34,7 +34,7 @@ export const useVerificationForm = () => {
     const newErrors = {};
     const nameRegex = /^[A-Za-z]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const aadhaarRegex = /^\d{13}$/;
+    const aadhaarRegex = /^\d{12}$/;
     const phoneRegex = /^\d{10}$/;
     const zipRegex = /^\d{6}$/;
 

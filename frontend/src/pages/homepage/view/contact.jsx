@@ -1,12 +1,14 @@
-import React, { useState,useContext } from 'react'
-// ...existing imports...
+import React, { useState, useContext } from 'react';
 import { FAQ } from '../model/homepage';
 import MotionSection from '../../../components/view/motionComponents';
 import Mycontext from '../../../features/context/mycontext';
 import { Loader } from '../../../components/view/loader';
-const Contact = () => {
-    const {loading} = useContext(Mycontext);
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, Mail, User, MessageSquare, ShieldCheck } from 'lucide-react';
 
+const Contact = () => {
+    const { loading } = useContext(Mycontext);
+    const [activeFaq, setActiveFaq] = useState(null);
     const [form, setForm] = useState({
         firstname: '',
         lastname: '',
@@ -15,7 +17,6 @@ const Contact = () => {
         agreement: false,
     });
     const [errors, setErrors] = useState({});
-    const [submittedData, setSubmittedData] = useState(null);
 
     const validate = () => {
         const newErrors = {};
@@ -24,7 +25,7 @@ const Contact = () => {
         if (!form.email.trim()) newErrors.email = 'Email required';
         else if (!/\S+@\S+\.\S+/.test(form.email)) newErrors.email = 'Invalid email';
         if (!form.message.trim()) newErrors.message = 'Message required';
-        if (!form.agreement) newErrors.agreement = 'You must agree to the policy';
+        if (!form.agreement) newErrors.agreement = 'Required';
         return newErrors;
     };
 
@@ -41,107 +42,150 @@ const Contact = () => {
         const validationErrors = validate();
         setErrors(validationErrors);
         if (Object.keys(validationErrors).length === 0) {
-            setSubmittedData(form);
-            alert('Form submitted!');
-            setForm({
-                firstname: '',
-                lastname: '',
-                email: '',
-                message: '',
-                agreement: false,
-            })
+            alert('Message sent successfully!');
+            setForm({ firstname: '', lastname: '', email: '', message: '', agreement: false });
         }
     };
-    if(loading){
-        return <Loader/>
-    }
-    return (
-        <MotionSection className='w-full p-6 md:p-10 md:flex justify-between gap-4'>
-            <div className='w-1/2'>
-                <h2 className='md:text-lg text-2xl text-gray-500'>
-                    FAQ's
-                </h2>
-                <h1 className='text-4xl font-bold'>Frequently Asked Questions.</h1>
-                <ul className='flex flex-col gap-4 mt-4'>
-                    {
-                        FAQ.map((faq) => {
-                            return (
-                                <div key={faq.id} className=' p-4 rounded-lg shadow-md border border-gray-400 hover:scale-105 transition-all'>
-                                    <h1 className='font-semibold text-2xl'>{faq.question}</h1>
-                                    <p className='text-gray-500'>{faq.answer}</p>
-                                </div>
-                            )
-                        })
-                    }
 
-                </ul>
-            </div>
-            <div className='text-center '>
-                <h1 className='text-lg text-gray-500 '>Contact and Support</h1>
-                <h2 className='text-4xl text-black font-bold'>Reach out to us</h2>
-                <form
-                    className='flex flex-col gap-8 mt-4  p-10  border border-gray-500 rounded-2xl'
-                    onSubmit={handleSubmit}
-                    noValidate
-                >
-                    <span>
-                        <input
-                            type="text"
-                            name='firstname'
-                            placeholder='firstname'
-                            className='border border-gray-500 mr-2 p-2 rounded-md'
-                            value={form.firstname}
-                            onChange={handleChange}
-                        />
-                        <input
-                            type="text"
-                            name='lastname'
-                            placeholder='lastname'
-                            className='border border-gray-500 p-2  rounded-md'
-                            value={form.lastname}
-                            onChange={handleChange}
-                        />
-                    </span>
-                    {errors.firstname && <div className="text-red-500 text-sm text-left">{errors.firstname}</div>}
-                    {errors.lastname && <div className="text-red-500 text-sm text-left">{errors.lastname}</div>}
-                    <input
-                        type="text"
-                        name='email'
-                        placeholder='email'
-                        className='border border-gray-500  p-2 rounded-md'
-                        value={form.email}
-                        onChange={handleChange}
-                    />
-                    {errors.email && <div className="text-red-500 text-sm text-left">{errors.email}</div>}
-                    <textarea
-                        name="message"
-                        placeholder='message'
-                        className='border border-gray-500 p-2 rounded-md'
-                        value={form.message}
-                        onChange={handleChange}
-                    ></textarea>
-                    {errors.message && <div className="text-red-500 text-sm text-left">{errors.message}</div>}
-                    <span className='text-start flex items-center'>
-                        <input
-                            type="checkbox"
-                            name="agreement"
-                            className='mr-3 w-6 h-6'
-                            checked={form.agreement}
-                            onChange={handleChange}
-                        />
-                        I agree to the <u className='text-orange-500'>policy</u>
-                    </span>
-                    {errors.agreement && <div className="text-red-500 text-sm text-left">{errors.agreement}</div>}
-                    <button
-                        type="submit"
-                        className="p-4 w-full bg-orange-500 rounded-2xl text-white text-md font-semibold mt-6"
+    if (loading) return <Loader />;
+
+    return (
+        <MotionSection className='relative w-full py-20 px-6 max-w-7xl mx-auto' id="contact">
+            {/* Background Accent */}
+            <div className="absolute top-0 right-0 -z-10 w-96 h-96 bg-orange-100/50 rounded-full blur-3xl" />
+            
+            <div className='flex flex-col lg:flex-row gap-16 justify-between'>
+                
+                {/* Left Side: FAQs */}
+                <div className='w-full lg:w-1/2'>
+                    <motion.div 
+                        initial={{ opacity: 0, x: -30 }} 
+                        whileInView={{ opacity: 1, x: 0 }}
+                        className='mb-10'
                     >
-                        Send Message
-                    </button>
-                </form>
+                        <span className="text-orange-500 font-semibold tracking-wider uppercase text-sm">Support Center</span>
+                        <h1 className='text-4xl md:text-5xl font-bold mt-2 text-gray-900'>Frequently Asked <span className='text-orange-500'>Questions.</span></h1>
+                        <p className='text-gray-500 mt-4 text-lg'>Can't find what you're looking for? Reach out to our team.</p>
+                    </motion.div>
+
+                    <div className='space-y-4'>
+                        {FAQ.map((faq, index) => (
+                            <motion.div 
+                                key={faq.id}
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                className={`border rounded-2xl transition-all duration-300 ${activeFaq === index ? 'border-orange-500 bg-orange-50/30' : 'border-gray-200 bg-white'}`}
+                            >
+                                <button 
+                                    onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+                                    className='w-full p-5 flex justify-between items-center text-left'
+                                >
+                                    <span className='font-bold text-lg text-gray-800'>{faq.question}</span>
+                                    <ChevronDown className={`transition-transform duration-300 ${activeFaq === index ? 'rotate-180 text-orange-500' : 'text-gray-400'}`} />
+                                </button>
+                                <AnimatePresence>
+                                    {activeFaq === index && (
+                                        <motion.div 
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            className='overflow-hidden'
+                                        >
+                                            <p className='px-5 pb-5 text-gray-600 leading-relaxed'>{faq.answer}</p>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Right Side: Contact Form */}
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    className='w-full lg:w-[450px]'
+                >
+                    <div className='bg-white p-8 md:p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100'>
+                        <div className="mb-8">
+                            <h2 className='text-3xl font-bold text-gray-900'>Reach out to us</h2>
+                            <p className="text-gray-500 mt-2">We typically respond within 2 hours.</p>
+                        </div>
+
+                        <form onSubmit={handleSubmit} className='space-y-5'>
+                            <div className='grid grid-cols-2 gap-4'>
+                                <div className='space-y-1'>
+                                    <div className='relative'>
+                                        <User className='absolute left-3 top-3 size-4 text-gray-400' />
+                                        <input
+                                            type="text" name='firstname' placeholder='First Name'
+                                            className='w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all'
+                                            value={form.firstname} onChange={handleChange}
+                                        />
+                                    </div>
+                                    {errors.firstname && <p className="text-red-500 text-xs ml-1">{errors.firstname}</p>}
+                                </div>
+                                <div className='space-y-1'>
+                                    <input
+                                        type="text" name='lastname' placeholder='Last Name'
+                                        className='w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all'
+                                        value={form.lastname} onChange={handleChange}
+                                    />
+                                    {errors.lastname && <p className="text-red-500 text-xs ml-1">{errors.lastname}</p>}
+                                </div>
+                            </div>
+
+                            <div className='space-y-1'>
+                                <div className='relative'>
+                                    <Mail className='absolute left-3 top-3 size-4 text-gray-400' />
+                                    <input
+                                        type="email" name='email' placeholder='Email Address'
+                                        className='w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all'
+                                        value={form.email} onChange={handleChange}
+                                    />
+                                </div>
+                                {errors.email && <p className="text-red-500 text-xs ml-1">{errors.email}</p>}
+                            </div>
+
+                            <div className='space-y-1'>
+                                <div className='relative'>
+                                    <MessageSquare className='absolute left-3 top-3 size-4 text-gray-400' />
+                                    <textarea
+                                        name="message" placeholder='Your message...' rows={4}
+                                        className='w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all resize-none'
+                                        value={form.message} onChange={handleChange}
+                                    />
+                                </div>
+                                {errors.message && <p className="text-red-500 text-xs ml-1">{errors.message}</p>}
+                            </div>
+
+                            <div className='space-y-1'>
+                                <label className='flex items-start gap-3 cursor-pointer group'>
+                                    <input
+                                        type="checkbox" name="agreement"
+                                        className='mt-1 size-5 rounded border-gray-300 text-orange-500 focus:ring-orange-500 cursor-pointer'
+                                        checked={form.agreement} onChange={handleChange}
+                                    />
+                                    <span className='text-sm text-gray-600 group-hover:text-gray-900 transition-colors'>
+                                        I agree to the <u className='text-orange-500 decoration-orange-200 hover:decoration-orange-500 transition-all'>privacy policy</u>
+                                    </span>
+                                </label>
+                                {errors.agreement && <p className="text-red-500 text-xs ml-1">{errors.agreement}</p>}
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="w-full py-4 bg-orange-500 hover:bg-orange-600 shadow-lg shadow-orange-200 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95"
+                            >
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </motion.div>
             </div>
         </MotionSection>
-    )
-}
+    );
+};
 
-export default Contact
+export default Contact;

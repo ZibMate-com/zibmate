@@ -16,7 +16,9 @@ const Applayout = () => {
   return (
     <div className=''>
         {!shouldHideHeaderFooter && <Header/>}
+        <div className={shouldHideHeaderFooter?"":'mt-20'}>
         <Outlet/>
+        </div>
         {!shouldHideHeaderFooter && <Footer/>}
     </div>
   )

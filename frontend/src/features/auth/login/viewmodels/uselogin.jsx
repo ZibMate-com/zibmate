@@ -7,7 +7,7 @@ import { Auth, Firedb, provider } from "../../../firebase/firebaseconfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/firestore";
 
-export const useLogin = () => {
+ const useLogin = () => {
     const navigate = useNavigate();
     const { setloading, setisLoggedIn, loading, isLoggedIn, loggedUser, setUser } = useContext(Mycontext);
 
@@ -156,3 +156,4 @@ export const useLogin = () => {
         handleGoogleSignIn,
     };
 };
+export default useLogin

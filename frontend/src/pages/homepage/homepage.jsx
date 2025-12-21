@@ -1,6 +1,4 @@
-
 import Contact from './view/contact';
-import { About } from './view/AboutPage';
 import { Categories } from './view/Cartegories';
 import { Toplistsection } from './view/Toplistsection';
 import { Brandshowcase } from './view/brandShowcase';
@@ -13,7 +11,6 @@ const Home = () => {
   return (
     <section className='h-auto'>
       <Hero/>
-      {/* <About /> */}
       <Brandshowcase />
       <PlatformFeatures/>
       <PgManagement/>

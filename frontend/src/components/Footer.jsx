@@ -2,6 +2,7 @@ import { Copyright, Facebook, Instagram, Linkedin, Twitter, Youtube, Home } from
 import React from 'react'
 import { GiHouse } from 'react-icons/gi'
 import { NavLink } from 'react-router-dom'
+import logo from "../assets/logoblack.png";
 
 const Footer = () => {
   const company = [
@@ -32,7 +33,7 @@ const Footer = () => {
         <div className='grid grid-cols-2 md:grid-cols-4 gap-8 border-b border-gray-700 pb-10'>
           <div className='col-span-2 md:col-span-1'>
             <a href="/" className="flex items-center gap-2 mb-4">
-             <img src="assets/logonobg.png" className='' alt="" />
+             <img src={logo} className='' alt="" />
             </a>
             <p className='text-sm text-gray-400 max-w-xs'>
               A platform simplifying PG management for owners and tenants, focusing on connection, security, and ease of use.
@@ -76,7 +77,7 @@ const Footer = () => {
         <div className='flex flex-col md:flex-row justify-between items-center pt-6 space-y-4 md:space-y-0'>
 
           <span className='flex items-center gap-2 text-sm text-gray-500'>
-            <Copyright className='size-4' /> 2025 ZibMate. All rights Reserved.
+            <Copyright className='size-4' /> 2025 ZIBMATE. All rights Reserved.
           </span>
 
           <div className='flex gap-5 text-gray-400'>
