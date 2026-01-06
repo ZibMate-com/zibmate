@@ -143,7 +143,6 @@ export const getPgData = async () => {
     try {
         const q = query(
             collection(Firedb, "pgData"),
-            limit(2)
         )
         const querySnapshot = await getDocs(q);
         const pgList = querySnapshot.docs.map((doc) => (

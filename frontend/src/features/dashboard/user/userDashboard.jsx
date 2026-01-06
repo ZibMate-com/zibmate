@@ -23,7 +23,7 @@ export const UserDashBoard = () => {
     const tabContent = {
         "Saved Properties": <SavedProperties />,
         "Sent Requests": <SentRequests />,
-        "Bookings": null // Add <Bookings /> component here when ready
+        "Bookings": null 
     };
 
     const tabs = [
