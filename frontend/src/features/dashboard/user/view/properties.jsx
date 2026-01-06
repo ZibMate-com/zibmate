@@ -6,29 +6,77 @@ export const SavedProperties = () => {
             {
                 Properties.map((prop) => {
                     return (
-                        <div className=" flex gap-4 text-lg border rounded-3xl">
-                            <div className="w-1/3 h-48">
-                                <img src={prop.images[0]} className="w-full h-full object-cover rounded-3xl" alt="" />
-                            </div>
-                            <div className="flex justify-between p-3 w-full">
-                                <div className="flex flex-col  text-gray-700">
-                                    <span>id : {prop.id}</span>
-                                    <span className="font-semibold">{prop.name}</span>
-                                    <span className="font-medium">{prop.description}</span>
-                                    <span className="flex items-center gap-3"><Users className="size-4" />{prop.occupancy}</span>
-                                    <span className="flex items-center gap-3"><MapPin className="size-4" />{prop.city}</span>
-                                    <span>Facilities : {prop.facilities}</span>
+                        <div className="group flex flex-col md:flex-row gap-6 p-4 bg-white border border-stone-100 rounded-[2rem] shadow-sm hover:shadow-xl hover:shadow-orange-900/5 transition-all duration-500">
+
+                            {/* 1. Image Section - Fixed Aspect Ratio */}
+                            <div className="w-full md:w-72 h-56 shrink-0 overflow-hidden rounded-[1.5rem] relative">
+                                <img
+                                    src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                    alt={prop.name}
+                                />
+                                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full shadow-sm">
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-stone-600">ID: {prop.id}</span>
                                 </div>
-                                <div className="flex flex-col justify-between items-end">
-                                    <span className="text-sm text-gray-700">Posted On : 25 sept. 2025</span>
+                            </div>
+
+                            {/* 2. Content Section */}
+                            <div className="flex flex-col lg:flex-row justify-between w-full py-2 gap-6">
+
+                                {/* Left Info Block */}
+                                <div className="flex flex-col space-y-3 flex-1">
                                     <div>
-                                        <span className="text-2xl font-semibold">{prop.price}</span>
-                                        <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-lg m-2">
-                                            Save ₹{prop.discount}
-                                        </span>
+                                        <h3 className="text-2xl font-bold text-stone-900 tracking-tight">{prop.name}</h3>
+                                        <p className="text-sm text-stone-400 font-medium line-clamp-1">{prop.description}</p>
                                     </div>
 
-                                    <button className="w-20 p-2 bg-orange-500 text-white rounded-xl">Active</button>
+                                    <div className="flex flex-wrap items-center gap-4 text-stone-600">
+                                        <div className="flex items-center gap-2 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-100">
+                                            <Users className="size-4 text-orange-500" />
+                                            <span className="text-xs font-bold">{prop.occupancy} Residents</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 bg-stone-50 px-3 py-1.5 rounded-xl border border-stone-100">
+                                            <MapPin className="size-4 text-orange-500" />
+                                            <span className="text-xs font-bold">{prop.city}</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Facilities as Chips */}
+                                    <div className="pt-2">
+                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400 mb-2">Top Facilities</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {prop.facilities.map((f, i) => (
+                                                <span key={i} className="text-[10px] font-bold bg-orange-50 text-orange-600 px-2 py-1 rounded-md border border-orange-100">
+                                                    {f.trim()}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* 3. Action & Price Block */}
+                                <div className="flex flex-row lg:flex-col justify-between items-end lg:w-48 border-t lg:border-t-0 lg:border-l border-stone-50 pt-4 lg:pt-0 lg:pl-6">
+                                    <div className="text-right">
+                                        <span className="text-[10px] text-stone-400 font-bold uppercase tracking-widest block mb-1">Posted 25 Sept</span>
+                                        <div className="flex flex-col items-end">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-3xl font-black text-stone-900 tracking-tighter">₹{prop.price}</span>
+                                            </div>
+                                            <span className="text-[10px] font-black text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-md mt-1">
+                                                SAVE ₹{prop.discount}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col gap-2 w-full max-w-[120px]">
+                                        <button className="w-full py-3 bg-stone-900 text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-orange-600 transition-colors shadow-lg shadow-stone-200">
+                                            Manage
+                                        </button>
+                                        <div className="flex items-center justify-center gap-1.5">
+                                            <div className="size-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                                            <span className="text-[9px] font-black text-stone-400 uppercase tracking-widest">Listing Active</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,73 +1,80 @@
-import { Calendar,Users,Mail } from "lucide-react";
-export const BookingForm = () => {
-   
+import React from 'react';
+import { Calendar, Users, ArrowRight, ShieldCheck, Zap } from "lucide-react";
+import { NavLink } from 'react-router-dom';
+
+export const BookingButton = ({ handleBooking }) => {
+
     return (
-        <div className="lg:sticky w-full lg:top-24 bg-white p-6 rounded-xl shadow-2xl border border-orange-100/50 h-max">
-            <h2 className="text-2xl font-bold text-gray-900 mb-5 text-center">Book Your Stay</h2>
-            <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); console.log("Booking Enquiry Submitted!"); }}>
-                
-                {/* Check-in Date */}
-                <div>
-                    <label htmlFor="checkin" className="block text-sm font-medium text-gray-700 mb-2">Check-in Date</label>
-                    <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 size-5 text-orange-400" />
-                        <input 
-                            type="date" 
-                            id="checkin" 
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 transition duration-150"
-                            required
-                        />
+        <div className="lg:sticky w-full lg:top-24 bg-white overflow-hidden rounded-[2rem] shadow-[0_20px_70px_-10px_rgba(0,0,0,0.1)] border border-orange-100/50">
+            {/* Top Highlight Strip */}
+            <div className="bg-orange-500 h-1.5 w-full"></div>
+            
+            <div className="p-8 space-y-8">
+                {/* Price & Status Header */}
+                <div className="flex justify-between items-start">
+                    <div>
+                        <p className="text-[10px] font-bold text-orange-600 uppercase tracking-[0.2em] mb-1">Total Membership</p>
+                        <h3 className="text-4xl font-light text-gray-900 tracking-tighter italic">
+                            3,804<span className="text-lg font-bold not-italic text-gray-400 ml-1">.35</span>
+                        </h3>
+                    </div>
+                    <div className="flex flex-col items-end">
+                        <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-100">
+                            <Zap size={10} fill="currentColor" /> Available Now
+                        </span>
+                        <p className="text-[10px] text-gray-400 mt-2 font-medium tracking-tight italic">Tokens per cycle</p>
                     </div>
                 </div>
 
-                {/* Number of Occupants */}
-                <div>
-                    <label htmlFor="occupants" className="block text-sm font-medium text-gray-700 mb-2">Sharing Type</label>
-                    <div className="relative">
-                        <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 size-5 text-orange-400" />
-                        <select 
-                            id="occupants" 
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-orange-500 focus:border-orange-500 transition duration-150"
-                            required
-                        >
-                            <option value="" disabled>Select Sharing Type</option>
-                            <option value="1">Single Occupancy</option>
-                            <option value="2">Double Sharing</option>
-                            <option value="3">Triple Sharing</option>
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            {/* Simple SVG for dropdown arrow */}
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                {/* Quick Selection Summary (Read-Only Feel) */}
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 bg-orange-50/50 rounded-2xl border border-orange-100/50 flex flex-col gap-1">
+                        <Calendar size={14} className="text-orange-500 mb-1" />
+                        <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Arrival</span>
+                        <span className="text-xs font-semibold text-gray-800 tracking-tight">Select Date</span>
+                    </div>
+                    <div className="p-4 bg-orange-50/50 rounded-2xl border border-orange-100/50 flex flex-col gap-1">
+                        <Users size={14} className="text-orange-500 mb-1" />
+                        <span className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Sharing</span>
+                        <span className="text-xs font-semibold text-gray-800 tracking-tight">Executive Single</span>
+                    </div>
+                </div>
+
+                {/* The Prime Action */}
+                <div className="space-y-4">
+                    <button 
+                        className="w-full group relative bg-gray-900 hover:bg-orange-600 p-5 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-orange-200"
+                        onClick={() => console.log("Finalizing Booking...")}
+                    >
+                            <NavLink to="/booking">
+                        <div className="flex items-center justify-between">
+                            <div className="flex flex-col items-start" onClick={ handleBooking }>
+                                <span className="text-white font-bold uppercase tracking-widest text-[10px]">Instant Booking</span>
+                                <span className="text-orange-400 text-xs font-medium group-hover:text-white transition-colors">Pay 300 Tokens</span>
+                            </div>
+                            <div className="h-10 w-10 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
+                                <ArrowRight className="text-white group-hover:text-orange-600 -rotate-45 group-hover:rotate-0 transition-transform" size={20} />
+                            </div>
                         </div>
+                            </NavLink>  
+                    </button>
+                    
+                    {/* Trust Indicator */}
+                    <div className="flex items-start gap-3 px-2">
+                        <ShieldCheck size={18} className="text-orange-500 shrink-0" />
+                        <p className="text-[10px] text-gray-400 leading-relaxed">
+                            <span className="text-gray-900 font-bold uppercase tracking-tight mr-1 italic">God-Tier Protection:</span> 
+                            Booking fee is 100% credited to your first month rent automatically.
+                        </p>
                     </div>
                 </div>
+            </div>
 
-                {/* Contact Email */}
-                <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
-                    <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 size-5 text-orange-400" />
-                        <input 
-                            type="email" 
-                            id="email" 
-                            placeholder="your@email.com"
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-orange-500 focus:border-orange-500 transition duration-150"
-                            required
-                        />
-                    </div>
-                </div>
-
-                {/* Submit Button */}
-                <button 
-                    type="submit" 
-                    className="w-full p-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg shadow-lg transition-colors duration-200 mt-6"
-                >
-                    Request Callback & View
-                </button>
-                
-                <p className="text-xs text-center text-gray-500 pt-2">We will connect you with the property manager within 2 hours.</p>
-
-            </form>
+            {/* Footer Urgency */}
+            <div className="bg-stone-50 p-4 border-t border-stone-100 flex items-center justify-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+                <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Only 2 suites remaining at this price</p>
+            </div>
         </div>
     );
 };

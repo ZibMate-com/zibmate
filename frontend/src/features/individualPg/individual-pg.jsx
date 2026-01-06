@@ -1,5 +1,5 @@
 import { Bed, Wifi, Feather, Shirt, Bath, Utensils, Shield, Heart, Home, MapPin, CheckCircle } from "lucide-react"
-import { BookingForm } from "./views/booking-form";
+import { BookingButton } from "./views/booking-form";
 import { useParams } from "react-router";
 import { useState, useEffect, useContext } from "react";
 import { Firedb } from "../firebase/firebaseconfig";
@@ -49,10 +49,14 @@ export const IndividualPg = () => {
         if (id) fetchProduct();
     }, [id]);
 
+    const handleBooking = ()=>{
+        localStorage.setItem('BookingDetails',JSON.stringify(product));
+    }
+    
     if (loading) return <Loader />;
 
     return (
-        <section className="min-h-screen bg-[#F8FAFC] pb-20">
+        <section className="min-h-screen bg-[#f8fafc] pb-20">
             {/* Header Area */}
             <div className="bg-white border-b border-gray-200 pt-16 pb-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,7 +87,7 @@ export const IndividualPg = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
                 {/* Modern Bento Gallery */}
-                <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-[500px] mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-125 mb-12">
                     <div className="md:col-span-2 md:row-span-2 rounded-3xl overflow-hidden group relative">
                         <img src={product.images[0]} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" alt="Main" />
                         <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition duration-300"></div>
@@ -154,7 +158,7 @@ export const IndividualPg = () => {
                         {/* Description */}
                         <section>
                             <h3 className="text-2xl font-bold text-slate-900 mb-4">About the Property</h3>
-                            <p className="text-slate-600 leading-relaxed text-lg italic bg-white p-8 rounded-[2rem] border-l-4 border-orange-500">
+                            <p className="text-slate-600 leading-relaxed text-lg italic bg-white p-8 rounded-4xl border-l-4 border-orange-500">
                                 "{product.description}"
                             </p>
                         </section>
@@ -221,17 +225,10 @@ export const IndividualPg = () => {
                     {/* Right Column: Sticky Booking Form */}
                     <div className="lg:col-span-1">
                         <div className="sticky top-28">
-                            <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200 border border-slate-100 overflow-hidden">
-                                <div className="bg-slate-900 p-6 text-white">
-                                    <h3 className="text-xl font-bold">Book a Visit</h3>
-                                    <p className="text-slate-400 text-sm">Schedule a tour or book instantly</p>
-                                </div>
                                 <div className="p-6">
-                                    <BookingForm />
+                                    <BookingButton handleBooking = { handleBooking }/>
                                 </div>
-                            </div>
-
-                            {/* Trust Badge */}
+ 
                             <div className="mt-6 flex items-center justify-center gap-4 p-4 border border-dashed border-slate-300 rounded-2xl">
                                 <Shield className="text-green-500" />
                                 <span className="text-sm font-medium text-slate-500">Secure Payment & Verified Listing</span>
