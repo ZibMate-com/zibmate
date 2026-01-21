@@ -1,22 +1,26 @@
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const jwt = require('jsonwebtoken');
-const secretKey = 'abcde12345';
+import { jwtDecode } from "jwt-decode";
 
-export const token = jwt.sign({
-    id:1,
-    username : 'Aman'
-}, secretKey,{expiresIn: '1h'});
+export const getToken = () => {
+    return localStorage.getItem('token');
+};
 
-export const verifyToken =()=>{
-    jwt.verify(token, secretKey, (err, decoded) => {
-        if (err) {
-            console.error('Token verification failed:', err);
+export const verifyToken = () => {
+    const token = getToken();
+    if (!token) return false;
+
+    try {
+        const decoded = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        if (decoded.exp < currentTime) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('users');
             return false;
-        } else {
-            console.log('Token verified successfully:', decoded);
-            console.log(token);
-            return true;
         }
-    });
-}
+
+        return true;
+    } catch (error) {
+        console.error("Token verification error:", error);
+        return false;
+    }
+};

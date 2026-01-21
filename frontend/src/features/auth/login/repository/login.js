@@ -1,38 +1,63 @@
-import axios from "axios";
-import { Auth, Firedb } from "../../../firebase/firebaseconfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { collection, query, where, getDocs } from "firebase/firestore";
 
-const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export const loginUser = async ({ email, password, phone }) => {
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL}/api/auth`;
+
+// Basic fetch wrapper to handle errors
+const fetchRequest = async (url, options) => {
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers
+    }
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw data || { message: "Request failed" };
+  }
+  return data;
+};
+
+export const loginUser = async ({ email, password }) => {
   try {
-    const response = await axios.post(`${BASE_URL}/login`, { email, password, phone });
-    return response.data;
+    return await fetchRequest(`${BASE_URL}/login`, {
+      method: 'POST',
+      body: JSON.stringify({ email, password })
+    });
   } catch (error) {
-    throw error.response?.data || { message: "Login failed" };
+    throw error;
+  }
+};
+
+export const googleLoginUser = async (socialData) => {
+  try {
+    return await fetchRequest(`${BASE_URL}/google-login`, {
+      method: 'POST',
+      body: JSON.stringify(socialData)
+    });
+  } catch (error) {
+    throw error;
   }
 };
 
 export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
   try {
-    const users = await signInWithEmailAndPassword(Auth, userCred.email, userCred.password);
-    const q = query(
-      collection(Firedb, "user"),
-      where("uid", "==", users.user.uid)
-    );
-    const querySnapshot = await getDocs(q);
-    let user;
-    querySnapshot.forEach(doc => user = doc.data());
-    if (user) {
-      localStorage.setItem("users", JSON.stringify(user));
+    const data = await loginUser({
+      email: userCred.email,
+      password: userCred.password
+    });
+
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("users", JSON.stringify(data.user));
       setUserCred({
         email: "",
-        password: ""
+        password: "",
+        phone: ""
       });
-      return true; 
+      return true;
     } else {
-      throw new Error("User not found in database");
+      throw new Error("Invalid response from server");
     }
   } catch (error) {
     console.log(error);

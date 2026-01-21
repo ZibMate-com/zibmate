@@ -1,22 +1,22 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Applayout from "./components/appLayout"
 import ErrorPage from "./pages/ErrorPage"
-import { MyState } from "./features/context/mystate"
+import { MyState } from "./context/mystate"
 import Home from "./pages/homepage/homepage"
 import Contact from "./pages/homepage/view/contact"
-import { Pglist } from "./features/pglist/pglist"
-import { BookingPage } from "./features/bookingPage/bookingpage"
+import { Pglist } from "./features/properties/list/pglist"
+import { BookingPage } from "./features/bookings/bookingpage"
 import { Login } from "./features/auth/login/login"
 import SignUp from "./features/auth/signup/signup"
-import PgForm from "./features/PropertyForm/postPropertyForm"
+import PgForm from "./features/properties/create/postPropertyForm"
 import { AboutUs } from "./pages/aboutUs/aboutus"
-import { AdminDashboard } from "./features/dashboard/admin/adminDashboard"
-import { UserDashBoard } from "./features/dashboard/user/userDashboard"
-import { IndividualPg } from "./features/individualPg/individual-pg"
+import { AdminDashboard } from "./features/dashboards/admin/adminDashboard"
+import { UserDashBoard } from "./features/dashboards/user/userDashboard"
+import { IndividualPg } from "./features/properties/details/individual-pg"
 import { OwnerRoute } from "./features/protected-Routes/owner"
 import { UserRoute } from "./features/protected-Routes/user"
-import { PgDashboard } from "./features/pg-dashboard/tenent/pg-dasboard"
-import OwnerDashboard from "./features/pg-dashboard/owner/pg-owner-dashboard"
+import { PgDashboard } from "./features/dashboards/tenant/pg-dasboard"
+import OwnerDashboard from "./features/dashboards/owner/pg-owner-dashboard"
 
 
 
@@ -61,21 +61,22 @@ const router = createBrowserRouter([
       {
         path: "/postproperty",
         element:
-         <OwnerRoute>
-          <PgForm />
-        </OwnerRoute>
+          <OwnerRoute>
+            <PgForm />
+          </OwnerRoute>
       },
       {
         path: "/profile/owner",
         element: <AdminDashboard />
       },
       {
-        path: "/profile/buyer",
-        element: 
-        <UserRoute>
-           <UserDashBoard /> 
-           </UserRoute>
+        path: "/profile/user",
+        element:
+          <UserRoute>
+            <UserDashBoard />
+          </UserRoute>
       },
+
       {
         path: "/tenent-dashboard",
         element: <PgDashboard />
@@ -83,8 +84,8 @@ const router = createBrowserRouter([
       {
         path: "/owner-dashboard",
         element:
-        <OwnerRoute> 
-          <OwnerDashboard />
+          <OwnerRoute>
+            <OwnerDashboard />
           </OwnerRoute>
       },
 

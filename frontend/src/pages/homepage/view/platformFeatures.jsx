@@ -1,8 +1,39 @@
-import { features } from "../model/homepage"
-import { motion } from "framer-motion"
-import MotionSection from "../../../components/view/motionComponents"
+import { useState, useEffect } from "react";
+
+import { motion } from "framer-motion";
+import MotionSection from "../../../components/view/motionComponents";
+import { StickyNote, Sparkle, MessageCircle, Sparkles, Heart, MapPin } from "lucide-react";
+
+const IconMap = {
+    StickyNote, Sparkle, MessageCircle, Sparkles, Heart, MapPin
+};
 
 export const PlatformFeatures = () => {
+    const [features, setFeatures] = useState([]);
+
+    useEffect(() => {
+        const fetchFeatures = async () => {
+            try {
+                const baseUrl = import.meta.env.VITE_BACKEND_URL;
+                const response = await fetch(`${baseUrl}/api/content/features`, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                if (!response.ok) throw new Error('Failed to fetch features');
+                const data = await response.json();
+                // Use icon string to map to component? Wait, response has 'icon' field.
+                setFeatures(data.map(f => ({
+                    ...f,
+                    component: IconMap[f.icon] || StickyNote,
+                    heading: f.title,
+                    para: f.content
+                })));
+            } catch (error) {
+                console.error("Error fetching features:", error);
+            }
+        };
+        fetchFeatures();
+    }, []);
+
     // Animation Variants for the container
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -17,16 +48,16 @@ export const PlatformFeatures = () => {
     // Animation Variants for individual cards
     const cardVariants = {
         hidden: { opacity: 0, y: 20 },
-        visible: { 
-            opacity: 1, 
-            y: 0, 
-            transition: { duration: 0.5, ease: "easeOut" } 
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.5, ease: "easeOut" }
         },
     };
 
     return (
-        <MotionSection 
-            className="relative mt-20 p-6 w-full overflow-hidden" 
+        <MotionSection
+            className="relative mt-20 p-6 w-full overflow-hidden"
             id="features"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -39,15 +70,15 @@ export const PlatformFeatures = () => {
             </div>
 
             <div className="text-center w-full mb-16">
-                <motion.span 
+                <motion.span
                     initial={{ opacity: 0, y: -10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     className="px-4 py-1.5 rounded-full text-sm font-medium bg-orange-50 text-orange-600 border border-orange-100"
                 >
                     Platform Features
                 </motion.span>
-                
-                <motion.h1 
+
+                <motion.h1
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     className="text-4xl md:text-5xl font-bold mt-6 tracking-tight text-gray-900"
@@ -59,7 +90,7 @@ export const PlatformFeatures = () => {
                 </motion.h1>
             </div>
 
-            <motion.div 
+            <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"

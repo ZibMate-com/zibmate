@@ -1,14 +1,37 @@
-import React, { useState, useContext } from 'react';
-import { FAQ } from '../model/homepage';
+import React, { useState, useContext, useEffect } from 'react';
+
 import MotionSection from '../../../components/view/motionComponents';
-import Mycontext from '../../../features/context/mycontext';
+import Mycontext from '../../../context/mycontext';
 import { Loader } from '../../../components/view/loader';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Mail, User, MessageSquare, ShieldCheck } from 'lucide-react';
 
 const Contact = () => {
     const { loading } = useContext(Mycontext);
+    const [faqData, setFaqData] = useState([]);
     const [activeFaq, setActiveFaq] = useState(null);
+
+    useEffect(() => {
+        const fetchFaqs = async () => {
+            try {
+                const baseUrl = import.meta.env.VITE_BACKEND_URL;
+                const response = await fetch(`${baseUrl}/api/content/faq`, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                if (!response.ok) throw new Error('Failed to fetch FAQs');
+                const data = await response.json();
+                setFaqData(data.map(f => ({
+                    id: f.id,
+                    question: f.title,
+                    answer: f.content
+                })));
+            } catch (error) {
+                console.error("Error fetching FAQs:", error);
+            }
+        };
+        fetchFaqs();
+    }, []);
+
     const [form, setForm] = useState({
         firstname: '',
         lastname: '',
@@ -53,13 +76,13 @@ const Contact = () => {
         <MotionSection className='relative w-full py-20 px-6 max-w-7xl mx-auto' id="contact">
             {/* Background Accent */}
             <div className="absolute top-0 right-0 -z-10 w-96 h-96 bg-orange-100/50 rounded-full blur-3xl" />
-            
+
             <div className='flex flex-col lg:flex-row gap-16 justify-between'>
-                
+
                 {/* Left Side: FAQs */}
                 <div className='w-full lg:w-1/2'>
-                    <motion.div 
-                        initial={{ opacity: 0, x: -30 }} 
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         className='mb-10'
                     >
@@ -69,15 +92,15 @@ const Contact = () => {
                     </motion.div>
 
                     <div className='space-y-4'>
-                        {FAQ.map((faq, index) => (
-                            <motion.div 
+                        {faqData.map((faq, index) => (
+                            <motion.div
                                 key={faq.id}
                                 initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.1 }}
                                 className={`border rounded-2xl transition-all duration-300 ${activeFaq === index ? 'border-orange-500 bg-orange-50/30' : 'border-gray-200 bg-white'}`}
                             >
-                                <button 
+                                <button
                                     onClick={() => setActiveFaq(activeFaq === index ? null : index)}
                                     className='w-full p-5 flex justify-between items-center text-left'
                                 >
@@ -86,7 +109,7 @@ const Contact = () => {
                                 </button>
                                 <AnimatePresence>
                                     {activeFaq === index && (
-                                        <motion.div 
+                                        <motion.div
                                             initial={{ height: 0, opacity: 0 }}
                                             animate={{ height: 'auto', opacity: 1 }}
                                             exit={{ height: 0, opacity: 0 }}
@@ -102,7 +125,7 @@ const Contact = () => {
                 </div>
 
                 {/* Right Side: Contact Form */}
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     className='w-full lg:w-[450px]'
