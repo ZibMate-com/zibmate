@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
-import { loginUser, userLoginFunction } from "../repository/login";
+import React, { useState, useContext } from "react";
+import { userLoginFunction, googleLoginUser } from "../repository/login";
 import { useNavigate } from "react-router-dom";
-import Mycontext from "../../../context/mycontext";
-import { EmailAuthProvider, linkWithCredential, signInWithPopup } from "firebase/auth";
-import { Auth, Firedb, provider } from "../../../firebase/firebaseconfig";
-import { onAuthStateChanged } from "firebase/auth";
-import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/firestore";
+import Mycontext from "../../../../context/mycontext";
+import { Auth, provider } from "../../../firebase/firebaseconfig";
+import { signInWithPopup } from "firebase/auth";
 
- const useLogin = () => {
+const useLogin = () => {
     const navigate = useNavigate();
-    const { setloading, setisLoggedIn, loading, isLoggedIn, loggedUser, setUser } = useContext(Mycontext);
+    const { setloading, setisLoggedIn, setUser } = useContext(Mycontext);
 
     const [role, setRole] = useState("owner");
     const [userCred, setUserCred] = useState({
@@ -17,21 +15,11 @@ import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/f
         password: "",
         phone: ""
     });
-    // const [googleUser , setgoogleUser] = useState({})
     const [errors, setErrors] = useState({});
-
-    useEffect(() => {
-        const unSubscribe = onAuthStateChanged(Auth, (currentUser) => {
-            setUser(currentUser);
-        });
-        return () => {
-            unSubscribe();
-        }
-    }, [])
 
     const validate = () => {
         const newErrors = {};
-        if (role === "owner") {
+        if (role === "owner" || role === "user") {
             if (!userCred.email) {
                 newErrors.email = "Email is required";
             } else if (!/\S+@\S+\.\S+/.test(userCred.email)) {
@@ -42,48 +30,34 @@ import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/f
             } else if (userCred.password.length < 6) {
                 newErrors.password = "Password must be at least 6 characters";
             }
-        } else if (role === "buyer") {
-            if (!userCred.phone) {
-                newErrors.phone = "Phone number is required";
-            } else if (!/^[0-9]{10}$/.test(userCred.phone)) {
-                newErrors.phone = "Enter a valid 10-digit phone number";
-            }
         }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    useEffect(() => {
-        validate();
-    }, [userCred, role]);
-
-
-
     const handleLogin = async () => {
-        if (!validate() && !verifyToken()) {
-            setisLoggedIn(false);
+        if (!validate()) {
             return;
         }
         setloading(true);
         try {
-            const success = await userLoginFunction({ role, userCred, setUserCred });
+            const backendRole = role === "buyer" ? "user" : role;
+            const success = await userLoginFunction({ role: backendRole, userCred, setUserCred });
             setloading(false);
             if (success) {
                 setisLoggedIn(true);
-                if (role === "buyer") {
-                    navigate("/findpg");
-                    localStorage.setItem("role", JSON.stringify(role))
+                const user = JSON.parse(localStorage.getItem("users"));
+                setUser(user);
+                if (user.role === "owner") {
+                    navigate("/owner-dashboard");
                 } else {
-                    navigate(`/`);
+                    navigate("/findpg");
                 }
-            } else {
-                setisLoggedIn(false);
             }
         } catch (error) {
             setloading(false);
             setisLoggedIn(false);
-            setErrors({ general: error.message });
-
+            setErrors({ general: error.message || "Login failed" });
         }
     };
 
@@ -91,56 +65,36 @@ import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/f
         setloading(true);
         try {
             const result = await signInWithPopup(Auth, provider);
-            const userAuth = result.user;
-            const { displayName, email, uid } = userAuth;
+            const user = result.user;
 
-            const userRef = collection(Firedb, "user");
-            const q = query(userRef, where("email", "==", email));
-            const querySnapshot = await getDocs(q);
+            const backendRole = role === "buyer" ? "user" : role;
 
-            if (!querySnapshot.empty) {
-              
-                const existingUser = querySnapshot.docs[0].data();
+            // Send social profile to our backend
+            const data = await googleLoginUser({
+                email: user.email,
+                firstName: user.displayName.split(' ')[0],
+                lastName: user.displayName.split(' ').slice(1).join(' '),
+                role: backendRole,
+                uid: user.uid
+            });
 
-                if (existingUser.role !== role) {
-                    alert(`This email is already registered as a ${existingUser.role}. Please log in as ${existingUser.role}.`);
-                    setloading(false);
-                    return;
-                }
-
-                localStorage.setItem("users", JSON.stringify(existingUser));
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("users", JSON.stringify(data.user));
                 setisLoggedIn(true);
-                navigate(role === "buyer" ? "/findpg" : "/");
-                setloading(false);
-                return;
+                setUser(data.user);
+
+                if (data.user.role === "owner") {
+                    navigate("/owner-dashboard");
+                } else {
+                    navigate("/findpg");
+                }
             }
-
-        
-            const newUser = {
-                name: displayName,
-                email: email,
-                role: role,
-                uid: uid,
-                time: Timestamp.now(),
-                date: new Date().toLocaleString("en-US", {
-                    month: "short",
-                    day: "2-digit",
-                    year: "numeric",
-                }),
-            };
-
-            await addDoc(userRef, newUser);
-
-            localStorage.setItem("users", JSON.stringify(newUser));
-            setisLoggedIn(true);
-            navigate(role === "buyer" ? "/findpg" : "/");
             setloading(false);
-
         } catch (error) {
-            console.error("Google sign-in error:", error);
             setloading(false);
-            setisLoggedIn(false);
-            setErrors({ general: error.message });
+            console.error("Google login error:", error);
+            alert("Google Sign-in failed: " + (error.message || "Unknown error"));
         }
     };
 
@@ -151,9 +105,8 @@ import { addDoc, collection, getDocs, query, Timestamp, where } from "firebase/f
         userCred,
         setUserCred,
         handleLogin,
-        loading,
-        isLoggedIn,
         handleGoogleSignIn,
     };
 };
-export default useLogin
+
+export default useLogin;

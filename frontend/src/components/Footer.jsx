@@ -1,31 +1,36 @@
 import { Copyright, Facebook, Instagram, Linkedin, Twitter, Youtube, Home } from 'lucide-react'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { GiHouse } from 'react-icons/gi'
 import { NavLink } from 'react-router-dom'
 import logo from "../assets/logoblack.png";
 
 const Footer = () => {
-  const company = [
-    { id: 1, name: "About", path: "/about" },
-    { id: 2, name: "Team", path: "/team" },
-    { id: 3, name: "Careers", path: "/career" },
-    { id: 4, name: "Press", path: "/press" },
-    { id: 5, name: "Blog", path: "/blog" },
-  ];
-  const support = [
-    { id: 1, name: "Help", path: "/help" },
-    { id: 2, name: "FAQ", path: "/faq" },
-    { id: 3, name: "Contact", path: "/contact" },
-    { id: 4, name: "Guide", path: "/guide" },
-    { id: 5, name: "Docs", path: "/docs" },
-  ];
-  const legal = [
-    { id: 1, name: "Terms", path: "/terms" },
-    { id: 2, name: "Policy", path: "/policy" },
-    { id: 3, name: "Cookies", path: "/cookies" },
-    { id: 4, name: "Access", path: "/access" },
-    { id: 5, name: "Notice", path: "/notice" },
-  ];
+  const [links, setLinks] = useState({
+    company: [],
+    support: [],
+    legal: []
+  });
+
+  useEffect(() => {
+    const fetchLinks = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/content`);
+        if (response.ok) {
+          const data = await response.json();
+          setLinks({
+            company: data.footer_company || [],
+            support: data.footer_support || [],
+            legal: data.footer_legal || []
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch footer links", error);
+      }
+    };
+    fetchLinks();
+  }, []);
+
+  const { company, support, legal } = links;
 
   return (
     <footer className='w-full bg-zinc-950 text-white pt-16 pb-6'>
@@ -33,7 +38,7 @@ const Footer = () => {
         <div className='grid grid-cols-2 md:grid-cols-4 gap-8 border-b border-gray-700 pb-10'>
           <div className='col-span-2 md:col-span-1'>
             <a href="/" className="flex items-center gap-2 mb-4">
-             <img src={logo} className='' alt="" />
+              <img src={logo} className='' alt="" />
             </a>
             <p className='text-sm text-gray-400 max-w-xs'>
               A platform simplifying PG management for owners and tenants, focusing on connection, security, and ease of use.

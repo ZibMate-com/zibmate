@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { useSignup } from "../signup/viewmodels/useSignup";
 import { useLogin } from "./viewmodels/uselogin";
 
 export const Login = () => {

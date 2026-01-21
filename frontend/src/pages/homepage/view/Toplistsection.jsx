@@ -1,10 +1,29 @@
-import { TopPglist } from "../model/homepage";
+import { useState, useEffect } from "react";
+
 import MotionSection from "../../../components/view/motionComponents";
 import { motion } from "framer-motion";
 import { MapPin, Users, Building2, Tag, Star } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 export const Toplistsection = () => {
+  const [topPgs, setTopPgs] = useState([]);
+
+  useEffect(() => {
+    const fetchTopPgs = async () => {
+      try {
+        const baseUrl = import.meta.env.VITE_BACKEND_URL;
+        const response = await fetch(`${baseUrl}/api/pg/top`, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+        if (!response.ok) throw new Error('Failed to fetch top PGs');
+        const data = await response.json();
+        setTopPgs(data);
+      } catch (error) {
+        console.error("Error fetching top PGs:", error);
+      }
+    };
+    fetchTopPgs();
+  }, []);
   return (
     <MotionSection className="w-full py-12 px-4 md:px-10 bg-gray-50/50">
       <div className="max-w-7xl mx-auto">
@@ -25,7 +44,7 @@ export const Toplistsection = () => {
 
         {/* Grid Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {TopPglist.map((pg) => (
+          {topPgs.map((pg) => (
             <motion.div
               key={pg.docId ?? pg.id}
               initial={{ opacity: 0, y: 20 }}
@@ -93,7 +112,7 @@ export const Toplistsection = () => {
                 <NavLink to={`/findpg/${pg.docId}`}>
                   <motion.button
                     whileTap={{ scale: 0.95 }}
-                   className="w-full py-3.5 bg-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-slate-200 group-hover:bg-orange-600 group-hover:shadow-orange-200 transition-all duration-300"
+                    className="w-full py-3.5 bg-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-slate-200 group-hover:bg-orange-600 group-hover:shadow-orange-200 transition-all duration-300"
                   >
                     View Details
                   </motion.button>
@@ -106,7 +125,7 @@ export const Toplistsection = () => {
         {/* Load More Button */}
         <div className="w-full text-center mt-16">
           <NavLink to="/findpg">
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-10 py-4 bg-white border-2 border-slate-200 rounded-2xl text-slate-900 text-lg font-bold hover:bg-slate-900 hover:text-white transition-all shadow-xl shadow-gray-100"
