@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS pg_data (
     discount DECIMAL(10, 2) DEFAULT 0,
     location VARCHAR(255),
     location_link TEXT,
-    occupancy VARCHAR(50),
+    occupancy JSON,
     looking_for VARCHAR(100),
     facilities JSON,
     city VARCHAR(100),

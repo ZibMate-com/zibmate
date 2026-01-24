@@ -63,10 +63,10 @@ export const addPG = async (req, res) => {
 
         // Parse facilities if it's sent as a string (happens with FormData)
         const parsedFacilities = typeof facilities === 'string' ? JSON.parse(facilities) : facilities;
-
+        const parsedOccupancy = typeof occupancy === 'string' ? JSON.parse(occupancy) : occupancy;
         const [result] = await db.execute(
             'INSERT INTO pg_data (name, description, price, discount, location, location_link, occupancy, looking_for, facilities, city, owner_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [name, description, price, discount, location, locationLink, occupancy, lookingFor, JSON.stringify(parsedFacilities), city, ownerId]
+            [name, description, price, discount, location, locationLink, JSON.stringify(parsedOccupancy ), lookingFor, JSON.stringify(parsedFacilities), city, ownerId]
         );
 
         const pgId = result.insertId;
