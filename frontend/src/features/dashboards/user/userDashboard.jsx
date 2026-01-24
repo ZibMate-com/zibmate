@@ -15,6 +15,7 @@ export const UserDashBoard = () => {
 
     const handlelogout = () => {
         localStorage.removeItem("users");
+        localStorage.removeItem("token")
         setisLoggedIn(false)
         navigate("/login")
     }

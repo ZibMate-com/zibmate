@@ -23,12 +23,13 @@ export default function PropertyDetailsForm() {
         handleFileChange,
         removeImage,
         toggleFacility,
+        toggleOccupancy,
         handleSubmit,
         setActiveStep
     } = usePgForm();
 
     const fileInputRef = useRef(null);
-
+    const occupancyList = ["single", "double", "triple", "quad"]
     const facilitiesList = ["WiFi", "AC", "Laundry", "Gym", "Power Backup", "Food", "Parking", "Security"];
 
     return (
@@ -146,7 +147,7 @@ export default function PropertyDetailsForm() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div className="space-y-1.5">
                             <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Occupancy</label>
-                            <select
+                            {/* <select
                                 name="occupancy"
                                 value={formData.occupancy}
                                 onChange={handleChange}
@@ -157,7 +158,24 @@ export default function PropertyDetailsForm() {
                                 <option value="Double Sharing">Double Sharing</option>
                                 <option value="Triple Sharing">Triple Sharing</option>
                                 <option value="Four Sharing">Four Sharing</option>
-                            </select>
+                            </select> */}
+                            {
+                                <div className="flex flex-wrap gap-2">
+                                    {occupancyList.map(o => (
+                                        <button
+                                            key={o}
+                                            type="button"
+                                            onClick={() => toggleOccupancy(o)}
+                                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border
+                                        ${formData.occupancy.includes(o)
+                                                    ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
+                                                    : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"}`}
+                                        >
+                                            {o}
+                                        </button>
+                                    ))}
+                                </div>
+                            }
                         </div>
                         <div className="space-y-1.5">
                             <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Address</label>

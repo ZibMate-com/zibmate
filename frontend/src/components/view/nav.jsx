@@ -25,7 +25,7 @@ export const NavBar = () => {
                 const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/content/navbar_main`);
                 if (response.ok) {
                     const data = await response.json();
-                    setNavLinks(data.map(item => ({ name: item.title, path: item.path })));
+                    setNavLinks(data.map(item => ({ name: item.title, path: item.content })));
                 }
             } catch (error) {
                 console.error("Failed to fetch nav links", error);

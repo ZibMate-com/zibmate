@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { MapPin, Users, Tag, Building2, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const FilteredPg = ({ filteredPg }) => {
   return (
@@ -69,14 +70,14 @@ export const FilteredPg = ({ filteredPg }) => {
             </div>
 
             {/* CTA Button */}
-            <NavLink to={`/findpg/${pg.docId}`}>
+            <Link to={`/findpg/${pg.docId}`}>
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 className="w-full py-3.5 bg-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-slate-200 group-hover:bg-orange-600 group-hover:shadow-orange-200 transition-all duration-300"
               >
                 View Details
               </motion.button>
-            </NavLink>
+            </Link>
           </div>
         </motion.div>
       ))}
