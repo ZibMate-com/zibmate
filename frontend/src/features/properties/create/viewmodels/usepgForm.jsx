@@ -15,7 +15,7 @@ export const usePgForm = () => {
         discount: "",
         address: "",
         locationLink: "",
-        occupancy: "",
+        occupancy: [],
         lookingFor: "Any",
         city: "",
         facilities: [], // Changed to actual array
@@ -43,6 +43,14 @@ export const usePgForm = () => {
         setImagePreviews(prev => prev.filter((_, i) => i !== index));
     };
 
+    const toggleOccupancy = (occu) => {
+        setFormData(prev => ({
+            ...prev,
+            occupancy: prev.occupancy.includes(occu)
+                ? prev.occupancy.filter(f => f !== occu)
+                : [...prev.occupancy, occu]
+        }));
+    };
     const toggleFacility = (facility) => {
         setFormData(prev => ({
             ...prev,
@@ -66,7 +74,7 @@ export const usePgForm = () => {
             data.append('discount', formData.discount || 0);
             data.append('location', formData.address);
             data.append('locationLink', formData.locationLink);
-            data.append('occupancy', formData.occupancy);
+            data.append('occupancy', JSON.stringify(formData.occupancy));
             data.append('lookingFor', formData.lookingFor);
             data.append('city', formData.city);
             data.append('facilities', JSON.stringify(formData.facilities));
@@ -108,6 +116,7 @@ export const usePgForm = () => {
         handleFileChange,
         removeImage,
         toggleFacility,
+        toggleOccupancy,
         handleSubmit,
         activeStep,
         setActiveStep,

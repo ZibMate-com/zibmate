@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { UserCircleIcon, LayoutDashboard, PlusCircle, LogIn, ChevronRight } from "lucide-react";
+import { UserCircleIcon, LayoutDashboard, PlusCircle, LogIn, ChevronRight,Plus } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import Mycontext from "../../context/mycontext";
 import logo from "../../assets/logoblack.png";
@@ -25,7 +25,7 @@ export const NavBar = () => {
                 const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/content/navbar_main`);
                 if (response.ok) {
                     const data = await response.json();
-                    setNavLinks(data.map(item => ({ name: item.title, path: item.path })));
+                    setNavLinks(data.map(item => ({ name: item.title, path: item.content })));
                 }
             } catch (error) {
                 console.error("Failed to fetch nav links", error);
@@ -35,80 +35,108 @@ export const NavBar = () => {
     }, []);
 
     return (
-        <nav className={`w-full fixed top-0 left-0 z-50 bg-black transition-all duration-300 ${isScrolled
-            ? "bg-black backdrop-blur-md border-b border-slate-100 py-3"
-            : "bg-black py-5"
-            }`}>
-            <div className="max-w-7xl mx-auto px-6 md:px-10 flex justify-between items-center">
+       <>
+            
+            <nav className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${isScrolled
+                    ? "bg-black backdrop-blur-md border-b border-white/10 py-3"
+                    : "bg-black py-5"
+                }`}>
+                <div className="max-w-7xl mx-auto px-3 md:px-10 flex justify-between items-center">
 
-                {/* Logo Section */}
-                <div className="flex items-center gap-12">
-                    <NavLink to="/" className="flex items-center">
-                        <img src={logo} className="w-45 md:w-50 rounded-2xl object-contain" alt="Logo" />
-                    </NavLink>
+                    <div className="flex items-center gap-12">
+                        <NavLink to="/" className="flex items-center">
+                            <img src={logo} className="w-40 md:w-40 rounded-2xl object-contain" alt="Logo" />
+                        </NavLink>
 
-                    {/* Desktop Navigation */}
-                    <div className='hidden lg:block'>
-                        <ul className="flex items-center gap-10">
-                            {navLinks.map((link) => (
-                                <NavLink
-                                    key={link.path}
-                                    to={link.path}
-                                    className={({ isActive }) => `
-                                        text-[17px] font-medium transition-all duration-200
-                                        ${isActive ? "text-orange-500" : "text-slate-400 hover:text-orange-500"}
-                                    `}
-                                >
-                                    {link.name}
-                                </NavLink>
-                            ))}
-                        </ul>
+                        <div className='hidden lg:block'>
+                            <ul className="flex items-center gap-10">
+                                {navLinks.map((link) => (
+                                    <NavLink
+                                        key={link.path}
+                                        to={link.path}
+                                        className={({ isActive }) => `
+                                            text-[15px] font-medium transition-all duration-200
+                                            ${isActive ? "text-orange-500" : "text-slate-400 hover:text-orange-500"}
+                                        `}
+                                    >
+                                        {link.name}
+                                    </NavLink>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4 items-center">
+                      
+                        <NavLink
+                            to={user ? "/postproperty" : "/login"}
+                            className='hidden md:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg active:scale-95'
+                        >
+                            <PlusCircle className="size-4" />
+                            Post Property
+                        </NavLink>
+
+                        <div className="h-8 w-[1px] bg-slate-800 mx-2 hidden md:block" />
+
+                        {user ? (
+                            <NavLink to={`/profile/${user.role}`}>
+                                <div className="flex items-center gap-3 p-1 pr-4 bg-[#fafafa] border border-slate-800 rounded-full hover:border-orange-500 transition-all group">
+                                    <div className="size-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-xs">
+                                        {user.name?.charAt(0) || "U"}
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <span className="text-[9px] uppercase font-black text-slate-500 leading-none">Member</span>
+                                        <span className="text-sm hidden md:block font-bold text-orange-500 group-hover:text-orange-500 transition-colors">
+                                            {user.name?.split(' ')[0]}
+                                        </span>
+                                    </div>
+                                </div>
+                            </NavLink>
+                        ) : (
+                            <NavLink to="/login">
+                                <button className="flex items-center gap-2 text-slate-300 font-bold text-sm hover:text-orange-500 transition-colors">
+                                    Sign In
+                                    <ChevronRight className="size-4" />
+                                </button>
+                            </NavLink>
+                        )}
                     </div>
                 </div>
+            </nav>
 
-                {/* Right Side Actions */}
-                <div className="flex gap-4 items-center">
+            <div className="md:hidden fixed bottom-0 left-0 z-50 w-full h-18 bg-black/95 backdrop-blur-lg border-t border-white/10 pb-2">
+                <div className="grid h-full grid-cols-5 items-center justify-items-center px-2">
 
-                    {/* Post Property Button - Casual/Pro Accent */}
-                    <NavLink
-                        to={user ? "/postproperty" : "/login"}
-                        className='hidden sm:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg  active:scale-95'
-                    >
-                        <PlusCircle className="size-4" />
-                        Post Property
-                    </NavLink>
 
-                    <div className="h-8 w-[1px] bg-slate-200 mx-2 hidden sm:block" />
-
-                    {user ? (
-                        <NavLink to={`/profile/${user.role}`}>
-                            <div className="flex items-center gap-3 p-1 pr-4 bg-slate-50 border border-slate-100 rounded-full hover:border-orange-200 transition-all group">
-                                <div className="size-9 rounded-full bg-slate-900 flex items-center justify-center text-white font-bold text-sm">
-                                    {user.name?.charAt(0) || "U"}
-                                </div>
-                                <div className="hidden md:flex flex-col">
-                                    <span className="text-[10px] uppercase font-black text-slate-400 leading-none">Member</span>
-                                    <span className="text-sm font-bold text-slate-700 group-hover:text-orange-600 transition-colors">
-                                        {user.name?.split(' ')[0]}
-                                    </span>
-                                </div>
-                            </div>
+                    {navLinks.slice(0, 2).map((link) => (
+                        <NavLink key={link.path} to={link.path} className={({ isActive }) => `flex flex-col items-center gap-1 ${isActive ? "text-orange-500" : "text-slate-400"} `}>
+                            {link.icon}
+                            <span className="text-[13px] font-medium">{link.name}</span>
                         </NavLink>
-                    ) : (
-                        <NavLink to="/login">
-                            <button className="flex items-center gap-2 text-slate-700 font-bold text-sm hover:text-orange-500 transition-colors">
-                                Sign In
-                                <ChevronRight className="size-4" />
-                            </button>
-                        </NavLink>
-                    )}
+                    ))}
 
-                    {/* Mobile Dashboard Icon */}
-                    <button className="lg:hidden p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-                        <LayoutDashboard className='size-5 text-slate-700' />
-                    </button>
+                    <div className="relative flex flex-col items-center">
+                        <NavLink
+                            to={user ? "/postproperty" : "/login"}
+                            className="flex items-center justify-center size-14 bg-orange-500 text-white rounded-full shadow-[0_8px_20px_rgba(249,115,22,0.4)] active:scale-90 transition-transform border-4 border-black -mt-8"
+                        >
+                            <Plus className="size-8" strokeWidth={3} />
+                        </NavLink>
+                        <span className="text-[10px] font-bold text-orange-500 mt-1 uppercase tracking-wider">
+                            Add New
+                        </span>
+                    </div>
+
+                    
+                    {navLinks.slice(2, 4).map((link) => (
+                        <NavLink key={link.path} to={link.path} className={({ isActive }) => `flex flex-col items-center gap-1 ${isActive ? "text-orange-500" : "text-slate-400"}`}>
+                            {link.icon}
+                            <span className="text-[13px] font-medium">{link.name}</span>
+                        </NavLink>
+                    ))}
+
                 </div>
             </div>
-        </nav>
+        </>
     );
 };

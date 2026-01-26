@@ -4,7 +4,7 @@ import { Listedproperties } from "./views/properties";
 import { UserRequests } from "./views/requests";
 import { NullData } from "../../../components/view/null-data";
 import Mycontext from "../../../context/mycontext";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const AdminDashboard = () => {
@@ -15,6 +15,7 @@ export const AdminDashboard = () => {
 
     const handlelogout = () => {
         localStorage.removeItem("users");
+          localStorage.removeItem("token");
         setisLoggedIn(false);
         navigate("/login");
     };

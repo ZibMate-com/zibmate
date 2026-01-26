@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import Mycontext from "../../context/mycontext";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 
 export const useVerificationForm = () => {

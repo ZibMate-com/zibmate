@@ -1,16 +1,16 @@
-import { Bed, Wifi, Feather, Shirt, Bath, Utensils, Shield, Heart, Home, MapPin, CheckCircle } from "lucide-react"
+import { Bed, Wifi, Feather, Shirt, Bath, Utensils, Shield, Heart, Home, MapPin, CheckCircle, Phone } from "lucide-react"
 import { BookingButton } from "./views/booking-form";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-
 import Mycontext from "../../../context/mycontext";
 import { Loader } from "../../../components/view/loader";
 import { motion } from "framer-motion";
+import { CallBackModal } from "./views/callback";
 
 export const IndividualPg = () => {
     const { loading, setloading } = useContext(Mycontext);
     const { id } = useParams();
-
+    const [isCallModalOpen, setIsCallModalOpen] = useState(false);
     const [product, setProduct] = useState({
         name: "",
         description: "",
@@ -70,6 +70,13 @@ export const IndividualPg = () => {
 
     return (
         <section className="min-h-screen bg-[#f8fafc] pb-20">
+            <CallBackModal
+                isOpen={isCallModalOpen}
+                onClose={() => setIsCallModalOpen(false)}
+                pgName={product.name}
+            />
+
+     
             {/* Header Area */}
             <div className="bg-white border-b border-gray-200 pt-16 pb-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -235,8 +242,11 @@ export const IndividualPg = () => {
                                 </div>
                                 {/* Action Button */}
                                 <div className="w-full md:w-auto mt-5 flex justify-end">
-                                    <button className="w-full md:w-auto px-8 py-3 bg-orange-500 border-2 border-orange-500 text-white font-bold rounded-2xl hover:bg-orange-600 hover:text-white transition-all duration-300">
-                                        Contact Owner
+                                    <button
+                                        onClick={() => setIsCallModalOpen(true)}
+                                        className="w-full md:w-auto px-8 py-3 bg-white border-2 border-slate-200 text-slate-700 font-bold rounded-2xl hover:border-orange-500 hover:text-orange-500 transition-all duration-300 flex items-center justify-center gap-2"
+                                    >
+                                        <Phone className="size-4" /> Request Call Back
                                     </button>
                                 </div>
                             </div>

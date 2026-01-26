@@ -1,4 +1,4 @@
-import { Navigate } from "react-router";
+import { Navigate } from "react-router-dom";
 
 export const UserRoute = ({ children }) => {
     const user = JSON.parse(localStorage.getItem('users'));

@@ -8,6 +8,7 @@ import {
 import { StatCard } from '../components/statcard';
 import { TicketItem } from '../components/ticket-item';
 import { TenantRow } from '../components/tenentRow';
+import { AddTenantModal } from './add-tenet';
 
 export const Overview = () => {
   const [stats, setStats] = useState({
@@ -19,7 +20,7 @@ export const Overview = () => {
   const [tenants, setTenants] = useState([]);
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [isTenantModalOpen, setIsTenantModalOpen] = useState(false);
   useEffect(() => {
     const fetchAllData = async () => {
       try {
@@ -51,20 +52,53 @@ export const Overview = () => {
     };
     fetchAllData();
   }, []);
+  const handleAddTenant = async (tenantData) => {
+    try {
+      // Logic to send data to your backend
+      console.log("Onboarding new tenant:", tenantData);
+      
+      // Optimistic Update (Optional: add to local state immediately)
+      const newTenantRecord = {
+        id: Date.now(), // fallback ID
+        full_name: tenantData.name,
+        pg_name: `Room ${tenantData.roomNo} (Floor ${tenantData.floorNo})`,
+        check_in_date: new Date().toISOString(),
+        status: 'confirmed'
+      };
+      
+      setTenants([newTenantRecord, ...tenants]);
+      
+      // Trigger a toast notification here if you have one!
+    } catch (error) {
+      console.error("Error onboarding tenant:", error);
+    }
+  };
 
   if (loading) return <div className="p-10 text-center font-bold text-slate-400">Loading Dashboard...</div>;
 
   return (
     <main className="flex-1 p-6 lg:p-10 max-w-7xl mx-auto w-full">
-
+      <AddTenantModal 
+        isOpen={isTenantModalOpen} 
+        onClose={() => setIsTenantModalOpen(false)} 
+        onAdd={handleAddTenant}
+      />
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h2 className="text-4xl font-black text-slate-900 tracking-tight">Property <span className="text-orange-600">Management</span></h2>
           <p className="text-slate-400 text-sm font-medium mt-1">Manage your PG properties and tenants efficiently</p>
         </div>
-        <button className="bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 hover:bg-slate-800 transition shadow-lg shadow-slate-200">
-          <Plus size={18} /> Add New Listing
-        </button>
+       <div className="flex gap-3">
+            <button 
+                onClick={() => setIsTenantModalOpen(true)}
+                className="bg-orange-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 hover:bg-orange-700 transition shadow-lg shadow-orange-100"
+            >
+                <Plus size={18} /> Add New Tenant
+            </button>
+            {/* <button className="bg-slate-900 text-white px-5 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 hover:bg-slate-800 transition shadow-lg shadow-slate-200">
+                <Plus size={18} /> Add New Listing
+            </button> */}
+        </div>
       </div>
 
 

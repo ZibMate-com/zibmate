@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import { Users, MapPin } from "lucide-react";
 
 export const Listedproperties = () => {
@@ -38,7 +37,7 @@ export const Listedproperties = () => {
             {
                 properties.map((prop) => {
                     return (
-                        <div key={prop.id} className="flex gap-4 text-lg border rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition">
+                        <div key={prop.id}  className="flex gap-4 text-lg border rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition">
                             <div className="w-1/3 h-48">
                                 <img src={prop.images?.[0] || '/assets/pgimage1.png'} className="w-full h-full object-cover rounded-3xl" alt="" />
                             </div>
@@ -48,7 +47,11 @@ export const Listedproperties = () => {
                                     <span className="font-bold text-xl text-slate-900">{prop.name}</span>
                                     <span className="text-sm line-clamp-2 italic text-slate-500">"{prop.description}"</span>
                                     <div className="flex items-center gap-6 mt-2">
-                                        <span className="flex items-center gap-2 text-sm"><Users className="size-4 text-orange-500" />{prop.occupancy}</span>
+                                        <div className="flex flex-wrap gap-2 mt-2">
+                                        {prop.Occupancy && prop.Occupancy.map((o, i) => (
+                                            <span key={i} className="text-[10px] bg-slate-100 px-2 py-0.5 rounded-full">{o}</span>
+                                        ))}
+                                        </div>
                                         <span className="flex items-center gap-2 text-sm"><MapPin className="size-4 text-orange-500" />{prop.city}</span>
                                     </div>
                                     <div className="flex flex-wrap gap-2 mt-2">
