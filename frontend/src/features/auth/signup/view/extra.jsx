@@ -4,7 +4,7 @@ import { signupUser } from "./repository/signup";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { Auth, Firedb } from "../../firebase/firebaseconfig";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 export const SignUp = () => {
   const {
     role,

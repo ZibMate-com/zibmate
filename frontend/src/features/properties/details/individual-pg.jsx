@@ -1,6 +1,6 @@
 import { Bed, Wifi, Feather, Shirt, Bath, Utensils, Shield, Heart, Home, MapPin, CheckCircle, Phone } from "lucide-react"
 import { BookingButton } from "./views/booking-form";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import Mycontext from "../../../context/mycontext";
 import { Loader } from "../../../components/view/loader";

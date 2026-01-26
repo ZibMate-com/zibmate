@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { userSignupFunction } from "../repository/signupFuncion";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import Mycontext from "../../../../context/mycontext";
 
 export const useSignup = () => {

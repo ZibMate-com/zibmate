@@ -4,7 +4,7 @@ import { SavedProperties } from "./view/properties"
 import { SentRequests } from "./view/requests"
 import { NullData } from "../../../components/view/null-data"
 import Mycontext from "../../../context/mycontext"
-import { useNavigate } from "react-router"
+import { useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 
 export const UserDashBoard = () => {
