@@ -1,12 +1,25 @@
 import { Heart, RefreshCcw, Sparkle, ArrowRight, Play, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import MotionSection from '../../../components/view/motionComponents';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Mycontext from '../../../context/mycontext';
 import { Loader } from '../../../components/view/loader';
+import { Link } from 'react-router-dom';
 
 export const Hero = () => {
   const { loading } = useContext(Mycontext);
+  const [role, setrole] = useState('tenent');
+  const user_role = localStorage.getItem('user-role');
+  const users = JSON.parse(localStorage.getItem('users'));
+  console.log(users);
+
+  useEffect(() => {
+    if (users) {
+      setrole(users.role)
+    } else setrole(user_role);
+  }, [])
+
+
 
   if (loading) return <Loader />;
 
@@ -46,17 +59,25 @@ export const Hero = () => {
         >
           <Sparkle className="size-4 text-orange-500 fill-orange-500" />
           <span className="text-xs font-semibold text-orange-700 tracking-wide">
-            The smarter way to manage PG living
+            {
+              role == 'owner' ? "The smarter way to manage PG living" : "A simpler way to enjoy PG living"
+            }
           </span>
         </motion.div>
 
         <motion.h1 variants={itemVariants} className='text-5xl md:text-6xl font-bold text-slate-900 leading-[1.15] tracking-tight'>
-          Manage your PG <br />
-          <span className='text-orange-500'>without the stress.</span>
+         {
+          role == "owner" ? "Manage your PG": "Simplify your PG stay"
+         } <br />
+          <span className='text-orange-500'> {
+          role == "owner" ? "without the stress": "with total peace of mind."
+         }</span>
         </motion.h1>
 
         <motion.p variants={itemVariants} className='mt-6 text-lg text-slate-600 leading-relaxed max-w-lg'>
-          Whether you're an owner looking to automate rent or a tenant seeking a seamless stay, we bring harmony to your living experience.
+          {
+            role == 'owner' ? 'Automate rent collection, track occupancy, and manage tenants from one powerful dashboard—built to simplify PG ownership.':"Pay rent online, raise maintenance requests, and discover nearby services—all from one seamless platform."
+         }
         </motion.p>
 
         <motion.div variants={itemVariants} className='flex flex-col gap-4 mt-8'>
@@ -64,22 +85,32 @@ export const Hero = () => {
             <div className='bg-emerald-100 p-1 rounded-full'>
               <CheckCircle2 className='size-4 text-emerald-600' />
             </div>
-            <span className='text-sm font-medium text-slate-700'>Instant rent receipts & reminders</span>
+            <span className='text-sm font-medium text-slate-700'>
+            {
+              role == "owner" ? "Instant rent receipts & automated reminders" : "Online rent payments & instant receipts"
+            }
+            </span>
           </div>
           <div className='flex items-center gap-3'>
             <div className='bg-emerald-100 p-1 rounded-full'>
               <CheckCircle2 className='size-4 text-emerald-600' />
             </div>
-            <span className='text-sm font-medium text-slate-700'>One-click maintenance requests</span>
+            <span className='text-sm font-medium text-slate-700'>
+              {
+                role == "owner" ? " Centralized tenant & vacancy management" : "One-click maintenance & support requests"
+              }
+             
+            </span>
           </div>
         </motion.div>
 
         <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-5 mt-10">
+          <Link to={role == "owner" ? '/postproperty' : '/findpg'}>
           <button className="px-8 py-4 bg-orange-500 text-white text-base font-bold rounded-2xl hover:bg-orange-600 transition-all shadow-lg shadow-orange-200 flex items-center gap-2 group active:scale-95">
             Start Your Journey
             <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
           </button>
-
+          </Link>
           <button className="px-8 py-4 bg-white text-slate-700 text-base font-bold rounded-2xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all flex items-center gap-3 active:scale-95">
             <div className='size-7 rounded-full bg-slate-100 flex items-center justify-center'>
               <Play className="size-3 text-slate-600 fill-slate-600" />
@@ -98,7 +129,7 @@ export const Hero = () => {
       >
         <div className='relative z-10 rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)]'>
           <img
-            src="assets/brandon-griggs-wR11KBaB86U-unsplash.jpg"
+            src={`${role == 'owner' ? 'src/assets/owner.png' : 'src/assets/tenent.png'}`}
             className='w-full aspect-square object-cover transition-transform duration-700 hover:scale-105'
             alt="Comfortable PG Room"
           />
