@@ -1,4 +1,4 @@
-import { Bed, Wifi, Feather, Shirt, Bath, Utensils, Shield, Heart, Home, MapPin, CheckCircle, Phone } from "lucide-react"
+import { Bed, Wifi, Feather, Shirt, Bath, Utensils, Shield, Heart, Home, MapPin, CheckCircle, Phone, Dumbbell, Snowflake, Power, PowerCircle, ZapIcon } from "lucide-react"
 import { BookingButton } from "./views/booking-form";
 import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
@@ -153,7 +153,7 @@ export const IndividualPg = () => {
                                         </div>
                                         <div className="text-right mt-4 md:mt-0">
                                             <p className="text-2xl font-black text-slate-900">₹{plan.price}</p>
-                                            <button className="text-orange-600 font-bold hover:underline transition">Select Plan</button>
+                                            {/* <button className="text-orange-600 font-bold hover:underline transition">Select Plan</button> */}
                                         </div>
                                     </motion.div>
                                 ))}
@@ -169,10 +169,11 @@ export const IndividualPg = () => {
                                     let IconComponent = Wifi;
                                     if (['food', 'mess', 'dining'].some(k => item.toLowerCase().includes(k))) IconComponent = Utensils;
                                     else if (['laundry', 'washing'].some(k => item.toLowerCase().includes(k))) IconComponent = Shirt;
-                                    else if (['ac', 'cooling'].some(k => item.toLowerCase().includes(k))) IconComponent = Feather;
+                                    else if (['ac', 'cooling'].some(k => item.toLowerCase().includes(k))) IconComponent = Snowflake;
                                     else if (['security', 'cctv'].some(k => item.toLowerCase().includes(k))) IconComponent = Shield;
                                     else if (['clean', 'bath', 'toilet'].some(k => item.toLowerCase().includes(k))) IconComponent = Bath;
-
+                                    else if(['gym'].some(k => item.toLowerCase().includes(k))) IconComponent = Dumbbell;
+                                    else if(['Power Backup'].some(k => item.toLowerCase().includes(k))) IconComponent = ZapIcon;
                                     return (
                                         <div key={idx} className="flex flex-col items-center text-center gap-3">
                                             <div className="p-4 bg-orange-50 rounded-2xl text-orange-500">
@@ -259,6 +260,7 @@ export const IndividualPg = () => {
 
                     {/* Right Column: Sticky Booking Form */}
                     <div className="lg:col-span-1">
+                        
                         <div className="sticky top-28">
                             <div className="p-6">
                                 <BookingButton handleBooking={handleBooking} />

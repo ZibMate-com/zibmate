@@ -18,10 +18,10 @@ export const usePgForm = () => {
         occupancy: [],
         lookingFor: "Any",
         city: "",
-        facilities: [], // Changed to actual array
+        facilities: [], 
     });
 
-    const [imageFiles, setImageFiles] = useState([]); // Store actual File objects
+    const [imageFiles, setImageFiles] = useState([]); 
     const [imagePreviews, setImagePreviews] = useState([]);
 
     const handleChange = (e) => {
@@ -89,7 +89,6 @@ export const usePgForm = () => {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`
-                    // checking if Content-Type needs to be omitted for FormData, yes it does.
                 },
                 body: data
             });

@@ -1,16 +1,17 @@
 import { LogOut, MapPin, Phone, User, Users, Home, ClipboardList, BookCheck, Settings, ShieldAlert, KeyRound, Camera } from "lucide-react";
 import { useContext, useEffect, useState, useMemo } from "react";
-import { Listedproperties } from "./views/properties";
-import { UserRequests } from "./views/requests";
+import { Listedproperties } from "./view/properties";
+import { UserRequests } from "./view/requests";
 import { NullData } from "../../../components/view/null-data";
 import Mycontext from "../../../context/mycontext";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { Loader } from "../../../components/view/loader";
 
-export const AdminDashboard = () => {
+export const OwnerProfile = () => {
     const user = JSON.parse(localStorage.getItem("users")) || {};
     const [viewTab, setviewtab] = useState("Properties");
-    const { setisLoggedIn } = useContext(Mycontext);
+    const { setisLoggedIn, loading } = useContext(Mycontext);
     const navigate = useNavigate();
 
     const handlelogout = () => {
@@ -34,7 +35,8 @@ export const AdminDashboard = () => {
             default: return <NullData viewTab={viewTab} />;
         }
     }, [viewTab]);
-
+    
+    if (loading) return <Loader/>
     return (
         <section className="min-h-screen bg-[#fcfcfd] p-4 lg:p-10">
             <div className="max-w-[1600px] mx-auto">

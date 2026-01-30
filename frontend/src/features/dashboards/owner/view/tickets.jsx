@@ -10,7 +10,7 @@ import { FilterTab } from '../components/filterTab';
 const TicketManagementSection = () => {
     const [filter, setFilter] = useState('open');
     const [tickets, setTickets] = useState([]);
-
+    const [loading , setLoading] = useState(true)
     useEffect(() => {
         const fetchTickets = async () => {
             try {
@@ -37,7 +37,9 @@ const TicketManagementSection = () => {
                     status: t.status
                 }));
                 setTickets(mappedTickets);
+                setLoading(false);
             } catch (error) {
+                setLoading(false);
                 console.error("Failed to fetch tickets", error);
             }
         };
@@ -47,6 +49,7 @@ const TicketManagementSection = () => {
     // Filter tickets logic needs to be updated to use the tickets state
     const filteredTickets = tickets.filter(t => filter === 'open' ? t.status !== 'closed' && t.status !== 'resolved' : t.status === filter);
 
+    if(loading) return <div className="p-10 text-center">Loading your tickets...</div>
 
     return (
         <div className="w-full mx-auto p-4 lg:p-0">

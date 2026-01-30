@@ -35,6 +35,7 @@ const useLogin = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    
     const handleLogin = async () => {
         if (!validate()) {
             return;
@@ -50,10 +51,12 @@ const useLogin = () => {
                 setUser(user);
                 if (user.role === "owner") {
                     navigate("/owner-dashboard");
-                } else {
+                }else if(user.role === "admin") navigate("/admin-dashboard")
+                else {
                     navigate("/findpg");
                 }
             }
+            
         } catch (error) {
             setloading(false);
             setisLoggedIn(false);

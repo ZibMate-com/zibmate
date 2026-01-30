@@ -11,15 +11,13 @@ export const Hero = () => {
   const [role, setrole] = useState('tenent');
   const user_role = localStorage.getItem('user-role');
   const users = JSON.parse(localStorage.getItem('users'));
-  console.log(users);
+ 
 
   useEffect(() => {
     if (users) {
       setrole(users.role)
     } else setrole(user_role);
   }, [])
-
-
 
   if (loading) return <Loader />;
 
