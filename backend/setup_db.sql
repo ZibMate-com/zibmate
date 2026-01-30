@@ -93,3 +93,16 @@ CREATE TABLE IF NOT EXISTS app_content (
     display_order INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS tenent_call_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT, 
+    pg_id INT,
+    full_name VARCHAR(255),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   FOREIGN KEY (pg_id) REFERENCES pg_data(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+)

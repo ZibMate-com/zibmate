@@ -12,7 +12,7 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import ticketRoutes from './routes/ticketRoutes.js';
 import contentRoutes from './routes/contentRoutes.js';
-
+import requestRoutes from './routes/requestRoutes.js'
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -41,6 +41,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/content', contentRoutes);
+app.use('/api/requests',requestRoutes);
 
 app.get('/', (req, res) => {
     res.send('ZibMate Backend is running...');

@@ -12,7 +12,7 @@ export const createTenentRequest = async (req, res) => {
             'INSERT INTO tenent_call_requests ( user_id , pg_id , full_name , email , phone ) VALUES( ? , ? , ? , ? , ? )', [userId, pg_id, full_name, email, phone]
         );
 
-        res.status(201).json({ message: 'Call Request raised successfully', ticketId: results.insertId });
+        res.status(201).json({ message: 'Call Request raised successfully', requestID : results.insertId });
 
     } catch (error) {
         console.error(error);
@@ -28,8 +28,6 @@ export const getTenentRequest = async (req, res) => {
        JOIN pg_data p ON r.pg_id = p.id
        ORDER BY r.created_at DESC`
         )
-        console.log(requests);
-        
         res.status(200).json(requests);
     } catch (error) {
         console.log(error);
