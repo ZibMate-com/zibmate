@@ -1,7 +1,4 @@
 
-
-const BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth`;
-
 // Basic fetch wrapper to handle errors
 const fetchRequest = async (url, options) => {
   const response = await fetch(url, {
@@ -31,7 +28,7 @@ export const loginUser = async ({ email, password }) => {
 
 export const googleLoginUser = async (socialData) => {
   try {
-    return await fetchRequest(`${BASE_URL}/google`, {
+    return await fetchRequest(`/google`, {
       method: 'POST',
       body: JSON.stringify(socialData)
     });

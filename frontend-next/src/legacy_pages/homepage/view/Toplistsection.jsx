@@ -13,7 +13,7 @@ export const Toplistsection = () => {
     const fetchTopPgs = async () => {
       try {
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-        const response = await fetch(`${baseUrl}/api/pg/top`, {
+        const response = await fetch(`/api/pg/top`, {
           headers: { 'Content-Type': 'application/json' }
         });
         if (!response.ok) throw new Error('Failed to fetch top PGs');

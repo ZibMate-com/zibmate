@@ -15,8 +15,7 @@ export const PlatformFeatures = () => {
     useEffect(() => {
         const fetchFeatures = async () => {
             try {
-                const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-                const response = await fetch(`${baseUrl}/api/content/features`, {
+                const response = await fetch(`/api/content/features`, {
                     headers: { 'Content-Type': 'application/json' }
                 });
                 if (!response.ok) throw new Error('Failed to fetch features');

@@ -39,8 +39,8 @@ export const NavBar = () => {
                 // Assuming existing .env is used, we need to prefix with NEXT_PUBLIC_ for client side.
                 // I will use a fallback or placeholder for now. 
                 // IMPORTANT: The user needs to rename VITE_BACKEND_URL to NEXT_PUBLIC_BACKEND_URL in .env
-                const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
-                const response = await fetch(`${backendUrl}/api/content/navbar_main`);
+                // const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+                const response = await fetch(`/api/content/navbar_main`);
                 if (response.ok) {
                     const data = await response.json();
                     setNavLinks(data.map(item => ({ name: item.title, path: item.path || item.content })));
