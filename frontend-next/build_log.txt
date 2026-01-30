@@ -1,0 +1,1382 @@
+
+> frontend-next@0.1.0 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 61 errors:
+./src/context/mycontext.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { createContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mconst[39m [33mMycontext[39m [33m=[39m createContext()[33m;[39m
+ [90m 4 |[39m  [36mexport[39m [36mdefault[39m [33mMycontext[39m[33m;[39m[0m
+
+You're importing a component that needs `createContext`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import traces:
+  Server Component:
+    ./src/context/mycontext.jsx
+    ./src/features/dashboards/user/userDashboard.jsx
+    ./src/app/profile/user/page.tsx
+
+  Client Component Browser:
+    ./src/context/mycontext.jsx [Client Component Browser]
+    ./src/context/mystate.jsx [Client Component Browser]
+    ./src/components/providers.tsx [Client Component Browser]
+    ./src/components/providers.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/context/mycontext.jsx [Client Component SSR]
+    ./src/context/mystate.jsx [Client Component SSR]
+    ./src/components/providers.tsx [Client Component SSR]
+    ./src/components/providers.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+
+./src/features/auth/login/viewmodels/uselogin.jsx:3:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m 2 |[39m [36mimport[39m { userLoginFunction[33m,[39m googleLoginUser } [36mfrom[39m [32m"../repository/login"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m
+ [90m 5 |[39m [36mimport[39m { [33mAuth[39m[33m,[39m provider } [36mfrom[39m [32m"../../../firebase/firebaseconfig"[39m[33m;[39m
+ [90m 6 |[39m [36mimport[39m { signInWithPopup } [36mfrom[39m [32m"firebase/auth"[39m[33m;[39m[0m
+
+You're importing a component that needs `useRouter`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/auth/login/viewmodels/uselogin.jsx
+    ./src/features/auth/login/login.jsx
+    ./src/app/login/page.tsx
+
+
+./src/features/auth/login/viewmodels/uselogin.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { userLoginFunction[33m,[39m googleLoginUser } [36mfrom[39m [32m"../repository/login"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/auth/login/viewmodels/uselogin.jsx
+    ./src/features/auth/login/login.jsx
+    ./src/app/login/page.tsx
+
+
+./src/features/auth/signup/viewmodels/useSignup.jsx:3:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m 2 |[39m [36mimport[39m { userSignupFunction } [36mfrom[39m [32m"../repository/signupFuncion"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m
+ [90m 5 |[39m
+ [90m 6 |[39m [36mexport[39m [36mconst[39m useSignup [33m=[39m () [33m=>[39m {[0m
+
+You're importing a component that needs `useRouter`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/auth/signup/viewmodels/useSignup.jsx
+    ./src/features/auth/signup/signup.jsx
+    ./src/app/signup/page.tsx
+
+
+./src/features/auth/signup/viewmodels/useSignup.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { userSignupFunction } [36mfrom[39m [32m"../repository/signupFuncion"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/auth/signup/viewmodels/useSignup.jsx
+    ./src/features/auth/signup/signup.jsx
+    ./src/app/signup/page.tsx
+
+
+./src/features/bookings/bookingpage.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useEffect[33m,[39m useState } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { motion[33m,[39m [33mAnimatePresence[39m } [36mfrom[39m [32m'framer-motion'[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m     [33mCalendar[39m[33m,[39m [33mShieldCheck[39m[33m,[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/bookings/bookingpage.jsx
+    ./src/app/booking/page.tsx
+
+
+./src/features/bookings/bookingpage.jsx:10:10
+Ecmascript file had an error
+[0m [90m  8 |[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m
+ [90m  9 |[39m [36mimport[39m [33mLink[39m [36mfrom[39m [32m"next/link"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 10 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m    |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 11 |[39m
+ [90m 12 |[39m
+ [90m 13 |[39m[0m
+
+You're importing a component that needs `useRouter`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/bookings/bookingpage.jsx
+    ./src/app/booking/page.tsx
+
+
+./src/features/bookings/bookingpage.jsx:1:28
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useEffect[33m,[39m useState } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                            [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { motion[33m,[39m [33mAnimatePresence[39m } [36mfrom[39m [32m'framer-motion'[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m     [33mCalendar[39m[33m,[39m [33mShieldCheck[39m[33m,[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/bookings/bookingpage.jsx
+    ./src/app/booking/page.tsx
+
+
+./src/features/dashboards/admin/adminDashboard.jsx:2:22
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { [33mLogOut[39m[33m,[39m [33mMapPin[39m[33m,[39m [33mPhone[39m[33m,[39m [33mUser[39m[33m,[39m [33mUsers[39m[33m,[39m [33mHome[39m[33m,[39m [33mClipboardList[39m[33m,[39m [33mBookCheck[39m[33m,[39m [33mSettings[39m[33m,[39m [33mShieldAlert[39m[33m,[39m [33mKeyRound[39m[33m,[39m [33mCamera[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { useContext[33m,[39m useEffect[33m,[39m useState[33m,[39m useMemo } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                      [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 3 |[39m [36mimport[39m { [33mListedproperties[39m } [36mfrom[39m [32m"./views/properties"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m { [33mUserRequests[39m } [36mfrom[39m [32m"./views/requests"[39m[33m;[39m
+ [90m 5 |[39m [36mimport[39m { [33mNullData[39m } [36mfrom[39m [32m"../../../components/view/null-data"[39m[33m;[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/admin/adminDashboard.jsx
+    ./src/app/profile/owner/page.tsx
+
+
+./src/features/dashboards/admin/adminDashboard.jsx:7:10
+Ecmascript file had an error
+[0m [90m  5 |[39m [36mimport[39m { [33mNullData[39m } [36mfrom[39m [32m"../../../components/view/null-data"[39m[33m;[39m
+ [90m  6 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../context/mycontext"[39m[33m;[39m
+[31m[1m>[22m[39m[90m  7 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m    |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m  8 |[39m [36mimport[39m { motion[33m,[39m [33mAnimatePresence[39m } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m
+ [90m  9 |[39m
+ [90m 10 |[39m [36mexport[39m [36mconst[39m [33mAdminDashboard[39m [33m=[39m () [33m=>[39m {[0m
+
+You're importing a component that needs `useRouter`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/admin/adminDashboard.jsx
+    ./src/app/profile/owner/page.tsx
+
+
+./src/features/dashboards/admin/adminDashboard.jsx:2:33
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { [33mLogOut[39m[33m,[39m [33mMapPin[39m[33m,[39m [33mPhone[39m[33m,[39m [33mUser[39m[33m,[39m [33mUsers[39m[33m,[39m [33mHome[39m[33m,[39m [33mClipboardList[39m[33m,[39m [33mBookCheck[39m[33m,[39m [33mSettings[39m[33m,[39m [33mShieldAlert[39m[33m,[39m [33mKeyRound[39m[33m,[39m [33mCamera[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { useContext[33m,[39m useEffect[33m,[39m useState[33m,[39m useMemo } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 3 |[39m [36mimport[39m { [33mListedproperties[39m } [36mfrom[39m [32m"./views/properties"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m { [33mUserRequests[39m } [36mfrom[39m [32m"./views/requests"[39m[33m;[39m
+ [90m 5 |[39m [36mimport[39m { [33mNullData[39m } [36mfrom[39m [32m"../../../components/view/null-data"[39m[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/admin/adminDashboard.jsx
+    ./src/app/profile/owner/page.tsx
+
+
+./src/features/dashboards/admin/views/properties.jsx:1:20
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { [33mUsers[39m[33m,[39m [33mMapPin[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mexport[39m [36mconst[39m [33mListedproperties[39m [33m=[39m () [33m=>[39m {[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/admin/views/properties.jsx
+    ./src/features/dashboards/admin/adminDashboard.jsx
+    ./src/app/profile/owner/page.tsx
+
+
+./src/features/dashboards/admin/views/properties.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { [33mUsers[39m[33m,[39m [33mMapPin[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+ [90m 3 |[39m
+ [90m 4 |[39m [36mexport[39m [36mconst[39m [33mListedproperties[39m [33m=[39m () [33m=>[39m {[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/admin/views/properties.jsx
+    ./src/features/dashboards/admin/adminDashboard.jsx
+    ./src/app/profile/owner/page.tsx
+
+
+./src/features/dashboards/admin/views/requests.jsx:1:20
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { [33mUser[39m[33m,[39m [33mPhone[39m[33m,[39m [33mCheck[39m[33m,[39m [33mX[39m[33m,[39m [33mClock[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/admin/views/requests.jsx
+    ./src/features/dashboards/admin/adminDashboard.jsx
+    ./src/app/profile/owner/page.tsx
+
+
+./src/features/dashboards/admin/views/requests.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { [33mUser[39m[33m,[39m [33mPhone[39m[33m,[39m [33mCheck[39m[33m,[39m [33mX[39m[33m,[39m [33mClock[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/admin/views/requests.jsx
+    ./src/features/dashboards/admin/adminDashboard.jsx
+    ./src/app/profile/owner/page.tsx
+
+
+./src/features/dashboards/owner/pg-owner-dashboard.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { [33mSideBar[39m } [36mfrom[39m [32m'./view/side-bar'[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m { [33mOverview[39m } [36mfrom[39m [32m'./view/overview'[39m[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/owner/pg-owner-dashboard.jsx
+    ./src/app/owner-dashboard/page.tsx
+
+
+./src/features/dashboards/owner/view/add-tenet.jsx:7:10
+Ecmascript file had an error
+[0m [90m  5 |[39m   [33mChevronRight[39m[33m,[39m [33mSparkles[39m 
+ [90m  6 |[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m
+[31m[1m>[22m[39m[90m  7 |[39m [36mimport[39m { useState } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m    |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m  8 |[39m
+ [90m  9 |[39m [36mexport[39m [36mconst[39m [33mAddTenantModal[39m [33m=[39m ({ isOpen[33m,[39m onClose[33m,[39m onAdd }) [33m=>[39m {
+ [90m 10 |[39m   [36mconst[39m [formData[33m,[39m setFormData] [33m=[39m useState({[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/owner/view/add-tenet.jsx
+    ./src/features/dashboards/owner/view/overview.jsx
+    ./src/features/dashboards/owner/pg-owner-dashboard.jsx
+    ./src/app/owner-dashboard/page.tsx
+
+
+./src/features/dashboards/owner/view/overview.jsx:1:27
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                           [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m   [33mUsers[39m[33m,[39m [33mHome[39m[33m,[39m [33mReceipt[39m[33m,[39m [33mWrench[39m[33m,[39m [33mSearch[39m[33m,[39m [33mPlus[39m[33m,[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/owner/view/overview.jsx
+    ./src/features/dashboards/owner/pg-owner-dashboard.jsx
+    ./src/app/owner-dashboard/page.tsx
+
+
+./src/features/dashboards/owner/view/overview.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m   [33mUsers[39m[33m,[39m [33mHome[39m[33m,[39m [33mReceipt[39m[33m,[39m [33mWrench[39m[33m,[39m [33mSearch[39m[33m,[39m [33mPlus[39m[33m,[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/owner/view/overview.jsx
+    ./src/features/dashboards/owner/pg-owner-dashboard.jsx
+    ./src/app/owner-dashboard/page.tsx
+
+
+./src/features/dashboards/owner/view/room-layout.jsx:1:27
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                           [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m   [33mHome[39m[33m,[39m [33mUsers[39m[33m,[39m [33mInfo[39m[33m,[39m [33mWrench[39m[33m,[39m [33mCheckCircle2[39m[33m,[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/owner/view/room-layout.jsx
+    ./src/features/dashboards/owner/pg-owner-dashboard.jsx
+    ./src/app/owner-dashboard/page.tsx
+
+
+./src/features/dashboards/owner/view/room-layout.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m   [33mHome[39m[33m,[39m [33mUsers[39m[33m,[39m [33mInfo[39m[33m,[39m [33mWrench[39m[33m,[39m [33mCheckCircle2[39m[33m,[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/owner/view/room-layout.jsx
+    ./src/features/dashboards/owner/pg-owner-dashboard.jsx
+    ./src/app/owner-dashboard/page.tsx
+
+
+./src/features/dashboards/owner/view/tickets.jsx:1:27
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState [33m,[39museEffect} [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                           [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m {
+ [90m 3 |[39m     [33mMessageSquare[39m[33m,[39m [33mClock[39m[33m,[39m [33mCheckCircle[39m[33m,[39m [33mChevronRight[39m[33m,[39m
+ [90m 4 |[39m     [33mFilter[39m[33m,[39m [33mSearch[39m[33m,[39m [33mAlertCircle[39m[33m,[39m [33mWrench[39m[33m,[39m [33mUser[39m[33m,[39m [33mPhone[39m[33m,[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/owner/view/tickets.jsx
+    ./src/features/dashboards/owner/pg-owner-dashboard.jsx
+    ./src/app/owner-dashboard/page.tsx
+
+
+./src/features/dashboards/owner/view/tickets.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState [33m,[39museEffect} [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m {
+ [90m 3 |[39m     [33mMessageSquare[39m[33m,[39m [33mClock[39m[33m,[39m [33mCheckCircle[39m[33m,[39m [33mChevronRight[39m[33m,[39m
+ [90m 4 |[39m     [33mFilter[39m[33m,[39m [33mSearch[39m[33m,[39m [33mAlertCircle[39m[33m,[39m [33mWrench[39m[33m,[39m [33mUser[39m[33m,[39m [33mPhone[39m[33m,[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/owner/view/tickets.jsx
+    ./src/features/dashboards/owner/pg-owner-dashboard.jsx
+    ./src/app/owner-dashboard/page.tsx
+
+
+./src/features/dashboards/tenant/pg-dasboard.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m {
+ [90m 3 |[39m   [33mHome[39m[33m,[39m [33mFileText[39m[33m,[39m [33mCreditCard[39m[33m,[39m [33mCalendarCheck[39m[33m,[39m [33mAlertCircle[39m[33m,[39m
+ [90m 4 |[39m   [33mMapPin[39m[33m,[39m [33mPhone[39m[33m,[39m [33mMail[39m[33m,[39m [33mDownload[39m[33m,[39m [33mUser[39m[33m,[39m [33mLogOut[39m[33m,[39m [33mReceipt[39m[33m,[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/tenant/pg-dasboard.jsx
+    ./src/app/tenent-dashboard/page.tsx
+
+
+./src/features/dashboards/tenant/views/dashboard.jsx:1:27
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect[33m,[39m useContext } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                           [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { motion[33m,[39m [33mAnimatePresence[39m } [36mfrom[39m [32m'framer-motion'[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m {[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/tenant/views/dashboard.jsx
+    ./src/features/dashboards/tenant/pg-dasboard.jsx
+    ./src/app/tenent-dashboard/page.tsx
+
+
+./src/features/dashboards/tenant/views/dashboard.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useEffect[33m,[39m useContext } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { motion[33m,[39m [33mAnimatePresence[39m } [36mfrom[39m [32m'framer-motion'[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m {[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/tenant/views/dashboard.jsx
+    ./src/features/dashboards/tenant/pg-dasboard.jsx
+    ./src/app/tenent-dashboard/page.tsx
+
+
+./src/features/dashboards/tenant/views/payments-rents.jsx:1:20
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m   [33mCreditCard[39m[33m,[39m [33mArrowUpRight[39m[33m,[39m [33mArrowDownRight[39m[33m,[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/tenant/views/payments-rents.jsx
+    ./src/features/dashboards/tenant/pg-dasboard.jsx
+    ./src/app/tenent-dashboard/page.tsx
+
+
+./src/features/dashboards/tenant/views/payments-rents.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m   [33mCreditCard[39m[33m,[39m [33mArrowUpRight[39m[33m,[39m [33mArrowDownRight[39m[33m,[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/tenant/views/payments-rents.jsx
+    ./src/features/dashboards/tenant/pg-dasboard.jsx
+    ./src/app/tenent-dashboard/page.tsx
+
+
+./src/features/dashboards/tenant/views/ticket.jsx:1:39
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useContext[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                                       [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m   [33mWrench[39m[33m,[39m [33mZap[39m[33m,[39m [33mDroplets[39m[33m,[39m [33mShieldAlert[39m[33m,[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/tenant/views/ticket.jsx
+    ./src/features/dashboards/tenant/pg-dasboard.jsx
+    ./src/app/tenent-dashboard/page.tsx
+
+
+./src/features/dashboards/tenant/views/ticket.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useContext[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m {
+ [90m 4 |[39m   [33mWrench[39m[33m,[39m [33mZap[39m[33m,[39m [33mDroplets[39m[33m,[39m [33mShieldAlert[39m[33m,[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/tenant/views/ticket.jsx
+    ./src/features/dashboards/tenant/pg-dasboard.jsx
+    ./src/app/tenent-dashboard/page.tsx
+
+
+./src/features/dashboards/user/userDashboard.jsx:2:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { [33mLogOut[39m[33m,[39m [33mUser[39m[33m,[39m [33mMail[39m[33m,[39m [33mPhone[39m[33m,[39m [33mShieldCheck[39m[33m,[39m [33mHeart[39m[33m,[39m [33mSend[39m[33m,[39m [33mBookOpen[39m[33m,[39m [33mEdit3[39m[33m,[39m [33mLock[39m[33m,[39m [33mTrash2[39m[33m,[39m [33mCamera[39m } [36mfrom[39m [32m"lucide-react"[39m
+[31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { useEffect[33m,[39m useState[33m,[39m useContext[33m,[39m useMemo } [36mfrom[39m [32m"react"[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 3 |[39m [36mimport[39m { [33mSavedProperties[39m } [36mfrom[39m [32m"./view/properties"[39m
+ [90m 4 |[39m [36mimport[39m { [33mSentRequests[39m } [36mfrom[39m [32m"./view/requests"[39m
+ [90m 5 |[39m [36mimport[39m { [33mNullData[39m } [36mfrom[39m [32m"../../../components/view/null-data"[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/user/userDashboard.jsx
+    ./src/app/profile/user/page.tsx
+
+
+./src/features/dashboards/user/userDashboard.jsx:7:10
+Ecmascript file had an error
+[0m [90m  5 |[39m [36mimport[39m { [33mNullData[39m } [36mfrom[39m [32m"../../../components/view/null-data"[39m
+ [90m  6 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../context/mycontext"[39m
+[31m[1m>[22m[39m[90m  7 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m
+ [90m    |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m  8 |[39m [36mimport[39m { motion[33m,[39m [33mAnimatePresence[39m } [36mfrom[39m [32m"framer-motion"[39m
+ [90m  9 |[39m
+ [90m 10 |[39m [36mexport[39m [36mconst[39m [33mUserDashBoard[39m [33m=[39m () [33m=>[39m {[0m
+
+You're importing a component that needs `useRouter`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/user/userDashboard.jsx
+    ./src/app/profile/user/page.tsx
+
+
+./src/features/dashboards/user/userDashboard.jsx:2:21
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { [33mLogOut[39m[33m,[39m [33mUser[39m[33m,[39m [33mMail[39m[33m,[39m [33mPhone[39m[33m,[39m [33mShieldCheck[39m[33m,[39m [33mHeart[39m[33m,[39m [33mSend[39m[33m,[39m [33mBookOpen[39m[33m,[39m [33mEdit3[39m[33m,[39m [33mLock[39m[33m,[39m [33mTrash2[39m[33m,[39m [33mCamera[39m } [36mfrom[39m [32m"lucide-react"[39m
+[31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { useEffect[33m,[39m useState[33m,[39m useContext[33m,[39m useMemo } [36mfrom[39m [32m"react"[39m
+ [90m   |[39m                     [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 3 |[39m [36mimport[39m { [33mSavedProperties[39m } [36mfrom[39m [32m"./view/properties"[39m
+ [90m 4 |[39m [36mimport[39m { [33mSentRequests[39m } [36mfrom[39m [32m"./view/requests"[39m
+ [90m 5 |[39m [36mimport[39m { [33mNullData[39m } [36mfrom[39m [32m"../../../components/view/null-data"[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/user/userDashboard.jsx
+    ./src/app/profile/user/page.tsx
+
+
+./src/features/dashboards/user/view/properties.jsx:1:20
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { [33mUsers[39m[33m,[39m [33mMapPin[39m } [36mfrom[39m [32m"lucide-react"[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/user/view/properties.jsx
+    ./src/features/dashboards/user/userDashboard.jsx
+    ./src/app/profile/user/page.tsx
+
+
+./src/features/dashboards/user/view/properties.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { [33mUsers[39m[33m,[39m [33mMapPin[39m } [36mfrom[39m [32m"lucide-react"[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/user/view/properties.jsx
+    ./src/features/dashboards/user/userDashboard.jsx
+    ./src/app/profile/user/page.tsx
+
+
+./src/features/dashboards/user/view/requests.jsx:1:20
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { [33mUser[39m[33m,[39m [33mPhone[39m[33m,[39m [33mClock[39m[33m,[39m [33mShieldCheck[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/user/view/requests.jsx
+    ./src/features/dashboards/user/userDashboard.jsx
+    ./src/app/profile/user/page.tsx
+
+
+./src/features/dashboards/user/view/requests.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { [33mUser[39m[33m,[39m [33mPhone[39m[33m,[39m [33mClock[39m[33m,[39m [33mShieldCheck[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/dashboards/user/view/requests.jsx
+    ./src/features/dashboards/user/userDashboard.jsx
+    ./src/app/profile/user/page.tsx
+
+
+./src/features/properties/create/view/property-detail-form.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useRef } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { usePgForm } [36mfrom[39m [32m"../viewmodels/usepgForm"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { motion } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m {[0m
+
+You're importing a component that needs `useRef`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/create/view/property-detail-form.jsx
+    ./src/features/properties/create/postPropertyForm.jsx
+    ./src/app/postproperty/page.tsx
+
+
+./src/features/properties/create/viewmodels/usepgForm.jsx:3:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { useState[33m,[39m useContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m 2 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m [36mexport[39m [36mconst[39m usePgForm [33m=[39m () [33m=>[39m {
+ [90m 6 |[39m     [36mconst[39m { setloading } [33m=[39m useContext([33mMycontext[39m)[33m;[39m[0m
+
+You're importing a component that needs `useRouter`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/create/viewmodels/usepgForm.jsx
+    ./src/features/properties/create/view/property-detail-form.jsx
+    ./src/features/properties/create/postPropertyForm.jsx
+    ./src/app/postproperty/page.tsx
+
+
+./src/features/properties/create/viewmodels/usepgForm.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/create/viewmodels/usepgForm.jsx
+    ./src/features/properties/create/view/property-detail-form.jsx
+    ./src/features/properties/create/postPropertyForm.jsx
+    ./src/app/postproperty/page.tsx
+
+
+./src/features/properties/details/individual-pg.jsx:4:20
+Ecmascript file had an error
+[0m [90m 2 |[39m [36mimport[39m { [33mBookingButton[39m } [36mfrom[39m [32m"./views/booking-form"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { useParams } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m { useState[33m,[39m useEffect[33m,[39m useContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 5 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../context/mycontext"[39m[33m;[39m
+ [90m 6 |[39m [36mimport[39m { [33mLoader[39m } [36mfrom[39m [32m"../../../components/view/loader"[39m[33m;[39m
+ [90m 7 |[39m [36mimport[39m { motion } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/details/individual-pg.jsx
+    ./src/app/findpg/[id]/page.tsx
+
+
+./src/features/properties/details/individual-pg.jsx:3:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { [33mBed[39m[33m,[39m [33mWifi[39m[33m,[39m [33mFeather[39m[33m,[39m [33mShirt[39m[33m,[39m [33mBath[39m[33m,[39m [33mUtensils[39m[33m,[39m [33mShield[39m[33m,[39m [33mHeart[39m[33m,[39m [33mHome[39m[33m,[39m [33mMapPin[39m[33m,[39m [33mCheckCircle[39m[33m,[39m [33mPhone[39m } [36mfrom[39m [32m"lucide-react"[39m
+ [90m 2 |[39m [36mimport[39m { [33mBookingButton[39m } [36mfrom[39m [32m"./views/booking-form"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { useParams } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 4 |[39m [36mimport[39m { useState[33m,[39m useEffect[33m,[39m useContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m 5 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../context/mycontext"[39m[33m;[39m
+ [90m 6 |[39m [36mimport[39m { [33mLoader[39m } [36mfrom[39m [32m"../../../components/view/loader"[39m[33m;[39m[0m
+
+You're importing a component that needs `useParams`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/details/individual-pg.jsx
+    ./src/app/findpg/[id]/page.tsx
+
+
+./src/features/properties/details/individual-pg.jsx:4:10
+Ecmascript file had an error
+[0m [90m 2 |[39m [36mimport[39m { [33mBookingButton[39m } [36mfrom[39m [32m"./views/booking-form"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { useParams } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m { useState[33m,[39m useEffect[33m,[39m useContext } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 5 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../context/mycontext"[39m[33m;[39m
+ [90m 6 |[39m [36mimport[39m { [33mLoader[39m } [36mfrom[39m [32m"../../../components/view/loader"[39m[33m;[39m
+ [90m 7 |[39m [36mimport[39m { motion } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/details/individual-pg.jsx
+    ./src/app/findpg/[id]/page.tsx
+
+
+./src/features/properties/details/views/callback.jsx:3:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { motion[33m,[39m [33mAnimatePresence[39m } [36mfrom[39m [32m'framer-motion'[39m[33m;[39m
+ [90m 2 |[39m [36mimport[39m { [33mX[39m[33m,[39m [33mPhone[39m[33m,[39m [33mUser[39m[33m,[39m [33mMail[39m[33m,[39m [33mSend[39m[33m,[39m [33mCheckCircle[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m
+[31m[1m>[22m[39m[90m 3 |[39m [36mimport[39m { useState } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 4 |[39m
+ [90m 5 |[39m [36mexport[39m [36mconst[39m [33mCallBackModal[39m [33m=[39m ({ isOpen[33m,[39m onClose[33m,[39m pgName }) [33m=>[39m {
+ [90m 6 |[39m   [36mconst[39m [submitted[33m,[39m setSubmitted] [33m=[39m useState([36mfalse[39m)[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/details/views/callback.jsx
+    ./src/features/properties/details/individual-pg.jsx
+    ./src/app/findpg/[id]/page.tsx
+
+
+./src/features/properties/list/view/filterSection.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { [33mFilters[39m } [36mfrom[39m [32m"../models/pglist"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { [33mChevronDown[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/list/view/filterSection.jsx
+    ./src/features/properties/list/pglist.jsx
+    ./src/app/findpg/page.tsx
+
+
+./src/features/properties/list/viewmodels/filterFunction.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useEffect[33m,[39m useState[33m,[39m useContext[33m,[39m useRef } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { getPgData } [36mfrom[39m [32m"../models/pgdata"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/list/viewmodels/filterFunction.jsx
+    ./src/features/properties/list/pglist.jsx
+    ./src/app/findpg/page.tsx
+
+
+./src/features/properties/list/viewmodels/filterFunction.jsx:1:43
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useEffect[33m,[39m useState[33m,[39m useContext[33m,[39m useRef } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                                           [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { getPgData } [36mfrom[39m [32m"../models/pgdata"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m[0m
+
+You're importing a component that needs `useRef`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/list/viewmodels/filterFunction.jsx
+    ./src/features/properties/list/pglist.jsx
+    ./src/app/findpg/page.tsx
+
+
+./src/features/properties/list/viewmodels/filterFunction.jsx:2:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { useEffect[33m,[39m useState[33m,[39m useContext[33m,[39m useRef } [36mfrom[39m [32m"react"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 3 |[39m [36mimport[39m { getPgData } [36mfrom[39m [32m"../models/pgdata"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m
+ [90m 5 |[39m [90m// import { pgs } from "../models/pgs";[39m[0m
+
+You're importing a component that needs `useRouter`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/list/viewmodels/filterFunction.jsx
+    ./src/features/properties/list/pglist.jsx
+    ./src/app/findpg/page.tsx
+
+
+./src/features/properties/list/viewmodels/filterFunction.jsx:1:21
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useEffect[33m,[39m useState[33m,[39m useContext[33m,[39m useRef } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                     [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { useRouter } [36mfrom[39m [32m"next/navigation"[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { getPgData } [36mfrom[39m [32m"../models/pgdata"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m"../../../../context/mycontext"[39m[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/features/properties/list/viewmodels/filterFunction.jsx
+    ./src/features/properties/list/pglist.jsx
+    ./src/app/findpg/page.tsx
+
+
+./src/legacy_pages/homepage/view/Cartegories.jsx:1:20
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mexport[39m [36mconst[39m [33mCategories[39m [33m=[39m () [33m=>[39m {
+ [90m 4 |[39m   [36mconst[39m [categories[33m,[39m setCategories] [33m=[39m useState([])[33m;[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/Cartegories.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+./src/legacy_pages/homepage/view/Cartegories.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mexport[39m [36mconst[39m [33mCategories[39m [33m=[39m () [33m=>[39m {
+ [90m 4 |[39m   [36mconst[39m [categories[33m,[39m setCategories] [33m=[39m useState([])[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/Cartegories.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+./src/legacy_pages/homepage/view/Toplistsection.jsx:1:20
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m [33mMotionSection[39m [36mfrom[39m [32m"../../../components/view/motionComponents"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m { motion } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/Toplistsection.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+./src/legacy_pages/homepage/view/Toplistsection.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m [33mMotionSection[39m [36mfrom[39m [32m"../../../components/view/motionComponents"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m { motion } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/Toplistsection.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+./src/legacy_pages/homepage/view/brandShowcase.jsx:2:10
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { motion[33m,[39m useMotionValue[33m,[39m useTransform[33m,[39m animate } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { useEffect[33m,[39m useRef } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 3 |[39m [36mimport[39m { [33mUsers[39m[33m,[39m [33mBuilding2[39m[33m,[39m [33mCreditCard[39m[33m,[39m [33mHeadset[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m [90m// Counter Component for that "realistic" animated feel[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/brandShowcase.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+./src/legacy_pages/homepage/view/brandShowcase.jsx:2:21
+Ecmascript file had an error
+[0m [90m 1 |[39m [36mimport[39m { motion[33m,[39m useMotionValue[33m,[39m useTransform[33m,[39m animate } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 2 |[39m [36mimport[39m { useEffect[33m,[39m useRef } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                     [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 3 |[39m [36mimport[39m { [33mUsers[39m[33m,[39m [33mBuilding2[39m[33m,[39m [33mCreditCard[39m[33m,[39m [33mHeadset[39m } [36mfrom[39m [32m"lucide-react"[39m[33m;[39m
+ [90m 4 |[39m
+ [90m 5 |[39m [90m// Counter Component for that "realistic" animated feel[39m[0m
+
+You're importing a component that needs `useRef`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/brandShowcase.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+./src/legacy_pages/homepage/view/contact.jsx:1:39
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useContext[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                                       [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m [33mMotionSection[39m [36mfrom[39m [32m'../../../components/view/motionComponents'[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m'../../../context/mycontext'[39m[33m;[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/contact.jsx
+    ./src/app/help/page.tsx
+
+
+./src/legacy_pages/homepage/view/contact.jsx:1:17
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m [33mReact[39m[33m,[39m { useState[33m,[39m useContext[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                 [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m [33mMotionSection[39m [36mfrom[39m [32m'../../../components/view/motionComponents'[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMycontext[39m [36mfrom[39m [32m'../../../context/mycontext'[39m[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/contact.jsx
+    ./src/app/help/page.tsx
+
+
+./src/legacy_pages/homepage/view/platformFeatures.jsx:1:20
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { motion } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMotionSection[39m [36mfrom[39m [32m"../../../components/view/motionComponents"[39m[33m;[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/platformFeatures.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+./src/legacy_pages/homepage/view/platformFeatures.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m"react"[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m
+ [90m 3 |[39m [36mimport[39m { motion } [36mfrom[39m [32m"framer-motion"[39m[33m;[39m
+ [90m 4 |[39m [36mimport[39m [33mMotionSection[39m [36mfrom[39m [32m"../../../components/view/motionComponents"[39m[33m;[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/platformFeatures.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+./src/legacy_pages/homepage/view/user-role-model.jsx:1:20
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m                    [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { motion[33m,[39m [33mAnimatePresence[39m } [36mfrom[39m [32m'framer-motion'[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { [33mUser[39m[33m,[39m [33mBuilding2[39m[33m,[39m [33mSparkles[39m[33m,[39m [33mCheckCircle2[39m[33m,[39m [33mChevronRight[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/user-role-model.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+./src/legacy_pages/homepage/view/user-role-model.jsx:1:10
+Ecmascript file had an error
+[0m[31m[1m>[22m[39m[90m 1 |[39m [36mimport[39m { useState[33m,[39m useEffect } [36mfrom[39m [32m'react'[39m[33m;[39m
+ [90m   |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 2 |[39m [36mimport[39m { motion[33m,[39m [33mAnimatePresence[39m } [36mfrom[39m [32m'framer-motion'[39m[33m;[39m
+ [90m 3 |[39m [36mimport[39m { [33mUser[39m[33m,[39m [33mBuilding2[39m[33m,[39m [33mSparkles[39m[33m,[39m [33mCheckCircle2[39m[33m,[39m [33mChevronRight[39m } [36mfrom[39m [32m'lucide-react'[39m[33m;[39m
+ [90m 4 |[39m[0m
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./src/legacy_pages/homepage/view/user-role-model.jsx
+    ./src/legacy_pages/homepage/homepage.jsx
+    ./src/app/page.tsx
+
+
+    at <unknown> (./src/context/mycontext.jsx:1:10)
+    at <unknown> (./src/features/auth/login/viewmodels/uselogin.jsx:3:10)
+    at <unknown> (./src/features/auth/login/viewmodels/uselogin.jsx:1:17)
+    at <unknown> (./src/features/auth/signup/viewmodels/useSignup.jsx:3:10)
+    at <unknown> (./src/features/auth/signup/viewmodels/useSignup.jsx:1:17)
+    at <unknown> (./src/features/bookings/bookingpage.jsx:1:17)
+    at <unknown> (./src/features/bookings/bookingpage.jsx:10:10)
+    at <unknown> (./src/features/bookings/bookingpage.jsx:1:28)
+    at <unknown> (./src/features/dashboards/admin/adminDashboard.jsx:2:22)
+    at <unknown> (./src/features/dashboards/admin/adminDashboard.jsx:7:10)
+    at <unknown> (./src/features/dashboards/admin/adminDashboard.jsx:2:33)
+    at <unknown> (./src/features/dashboards/admin/views/properties.jsx:1:20)
+    at <unknown> (./src/features/dashboards/admin/views/properties.jsx:1:10)
+    at <unknown> (./src/features/dashboards/admin/views/requests.jsx:1:20)
+    at <unknown> (./src/features/dashboards/admin/views/requests.jsx:1:10)
+    at <unknown> (./src/features/dashboards/owner/pg-owner-dashboard.jsx:1:17)
+    at <unknown> (./src/features/dashboards/owner/view/add-tenet.jsx:7:10)
+    at <unknown> (./src/features/dashboards/owner/view/overview.jsx:1:27)
+    at <unknown> (./src/features/dashboards/owner/view/overview.jsx:1:17)
+    at <unknown> (./src/features/dashboards/owner/view/room-layout.jsx:1:27)
+    at <unknown> (./src/features/dashboards/owner/view/room-layout.jsx:1:17)
+    at <unknown> (./src/features/dashboards/owner/view/tickets.jsx:1:27)
+    at <unknown> (./src/features/dashboards/owner/view/tickets.jsx:1:17)
+    at <unknown> (./src/features/dashboards/tenant/pg-dasboard.jsx:1:17)
+    at <unknown> (./src/features/dashboards/tenant/views/dashboard.jsx:1:27)
+    at <unknown> (./src/features/dashboards/tenant/views/dashboard.jsx:1:17)
+    at <unknown> (./src/features/dashboards/tenant/views/payments-rents.jsx:1:20)
+    at <unknown> (./src/features/dashboards/tenant/views/payments-rents.jsx:1:10)
+    at <unknown> (./src/features/dashboards/tenant/views/ticket.jsx:1:39)
+    at <unknown> (./src/features/dashboards/tenant/views/ticket.jsx:1:17)
+    at <unknown> (./src/features/dashboards/user/userDashboard.jsx:2:10)
+    at <unknown> (./src/features/dashboards/user/userDashboard.jsx:7:10)
+    at <unknown> (./src/features/dashboards/user/userDashboard.jsx:2:21)
+    at <unknown> (./src/features/dashboards/user/view/properties.jsx:1:20)
+    at <unknown> (./src/features/dashboards/user/view/properties.jsx:1:10)
+    at <unknown> (./src/features/dashboards/user/view/requests.jsx:1:20)
+    at <unknown> (./src/features/dashboards/user/view/requests.jsx:1:10)
+    at <unknown> (./src/features/properties/create/view/property-detail-form.jsx:1:17)
+    at <unknown> (./src/features/properties/create/viewmodels/usepgForm.jsx:3:10)
+    at <unknown> (./src/features/properties/create/viewmodels/usepgForm.jsx:1:10)
+    at <unknown> (./src/features/properties/details/individual-pg.jsx:4:20)
+    at <unknown> (./src/features/properties/details/individual-pg.jsx:3:10)
+    at <unknown> (./src/features/properties/details/individual-pg.jsx:4:10)
+    at <unknown> (./src/features/properties/details/views/callback.jsx:3:10)
+    at <unknown> (./src/features/properties/list/view/filterSection.jsx:1:17)
+    at <unknown> (./src/features/properties/list/viewmodels/filterFunction.jsx:1:10)
+    at <unknown> (./src/features/properties/list/viewmodels/filterFunction.jsx:1:43)
+    at <unknown> (./src/features/properties/list/viewmodels/filterFunction.jsx:2:10)
+    at <unknown> (./src/features/properties/list/viewmodels/filterFunction.jsx:1:21)
+    at <unknown> (./src/legacy_pages/homepage/view/Cartegories.jsx:1:20)
+    at <unknown> (./src/legacy_pages/homepage/view/Cartegories.jsx:1:10)
+    at <unknown> (./src/legacy_pages/homepage/view/Toplistsection.jsx:1:20)
+    at <unknown> (./src/legacy_pages/homepage/view/Toplistsection.jsx:1:10)
+    at <unknown> (./src/legacy_pages/homepage/view/brandShowcase.jsx:2:10)
+    at <unknown> (./src/legacy_pages/homepage/view/brandShowcase.jsx:2:21)
+    at <unknown> (./src/legacy_pages/homepage/view/contact.jsx:1:39)
+    at <unknown> (./src/legacy_pages/homepage/view/contact.jsx:1:17)
+    at <unknown> (./src/legacy_pages/homepage/view/platformFeatures.jsx:1:20)
+    at <unknown> (./src/legacy_pages/homepage/view/platformFeatures.jsx:1:10)
+    at <unknown> (./src/legacy_pages/homepage/view/user-role-model.jsx:1:20)
+    at <unknown> (./src/legacy_pages/homepage/view/user-role-model.jsx:1:10)
