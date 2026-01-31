@@ -18,6 +18,7 @@ import { UserRoute } from "./features/protected-Routes/user"
 import { PgDashboard } from "./features/dashboards/tenant/pg-dasboard"
 import OwnerDashboard from "./features/dashboards/owner/pg-owner-dashboard"
 import AdminDashboard from "./features/dashboards/admin/admin-dashboard"
+import { AdminRoute } from "./features/protected-Routes/admin"
 
 
 
@@ -62,9 +63,9 @@ const router = createBrowserRouter([
       {
         path: "/postproperty",
         element:
-          <OwnerRoute>
+          <AdminRoute>
             <PgForm />
-          </OwnerRoute>
+          </AdminRoute>
       },
       {
         path: "/profile/owner",

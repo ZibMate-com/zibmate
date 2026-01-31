@@ -1,5 +1,3 @@
-
-
 export const getPgData = async () => {
     try {
         const baseUrl = import.meta.env.VITE_BACKEND_URL;

@@ -1,0 +1,214 @@
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import Mycontext from "../../../../context/mycontext";
+
+export const useOwnerOnboardingForm = () => {
+    const { setloading, activeStep, setActiveStep } = useContext(Mycontext);
+    const navigate = useNavigate();
+
+    //   const [activeStep, setActiveStep] = useState(0);
+    const [errors, setErrors] = useState({});
+
+    /* ------------------ FORM STATE ------------------ */
+    const [formData, setFormData] = useState({
+        personal: {
+            firstname: "",
+            lastname: "",
+            email: "",
+            phone: "",
+            gender: "",
+            nationality: ""
+        },
+        property: {
+            propertyName: "",
+            houseNumber: "",
+            street: "",
+            landmark: "",
+            city: "",
+            state: "",
+            zip: "",
+            discount: "",
+            maplink: "",
+            occupancy: [],
+            prices: {},
+            lookingFor: "Any",
+            facilities: [],
+            description: ""
+        },
+    });
+
+    const [imageFiles, setImageFiles] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
+
+    /* ------------------ VALIDATION ------------------ */
+    const validate = (step) => {
+        const e = {};
+        const nameRegex = /^[A-Za-z]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^\d{10}$/;
+        const zipRegex = /^\d{6}$/;
+
+        if (step === 1) {
+            const p = formData.personal;
+            if (!p.firstname || !nameRegex.test(p.firstname)) e.firstname = "Invalid first name";
+            if (!p.lastname || !nameRegex.test(p.lastname)) e.lastname = "Invalid last name";
+            //   if (!emailRegex.test(p.email)) e.email = "Invalid email";
+            if (!phoneRegex.test(p.phone)) e.phone = "Invalid phone";
+            if (!p.gender) e.gender = "Gender required";
+        }
+
+        if (step === 2) {
+            const p = formData.property;
+            if (!p.propertyName) e.propertyName = "Required";
+            if (!p.houseNumber) e.houseNumber = "Required";
+            if (!p.street) e.street = "Required";
+            if (!p.city) e.city = "Required";
+            if (!p.state) e.state = "Required";
+            if (!zipRegex.test(p.zip)) e.zip = "Invalid ZIP";
+        }
+
+        setErrors(e);
+        return Object.keys(e).length === 0;
+    };
+
+    /* ------------------ HANDLERS ------------------ */
+    const handleChange = (e, section, occupancyType = null) => {
+        const { name, value } = e.target;
+
+        if (section === "property" && occupancyType) {
+            setFormData(prev => ({
+                ...prev,
+                property: {
+                    ...prev.property,
+                    prices: {
+                        ...prev.property.prices,
+                        [occupancyType]: value
+                    }
+                }
+            }));
+            return;
+        }
+
+        setFormData(prev => ({
+            ...prev,
+            [section]: {
+                ...prev[section],
+                [name]: value
+            }
+        }));
+    };
+
+    const toggleOccupancy = (occu) => {
+        setFormData(prev => ({
+            ...prev,
+            property: {
+                ...prev.property,
+                occupancy: prev.property.occupancy.includes(occu)
+                    ? prev.property.occupancy.filter(o => o !== occu)
+                    : [...prev.property.occupancy, occu]
+            }
+        }));
+    };
+
+    const toggleFacility = (facility) => {
+        setFormData(prev => ({
+            ...prev,
+            property: {
+                ...prev.property,
+                facilities: prev.property.facilities.includes(facility)
+                    ? prev.property.facilities.filter(f => f !== facility)
+                    : [...prev.property.facilities, facility]
+            }
+        }));
+    };
+
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        setImageFiles(prev => [...prev, ...files]);
+        setImagePreviews(prev => [...prev, ...files.map(f => URL.createObjectURL(f))]);
+    };
+
+    const removeImage = (i) => {
+        setImageFiles(f => f.filter((_, idx) => idx !== i));
+        setImagePreviews(p => p.filter((_, idx) => idx !== i));
+    };
+
+    /* ------------------ NAVIGATION ------------------ */
+    const next = () => {
+        if (validate(activeStep)) setActiveStep(s => s + 1);
+    };
+
+    const back = () => setActiveStep(s => s - 1);
+
+    const submitAll = async () => {
+        setloading(true);
+        try {
+            const adminToken = localStorage.getItem("adminToken");
+            const data = new FormData();
+
+            console.log('Original formData:', JSON.stringify(formData, null, 2));
+
+            // Combine everything into the property object structure the backend expects
+            const propertyPayload = {
+                ...formData.property,
+                phone: formData.personal.phone, // ← Add phone from personal to property
+                // You can add other personal fields if needed by backend
+            };
+
+            // Send as a single "property" field (matching Postman structure)
+            data.append("property", JSON.stringify(propertyPayload));
+
+            // Append images
+            imageFiles.forEach(img => data.append("images", img));
+
+            // Debug log
+            console.log('=== FormData Contents ===');
+            for (let [key, value] of data.entries()) {
+                if (value instanceof File) {
+                    console.log(key, ':', 'FILE -', value.name, value.size, 'bytes');
+                } else {
+                    console.log(key, ':', value);
+                }
+            }
+            console.log('=== End FormData ===');
+
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/pg/onboard`, {
+                method: "POST",
+                headers: { Authorization: `Bearer ${adminToken}` },
+                body: data
+            });
+
+            const responseText = await res.text();
+            console.log('Raw response:', responseText);
+
+            if (!res.ok) {
+                throw new Error(`Server error (${res.status}): ${responseText}`);
+            }
+
+            const result = JSON.parse(responseText);
+            console.log('Success:', result);
+
+            alert("Onboarding completed!");
+            navigate("/profile/owner");
+        } catch (err) {
+            alert(err.message);
+            console.error('Submission error:', err);
+        } finally {
+            setloading(false);
+        }
+    };
+    return {
+        activeStep,
+        errors,
+        formData,
+        handleChange,
+        toggleOccupancy,
+        toggleFacility,
+        handleFileChange,
+        removeImage,
+        imagePreviews,
+        next,
+        back,
+        submitAll
+    };
+};

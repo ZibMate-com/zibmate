@@ -4,29 +4,56 @@ import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res) => {
     try {
-        const { firstName, lastName, email, password, phone, role } = req.body;
+        const { firstName, lastName, email, password, phone } = req.body;
 
-        // Check if user exists
-        const [existingUsers] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
-        if (existingUsers.length > 0) {
-            return res.status(400).json({ message: 'User already exists' });
+        if (!phone || !email || !password) {
+            return res.status(400).json({ message: "Required fields missing" });
         }
 
-        // Hash password
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Insert user
-        const [result] = await db.execute(
-            'INSERT INTO users (first_name, last_name, email, password, phone, role) VALUES (?, ?, ?, ?, ?, ?)',
-            [firstName, lastName, email, hashedPassword, phone, role || 'user']
+        const [users] = await db.execute(
+            `SELECT id FROM users WHERE email = ? OR phone = ?`,
+            [email, phone]
         );
 
-        res.status(201).json({ message: 'User registered successfully', userId: result.insertId });
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        let userId;
+
+        if (users.length > 0) {
+            const [updateResult] = await db.execute(
+                `
+                UPDATE users
+                SET first_name = ?, last_name = ?, email = ?, password = ?
+                WHERE phone = ?
+                `,
+                [firstName, lastName, email, hashedPassword, phone]
+            );
+
+            userId = users[0].id;
+        } else {
+
+            const [result] = await db.execute(
+                `
+                INSERT INTO users (first_name, last_name, email, password, phone, role)
+                VALUES (?, ?, ?, ?, ?, 'user')
+                `,
+                [firstName, lastName, email, hashedPassword, phone]
+            );
+
+            userId = result.insertId;
+        }
+
+        res.status(201).json({
+            message: "User registered successfully",
+            userId
+        });
+
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error during signup' });
+        console.error("Signup error:", error);
+        res.status(500).json({ message: "Server error during signup" });
     }
 };
+
 
 export const login = async (req, res) => {
     try {
