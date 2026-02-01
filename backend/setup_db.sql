@@ -108,7 +108,9 @@ CREATE TABLE IF NOT EXISTS tenent_call_requests (
     email VARCHAR(255) UNIQUE NOT NULL,
     phone VARCHAR(20),
     status ENUM('active', 'inactive') DEFAULT 'active',
+    email_sent BOOLEAN DEFAULT FALSE,
+    email_sent_at DATETIME NULL;
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-   FOREIGN KEY (pg_id) REFERENCES pg_data(id) ON DELETE CASCADE,
+    FOREIGN KEY (pg_id) REFERENCES pg_data(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 )

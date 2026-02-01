@@ -442,7 +442,7 @@ export const IndividualPg = () => {
                                         {product.owner_phone && (
                                             <p className="text-slate-600 mb-4 flex items-center gap-2 justify-center md:justify-start">
                                                 <Phone className="size-4" />
-                                                <span className="font-medium">{product.owner_phone}</span>
+                                                <span className="font-medium">+91 98xxxxxxxx</span>
                                             </p>
                                         )}
 

@@ -151,26 +151,13 @@ export const useOwnerOnboardingForm = () => {
             // Combine everything into the property object structure the backend expects
             const propertyPayload = {
                 ...formData.property,
-                phone: formData.personal.phone, // ← Add phone from personal to property
-                // You can add other personal fields if needed by backend
+                phone: formData.personal.phone, 
             };
 
-            // Send as a single "property" field (matching Postman structure)
+        
             data.append("property", JSON.stringify(propertyPayload));
 
-            // Append images
             imageFiles.forEach(img => data.append("images", img));
-
-            // Debug log
-            console.log('=== FormData Contents ===');
-            for (let [key, value] of data.entries()) {
-                if (value instanceof File) {
-                    console.log(key, ':', 'FILE -', value.name, value.size, 'bytes');
-                } else {
-                    console.log(key, ':', value);
-                }
-            }
-            console.log('=== End FormData ===');
 
             const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/pg/onboard`, {
                 method: "POST",
@@ -179,8 +166,6 @@ export const useOwnerOnboardingForm = () => {
             });
 
             const responseText = await res.text();
-            console.log('Raw response:', responseText);
-
             if (!res.ok) {
                 throw new Error(`Server error (${res.status}): ${responseText}`);
             }
@@ -189,7 +174,7 @@ export const useOwnerOnboardingForm = () => {
             console.log('Success:', result);
 
             alert("Onboarding completed!");
-            navigate("/profile/owner");
+            navigate("/admin-dashboard");
         } catch (err) {
             alert(err.message);
             console.error('Submission error:', err);

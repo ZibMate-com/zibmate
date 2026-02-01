@@ -69,7 +69,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile/owner",
-        element: <OwnerProfile />
+        element: <OwnerRoute><OwnerProfile /></OwnerRoute>
       },
       {
         path: "/profile/user",
@@ -78,10 +78,9 @@ const router = createBrowserRouter([
             <UserDashBoard />
           </UserRoute>
       },
-
       {
         path: "/tenent-dashboard",
-        element: <PgDashboard />
+        element: <UserRoute> <PgDashboard /> </UserRoute>
       },
       {
         path: "/owner-dashboard",

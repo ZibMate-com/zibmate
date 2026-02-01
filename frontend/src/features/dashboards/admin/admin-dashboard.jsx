@@ -10,13 +10,8 @@ import { useAdminDashboard } from "./viewmodels/useadminDashboard";
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("tenant"); 
-  const { tenentRequest,handleLogout } = useAdminDashboard();
+  const { tenentRequest, handleLogout, handleSendDetails } = useAdminDashboard();
 
-
-  const tenantRequests = [
-    { id: 1, name: "Rahul Sharma", phone: "+91 98XXXX432", property: "Sai PG, HSR Layout", date: "28 Jan 2026", status: "Pending" },
-    { id: 2, name: "Ananya Verma", phone: "+91 97XXXX112", property: "Green View PG, Whitefield", date: "27 Jan 2026", status: "Called" },
-  ];
 
   const ownerRequests = [
     { id: 1, name: "Mr. Kapoor", phone: "+91 99XXXX888", property: "Kapoor Residency", date: "29 Jan 2026", status: "Pending", type: "Partnership" },
@@ -28,7 +23,7 @@ export default function AdminDashboard() {
   return (
     <div className="flex min-h-screen bg-[#fafafa]">
 
-      <main className="flex-1  p-8 lg:p-12">
+      <main className="flex-1 p-8 lg:p-12">
 
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
           <div>
@@ -41,9 +36,9 @@ export default function AdminDashboard() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="bg-orange-100 text-orange-700 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border border-orange-200">
+            {/* <div className="bg-orange-100 text-orange-700 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border border-orange-200">
               <Clock size={14} /> {currentRequests.length} Pending {activeTab}s
-            </div>
+            </div> */}
           </div>
           <button
             onClick={handleLogout}
@@ -94,7 +89,11 @@ export default function AdminDashboard() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <RequestCard data={req} type={activeTab} />
+                <RequestCard 
+                  data={req} 
+                  type={activeTab} 
+                  onSendDetails={handleSendDetails}
+                />
               </motion.div>
             ))}
           </AnimatePresence>
@@ -105,9 +104,26 @@ export default function AdminDashboard() {
 }
 
 
-function RequestCard({ data, type }) {
+function RequestCard({ data, type, onSendDetails }) {
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+
+  const handleClick = async () => {
+    setSending(true);
+    try {
+      await onSendDetails(data.id);
+      setSent(true);
+      setTimeout(() => setSent(false), 3000);
+    } catch (error) {
+      console.error('Error sending details:', error);
+      alert('Failed to send details');
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
-    <section className="group rounded-[2.5rem] border border-slate-100 hover:border-orange-200 transition-all hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] overflow-hidden bg-white">
+    <section className={`group rounded-[2.5rem] border border-slate-100 hover:border-orange-200 transition-all hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] overflow-hidden bg-white ${data.status === 'inactive' ? 'hidden' : ''}`}>
       <div className="p-8">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
 
@@ -120,7 +136,7 @@ function RequestCard({ data, type }) {
             <div className="space-y-1">
               <div className="flex items-center gap-3">
                 <h4 className="text-xl font-bold text-slate-900 tracking-tight">{data.full_name}</h4>
-                <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${data.status === 'inActive' ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-600'
+                <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${data.status === 'inactive' ? 'bg-red-100 text-red-600' : 'bg-emerald-100 text-emerald-600'
                   }`}>
                   {data.status}
                 </span>
@@ -136,10 +152,10 @@ function RequestCard({ data, type }) {
                   <Phone size={16} className="text-slate-400" /> {data.phone}
                 </span>
                 <span className="flex items-center gap-2 text-sm font-semibold text-slate-500">
-                  <MapPin size={16} className="text-slate-400" /> {data.property}
+                  <MapPin size={16} className="text-slate-400" /> {data.property_name}
                 </span>
                 <span className="flex items-center gap-2 text-sm font-semibold text-slate-400">
-                  <Calendar size={16} /> Requested {data.created_at.slice(0, 10)}
+                  <Calendar size={16} /> Requested {data.created_at && data.created_at.slice(0, 10)}
                 </span>
               </div>
             </div>
@@ -147,12 +163,33 @@ function RequestCard({ data, type }) {
 
           <div className="flex items-center gap-3">
 
-            <button className="flex-1 lg:flex-none bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl h-14 px-8 flex items-center gap-2 active:scale-95 transition-all shadow-xl shadow-slate-200">
-              Send Owner Details <ArrowUpRight size={18} />
+            <button
+              onClick={handleClick}
+              disabled={sending || sent}
+              className={`flex-1 lg:flex-none font-bold rounded-2xl h-14 px-8 flex items-center gap-2 active:scale-95 transition-all shadow-xl shadow-slate-200 ${
+                sent 
+                  ? 'bg-green-500 text-white cursor-not-allowed' 
+                  : sending 
+                  ? 'bg-slate-400 text-white cursor-wait' 
+                  : 'bg-slate-900 hover:bg-slate-800 text-white'
+              }`}
+            >
+              {sent ? (
+                <>
+                  <CheckCircle2 size={18} /> Email Sent!
+                </>
+              ) : sending ? (
+                <>Sending...</>
+              ) : (
+                <>
+                  Send Owner Details <ArrowUpRight size={18} />
+                </>
+              )}
             </button>
-            <button className="flex-1 lg:flex-none border-2 border-slate-100 text-slate-600 font-bold rounded-2xl h-14 px-6 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 active:scale-95">
+            
+            {/* <button className="flex-1 lg:flex-none border-2 border-slate-100 text-slate-600 font-bold rounded-2xl h-14 px-6 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 active:scale-95">
               <CheckCircle2 size={18} /> Done
-            </button>
+            </button> */}
           </div>
 
         </div>

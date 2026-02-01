@@ -7,5 +7,6 @@ const router = express.Router();
 
 router.post("/tenent/create",verifyToken, requestController.createTenentRequest);
 router.get("/tenent",verifyToken, isAdmin,requestController.getTenentRequest);
-
+router.put("/:id/status",verifyToken, isAdmin,requestController.getTenentRequest);
+router.post("/sendmail/:request_id",verifyToken,isAdmin,requestController.sendOwnerDetails);
 export default router;
