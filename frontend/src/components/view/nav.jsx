@@ -70,15 +70,19 @@ export const NavBar = () => {
                     </div>
 
                     <div className="flex gap-4 items-center">
-                      
-                        <NavLink
-                            to={user ? "/postproperty" : "/login"}
+                      {
+                        user &&  <NavLink
+                            to={user.role === 'admin' ? "/postproperty" : "/claimyourpg"}
                             className='hidden md:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg active:scale-95'
                         >
                             <PlusCircle className="size-4" />
-                            Post Property
-                        </NavLink>
+                           {user.role === 'admin' && "Post Property"} 
+                           {user.role === 'owner' && "Claim your PG"} 
 
+                        </NavLink>
+                      }
+                       
+                    
                         <div className="h-8 w-[1px] bg-slate-800 mx-2 hidden md:block" />
 
                         {user ? (

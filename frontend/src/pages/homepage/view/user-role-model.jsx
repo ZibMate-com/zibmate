@@ -67,7 +67,7 @@ export const UserRoleModal = () => {
            
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
-               <a href="/postproperty">
+               <a href="/claimyourpg">
                 <RoleCard 
                   title="Property Owner"
                   description="Automate rent, manage tenants, and grow your PG business."

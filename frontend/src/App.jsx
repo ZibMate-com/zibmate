@@ -19,6 +19,7 @@ import { PgDashboard } from "./features/dashboards/tenant/pg-dasboard"
 import OwnerDashboard from "./features/dashboards/owner/pg-owner-dashboard"
 import AdminDashboard from "./features/dashboards/admin/admin-dashboard"
 import { AdminRoute } from "./features/protected-Routes/admin"
+import ClaimPropertyForm from "./features/properties/requests/owner-requests"
 
 
 
@@ -66,6 +67,13 @@ const router = createBrowserRouter([
           <AdminRoute>
             <PgForm />
           </AdminRoute>
+      },
+      {
+        path: "/claimyourpg",
+        element:
+          <OwnerRoute>
+            <ClaimPropertyForm />
+          </OwnerRoute>
       },
       {
         path: "/profile/owner",

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
-import { getTenentRequests, sendmail } from "../repository/admin";
+import { getOwnerRequests, getTenentRequests, sendmail } from "../repository/admin";
 import {  useNavigate } from "react-router-dom";
 export const useAdminDashboard  = ()=>{
     const [tenentRequest , setTenentRequests] = useState([]);
+    const [ownerRequest , setOwnerRequests] = useState([]);
     const navigate = useNavigate();
     useEffect(()=>{
         const fetchTenetRequests = async()=>{
@@ -15,8 +16,19 @@ export const useAdminDashboard  = ()=>{
                 
             }
         }
+        const fetchOwnerRequests = async()=>{
+            try {
+                 const data =  await getOwnerRequests();
+                 setOwnerRequests(data);
+                 
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
         fetchTenetRequests();
-    },[tenentRequest])
+        fetchOwnerRequests();
+    },[tenentRequest, ownerRequest])
 
     const handleSendDetails = async (id)=>{
         try {
@@ -33,7 +45,8 @@ export const useAdminDashboard  = ()=>{
     }
     return {
         tenentRequest,
+        ownerRequest,
         handleLogout,
-        handleSendDetails
+        handleSendDetails,
     }
 }

@@ -155,7 +155,6 @@ const Signup = () => {
                                     {errors.password && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.password}</p>}
                                 </div>
 
-                                {role === "buyer" && (
                                     <motion.div
                                         initial={{ opacity: 0, x: 20 }}
                                         animate={{ opacity: 1, x: 0 }}
@@ -172,7 +171,7 @@ const Signup = () => {
                                         />
                                         {errors.phone && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.phone}</p>}
                                     </motion.div>
-                                )}
+                                
                             </motion.div>
                         </AnimatePresence>
 

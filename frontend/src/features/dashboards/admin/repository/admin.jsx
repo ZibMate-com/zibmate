@@ -18,6 +18,25 @@ export const getTenentRequests = async () => {
         throw error;
     }
 }
+export const getOwnerRequests = async () => {
+    try {
+        const adminToken = localStorage.getItem('adminToken');
+        const response = await fetch(`${BASE_URL}/owner`, {
+            method: 'get',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${adminToken}`
+            }
+        });
+        const data = await response.json();
+        if (!response.ok) {
+            throw data || { message: "Request Failed" };
+        }
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 export const sendmail = async (id) => {
     try {

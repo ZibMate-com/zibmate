@@ -105,7 +105,10 @@ export const Hero = () => {
         <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-5 mt-10">
           <Link to={role == "owner" ? '/postproperty' : '/findpg'}>
           <button className="px-8 py-4 bg-orange-500 text-white text-base font-bold rounded-2xl hover:bg-orange-600 transition-all shadow-lg shadow-orange-200 flex items-center gap-2 group active:scale-95">
-            Start Your Journey
+            {
+              role === 'owner' ? 'Claim your PG' : 'Start Your Journey'
+            }
+          
             <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
           </button>
           </Link>
