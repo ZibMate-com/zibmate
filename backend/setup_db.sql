@@ -114,3 +114,13 @@ CREATE TABLE IF NOT EXISTS tenent_call_requests (
     FOREIGN KEY (pg_id) REFERENCES pg_data(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 )
+CREATE TABLE IF NOT EXISTS owner_call_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT, 
+    full_name VARCHAR(255),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20) UNIQUE NOT NULL,
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+)

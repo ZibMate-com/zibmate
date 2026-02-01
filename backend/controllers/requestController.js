@@ -1,5 +1,6 @@
 import db from "../config/db.js";
 import nodemailer from 'nodemailer'
+
 export const createTenentRequest = async (req, res) => {
     try {
         const { pg_id, full_name, email, phone } = req.body;
@@ -32,6 +33,30 @@ export const createTenentRequest = async (req, res) => {
         res.status(500).json({ message: 'Server error raising call request' });
     }
 }
+export const createownerRequest = async (req, res) => {
+    try {
+        const { full_name, email, phone, city, state } = req.body;
+        const userId = req.userId;
+
+        if (!full_name || !email || !phone || !city || !state) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const [results] = await db.execute(
+            'INSERT INTO owner_call_requests (user_id, full_name, email, phone, city, state) VALUES (?, ?, ?, ?, ?, ?)',
+            [userId, full_name, email, phone, city, state]
+        );
+
+        res.status(201).json({
+            message: 'Call Request raised successfully',
+            requestID: results.insertId,
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error raising call request' });
+    }
+}
 
 export const getTenentRequest = async (req, res) => {
     try {
@@ -45,6 +70,18 @@ export const getTenentRequest = async (req, res) => {
     } catch (error) {
         console.log(error);
 
+        res.status(500).json({ message: "Failed to fetch requests" });
+    }
+}
+export const getOwnerRequest = async (req, res) => {
+    try {
+        const [requests] = await db.execute(
+            `SELECT * FROM owner_call_requests 
+            ORDER BY created_at DESC`
+        )
+        res.status(200).json(requests);
+    } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Failed to fetch requests" });
     }
 }
