@@ -1,5 +1,5 @@
 
-const BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth`;
+const BASE_URL = '/api/auth';
 
 export const signupUser = async (payload) => {
   try {

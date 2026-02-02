@@ -1,5 +1,5 @@
 "use client";
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     MessageSquare, Clock, CheckCircle, ChevronRight,
     Filter, Search, AlertCircle, Wrench, User, Phone,
@@ -16,8 +16,7 @@ const TicketManagementSection = () => {
         const fetchTickets = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-                const response = await fetch(`${baseUrl}/api/tickets/owner`, {
+                const response = await fetch(`/api/tickets/owner`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                         'Content-Type': 'application/json'

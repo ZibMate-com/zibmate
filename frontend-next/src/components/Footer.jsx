@@ -15,7 +15,7 @@ const Footer = () => {
   useEffect(() => {
     const fetchLinks = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+        const backendUrl = "";
         const response = await fetch(`${backendUrl}/api/content`);
         if (response.ok) {
           const data = await response.json();
