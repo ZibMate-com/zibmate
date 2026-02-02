@@ -50,8 +50,7 @@ export const BookingPage = () => {
                 totalAmount: bookingPropertydetails.price - (bookingPropertydetails.discount || 0)
             };
 
-            const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
-            const response = await fetch(`${baseUrl}/api/bookings`, {
+            const response = await fetch(`/api/bookings`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,

@@ -29,7 +29,7 @@ const Signup = () => {
 
                 <div className="relative z-10 w-full p-10 flex flex-col justify-between text-white">
                     <div>
-                        <img src="src/assets/logoorange.png" alt="" className="w-45 rounded-lg" />
+                        <img src="/assets/logoorange.png" alt="" className="w-45 rounded-lg" />
                     </div>
 
                     <div className="space-y-8">

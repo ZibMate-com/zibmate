@@ -1,6 +1,6 @@
 
 
-const BASE_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth`;
+const BASE_URL = '/api/auth';
 
 // Basic fetch wrapper to handle errors
 const fetchRequest = async (url, options) => {
