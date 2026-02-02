@@ -50,8 +50,8 @@ export const useOwnerOnboardingForm = () => {
 
         if (step === 1) {
             const p = formData.personal;
-            if (!p.firstname || !nameRegex.test(p.firstname)) e.firstname = "Invalid first name";
-            if (!p.lastname || !nameRegex.test(p.lastname)) e.lastname = "Invalid last name";
+            // if (!p.firstname || !nameRegex.test(p.firstname)) e.firstname = "Invalid first name";
+            // if (!p.lastname || !nameRegex.test(p.lastname)) e.lastname = "Invalid last name";
             //   if (!emailRegex.test(p.email)) e.email = "Invalid email";
             if (!phoneRegex.test(p.phone)) e.phone = "Invalid phone";
             if (!p.gender) e.gender = "Gender required";

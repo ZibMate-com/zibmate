@@ -1,36 +1,111 @@
 import { useState, useEffect } from "react";
-
 import { motion } from "framer-motion";
 import MotionSection from "../../../components/view/motionComponents";
-import { StickyNote, Sparkle, MessageCircle, Sparkles, Heart, MapPin } from "lucide-react";
+import {
+    // Owner icons
+    LayoutDashboard,
+    Wallet,
+    DoorOpen,
+    FileText,
+    Wrench,
+    TrendingUp,
+    Megaphone,
+    // Tenant icons
+    CreditCard,
+    MapPin,
+    Bell,
+    ShieldCheck,
+    BadgeCheck,
+    MessageSquare,
+    // Fallback icons
+    StickyNote,
+    Sparkle,
+    Sparkles,
+    Heart,
+     ToolCaseIcon
+} from "lucide-react";
 
 const IconMap = {
-    StickyNote, Sparkle, MessageCircle, Sparkles, Heart, MapPin
+    // Owner icons
+    LayoutDashboard,
+    Wallet,
+    DoorOpen,
+    FileText,
+    Wrench,
+    TrendingUp,
+    Megaphone,
+    // Tenant icons
+    CreditCard,
+    ToolCaseIcon,
+    MapPin,
+    Bell,
+    ShieldCheck,
+    BadgeCheck,
+    MessageSquare,
+    // Fallback
+    StickyNote,
+    Sparkle,
+    Sparkles,
+    Heart
 };
 
 export const PlatformFeatures = () => {
     const [features, setFeatures] = useState([]);
+    const [userRole, setUserRole] = useState('tenant'); // Default to tenant
+    const [sectionTitle, setSectionTitle] = useState('');
+    const [sectionSubtitle, setSectionSubtitle] = useState('');
 
     useEffect(() => {
+        // Get user role from localStorage
+        const role = localStorage.getItem('user-role') || 'tenant';
+        setUserRole(role);
+
         const fetchFeatures = async () => {
             try {
                 const baseUrl = import.meta.env.VITE_BACKEND_URL;
-                const response = await fetch(`${baseUrl}/api/content/features`, {
+                
+                // Determine which features to fetch based on role
+                const endpoint = role === 'owner' ? 'features_owners' : 'features_tenants';
+                
+                const response = await fetch(`${baseUrl}/api/content/${endpoint}`, {
                     headers: { 'Content-Type': 'application/json' }
                 });
+                
                 if (!response.ok) throw new Error('Failed to fetch features');
                 const data = await response.json();
-                // Use icon string to map to component? Wait, response has 'icon' field.
+                
+                // Map features with icon components
                 setFeatures(data.map(f => ({
                     ...f,
                     component: IconMap[f.icon] || StickyNote,
                     heading: f.title,
                     para: f.content
                 })));
+
+                // Fetch section header
+                const headerResponse = await fetch(`${baseUrl}/api/content/section_headers`, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (headerResponse.ok) {
+                    const headers = await headerResponse.json();
+                    const relevantHeader = headers.find(h => 
+                        role === 'owner' 
+                            ? h.title.includes('Owners') 
+                            : h.title.includes('Tenants')
+                    );
+                    
+                    if (relevantHeader) {
+                        setSectionTitle(relevantHeader.title);
+                        setSectionSubtitle(relevantHeader.content);
+                    }
+                }
+
             } catch (error) {
                 console.error("Error fetching features:", error);
             }
         };
+        
         fetchFeatures();
     }, []);
 
@@ -40,7 +115,7 @@ export const PlatformFeatures = () => {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.1, // Each card pops in one after another
+                staggerChildren: 0.1,
             },
         },
     };
@@ -55,6 +130,27 @@ export const PlatformFeatures = () => {
         },
     };
 
+    // Dynamic color scheme based on role
+    const colorScheme = userRole === 'owner' 
+        ? {
+            badge: 'bg-orange-50 text-orange-600 border-orange-100',
+            gradient: 'from-orange-500 to-rose-500',
+            iconBg: 'bg-orange-50 text-orange-500',
+            iconHover: 'group-hover:bg-orange-500',
+            accent: 'bg-orange-500',
+            blob1: 'bg-orange-200',
+            blob2: 'bg-purple-200'
+        }
+        : {
+            badge: 'bg-orange-50 text-orange-600 border-orange-100',
+            gradient: 'from-orange-500 to-rose-500',
+            iconBg: 'bg-orange-50 text-orange-500',
+            iconHover: 'group-hover:bg-orange-500',
+            accent: 'bg-orange-500',
+            blob1: 'bg-orange-200',
+            blob2: 'bg-rose-200'
+        };
+
     return (
         <MotionSection
             className="relative mt-20 p-6 w-full overflow-hidden"
@@ -65,17 +161,17 @@ export const PlatformFeatures = () => {
         >
             {/* Background Decorative Elements */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
-                <div className="absolute top-20 left-10 w-72 h-72 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
-                <div className="absolute top-40 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+                <div className={`absolute top-20 left-10 w-72 h-72 ${colorScheme.blob1} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob`}></div>
+                <div className={`absolute top-40 right-10 w-72 h-72 ${colorScheme.blob2} rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000`}></div>
             </div>
 
             <div className="text-center w-full mb-16">
                 <motion.span
                     initial={{ opacity: 0, y: -10 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    className="px-4 py-1.5 rounded-full text-sm font-medium bg-orange-50 text-orange-600 border border-orange-100"
+                    className={`px-4 py-1.5 rounded-full text-sm font-medium ${colorScheme.badge}`}
                 >
-                    Platform Features
+                    {sectionTitle || 'Platform Features'}
                 </motion.span>
 
                 <motion.h1
@@ -83,10 +179,14 @@ export const PlatformFeatures = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     className="text-4xl md:text-5xl font-bold mt-6 tracking-tight text-gray-900"
                 >
-                    Effortless management for <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500">
-                        guests and owners
-                    </span>
+                    {sectionSubtitle || (
+                        <>
+                            Effortless management for <br />
+                            <span className={`text-transparent bg-clip-text bg-gradient-to-r ${colorScheme.gradient}`}>
+                                guests and owners
+                            </span>
+                        </>
+                    )}
                 </motion.h1>
             </div>
 
@@ -110,7 +210,7 @@ export const PlatformFeatures = () => {
                                 <ele.component size={80} />
                             </div>
 
-                            <div className="p-4 rounded-2xl bg-orange-50 text-orange-500 group-hover:bg-orange-500 group-hover:text-white transition-colors duration-300">
+                            <div className={`p-4 rounded-2xl ${colorScheme.iconBg} ${colorScheme.iconHover} group-hover:text-white transition-colors duration-300`}>
                                 <ele.component className="size-8" />
                             </div>
 
@@ -124,11 +224,11 @@ export const PlatformFeatures = () => {
                             </div>
 
                             {/* Bottom Accent Line */}
-                            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 bg-orange-500 rounded-full group-hover:w-1/3 transition-all duration-300"></div>
+                            <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-1 ${colorScheme.accent} rounded-full group-hover:w-1/3 transition-all duration-300`}></div>
                         </motion.div>
                     ))}
                 </div>
             </motion.div>
         </MotionSection>
-    )
-}
+    );
+};

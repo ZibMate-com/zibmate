@@ -78,6 +78,7 @@ export const NavBar = () => {
                             <PlusCircle className="size-4" />
                            {user.role === 'admin' && "Post Property"} 
                            {user.role === 'owner' && "Claim your PG"} 
+                           {user.role === 'tenent' && "Claim your PG"} 
 
                         </NavLink>
                       }
