@@ -121,7 +121,7 @@ export const NavBar = () => {
                         </NavLink>
                     ))}
 
-                    <div className={`relative flex flex-col items-center ${user.role === 'admin' || 'owner' ? '' : 'hidden'}`}>
+                    <div className='relative flex flex-col items-center'>
                         <NavLink
                             to={user ? "/postproperty" : "/login"}
                             className="flex items-center justify-center size-14 bg-orange-500 text-white rounded-full shadow-[0_8px_20px_rgba(249,115,22,0.4)] active:scale-90 transition-transform border-4 border-black -mt-8"
