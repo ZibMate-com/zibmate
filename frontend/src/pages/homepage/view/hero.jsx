@@ -5,7 +5,8 @@ import { useContext, useEffect, useState } from 'react';
 import Mycontext from '../../../context/mycontext';
 import { Loader } from '../../../components/view/loader';
 import { Link } from 'react-router-dom';
-
+import  owner  from '../../../assets/owner.png'
+import tenent  from '../../../assets/tenent.png'
 export const Hero = () => {
   const { loading } = useContext(Mycontext);
   const [role, setrole] = useState('tenent');
@@ -130,7 +131,7 @@ export const Hero = () => {
       >
         <div className='relative z-10 rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)]'>
           <img
-            src={`${role == 'owner' ? 'src/assets/owner.png' : 'src/assets/tenent.png'}`}
+            src={`${role == 'owner' ? owner : tenent }`}
             className='w-full aspect-square object-cover transition-transform duration-700 hover:scale-105'
             alt="Comfortable PG Room"
           />

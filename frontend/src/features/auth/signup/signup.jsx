@@ -4,7 +4,7 @@ import { useSignup } from "./viewmodels/useSignup";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Mail, Lock, Phone, ArrowRight, Home, CheckCircle2 } from "lucide-react";
-
+import logo from '../../../assets/logoorange.png'
 const Signup = () => {
     const {
         role, userdata, errors, setRole,
@@ -28,7 +28,7 @@ const Signup = () => {
 
                 <div className="relative z-10 w-full p-10 flex flex-col justify-between text-white">
                     <div>
-                        <img src="src/assets/logoorange.png" alt="" className="w-45 rounded-lg" />
+                        <img src={logo} alt="" className="w-45 rounded-lg" />
                     </div>
 
                     <div className="space-y-8">
@@ -56,12 +56,12 @@ const Signup = () => {
                     </div>
 
                     <p className="text-slate-400 text-sm">
-                        © 2025 ZIBMATE Inc. All rights reserved.
+                        © {new Date().getFullYear()} ZIBMATE Inc. All rights reserved.
                     </p>
                 </div>
             </div>
 
-          
+
             <div className="w-full max-h-screen lg:w-1/2 flex items-center justify-center p-8 md:p-16 bg-slate-50">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -155,23 +155,23 @@ const Signup = () => {
                                     {errors.password && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.password}</p>}
                                 </div>
 
-                                    <motion.div
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        className="relative"
-                                    >
-                                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
-                                        <input
-                                            type="tel"
-                                            name="phone"
-                                            placeholder="Mobile Number"
-                                            value={userdata.phone}
-                                            onChange={handleInputChange}
-                                            className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm"
-                                        />
-                                        {errors.phone && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.phone}</p>}
-                                    </motion.div>
-                                
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="relative"
+                                >
+                                    <Phone className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+                                    <input
+                                        type="tel"
+                                        name="phone"
+                                        placeholder="Mobile Number"
+                                        value={userdata.phone}
+                                        onChange={handleInputChange}
+                                        className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm"
+                                    />
+                                    {errors.phone && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.phone}</p>}
+                                </motion.div>
+
                             </motion.div>
                         </AnimatePresence>
 

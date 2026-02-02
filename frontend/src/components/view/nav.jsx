@@ -76,9 +76,7 @@ export const NavBar = () => {
                             className='hidden md:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg active:scale-95'
                         >
                             <PlusCircle className="size-4" />
-                           {user.role === 'admin' && "Post Property"} 
-                           {user.role === 'owner' && "Claim your PG"} 
-                           {user.role === 'tenent' && "Claim your PG"} 
+                           {user.role === 'admin' ? "Post Property": 'Claim your PG'} 
 
                         </NavLink>
                       }
@@ -123,7 +121,7 @@ export const NavBar = () => {
                         </NavLink>
                     ))}
 
-                    <div className="relative flex flex-col items-center">
+                    <div className={`relative flex flex-col items-center ${user.role === 'admin' || 'owner' ? '' : 'hidden'}`}>
                         <NavLink
                             to={user ? "/postproperty" : "/login"}
                             className="flex items-center justify-center size-14 bg-orange-500 text-white rounded-full shadow-[0_8px_20px_rgba(249,115,22,0.4)] active:scale-90 transition-transform border-4 border-black -mt-8"
@@ -131,7 +129,7 @@ export const NavBar = () => {
                             <Plus className="size-8" strokeWidth={3} />
                         </NavLink>
                         <span className="text-[10px] font-bold text-orange-500 mt-1 uppercase tracking-wider">
-                            Add New
+                           Add New
                         </span>
                     </div>
 
