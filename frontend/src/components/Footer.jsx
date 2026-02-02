@@ -82,7 +82,7 @@ const Footer = () => {
         <div className='flex flex-col md:flex-row justify-between items-center pt-6 space-y-4 md:space-y-0'>
 
           <span className='flex items-center gap-2 text-sm text-gray-500'>
-            <Copyright className='size-4' /> 2025 ZIBMATE. All rights Reserved.
+            <Copyright className='size-4' /> {new Date().getFullYear()} ZIBMATE. All rights Reserved.
           </span>
 
           <div className='flex gap-5 text-gray-400'>

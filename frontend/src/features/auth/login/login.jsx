@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Lock, Phone, ArrowRight, Home, User } from "lucide-react";
+import logo from '../../../assets/logoorange.png'
 import useLogin from "./viewmodels/uselogin";
 
 export const Login = () => {
@@ -31,7 +32,7 @@ export const Login = () => {
 
         <div className="relative z-10 w-full p-16 flex flex-col justify-between text-white">
           <div>
-            <img src="src/assets/logoorange.png" alt="" className="w-45 rounded-lg" />
+            <img src={logo}alt="" className="w-45 rounded-lg" />
           </div>
 
           <div>
