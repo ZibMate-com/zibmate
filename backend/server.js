@@ -33,7 +33,8 @@ app.use(cors({
     origin: [
         'http://localhost:5173',
         'http://localhost:3000',
-        'https://zibmate.com', 
+        'https://zibmate.com',
+        'https://www.zibmate.com',  
     ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
