@@ -10,13 +10,16 @@ import { Login } from "./features/auth/login/login"
 import SignUp from "./features/auth/signup/signup"
 import PgForm from "./features/properties/create/postPropertyForm"
 import { AboutUs } from "./pages/aboutUs/aboutus"
-import { AdminDashboard } from "./features/dashboards/admin/adminDashboard"
+import { OwnerProfile } from "./features/dashboards/owner/owner-profile"
 import { UserDashBoard } from "./features/dashboards/user/userDashboard"
 import { IndividualPg } from "./features/properties/details/individual-pg"
 import { OwnerRoute } from "./features/protected-Routes/owner"
 import { UserRoute } from "./features/protected-Routes/user"
 import { PgDashboard } from "./features/dashboards/tenant/pg-dasboard"
 import OwnerDashboard from "./features/dashboards/owner/pg-owner-dashboard"
+import AdminDashboard from "./features/dashboards/admin/admin-dashboard"
+import { AdminRoute } from "./features/protected-Routes/admin"
+import ClaimPropertyForm from "./features/properties/requests/owner-requests"
 
 
 
@@ -61,13 +64,20 @@ const router = createBrowserRouter([
       {
         path: "/postproperty",
         element:
-          <OwnerRoute>
+          <AdminRoute>
             <PgForm />
+          </AdminRoute>
+      },
+      {
+        path: "/claimyourpg",
+        element:
+          <OwnerRoute>
+            <ClaimPropertyForm />
           </OwnerRoute>
       },
       {
         path: "/profile/owner",
-        element: <AdminDashboard />
+        element: <OwnerRoute><OwnerProfile /></OwnerRoute>
       },
       {
         path: "/profile/user",
@@ -76,10 +86,9 @@ const router = createBrowserRouter([
             <UserDashBoard />
           </UserRoute>
       },
-
       {
         path: "/tenent-dashboard",
-        element: <PgDashboard />
+        element: <UserRoute> <PgDashboard /> </UserRoute>
       },
       {
         path: "/owner-dashboard",
@@ -87,6 +96,11 @@ const router = createBrowserRouter([
           <OwnerRoute>
             <OwnerDashboard />
           </OwnerRoute>
+      },
+      {
+        path: "/admin-dashboard",
+        element:<AdminDashboard/>
+         
       },
 
     ]

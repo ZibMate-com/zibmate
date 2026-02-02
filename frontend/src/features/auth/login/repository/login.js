@@ -46,9 +46,10 @@ export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
       email: userCred.email,
       password: userCred.password
     });
-
-    if (data.token) {
+  
+    if (data.token || data.adminToken) {
       localStorage.setItem("token", data.token);
+      localStorage.setItem("adminToken", data.adminToken);
       localStorage.setItem("users", JSON.stringify(data.user));
       setUserCred({
         email: "",

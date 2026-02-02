@@ -12,7 +12,7 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import ticketRoutes from './routes/ticketRoutes.js';
 import contentRoutes from './routes/contentRoutes.js';
-
+import requestRoutes from './routes/requestRoutes.js'
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -29,7 +29,16 @@ db.execute('SELECT 1')
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:3000',
+        'https://zibmate.com', 
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -41,6 +50,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/content', contentRoutes);
+app.use('/api/requests',requestRoutes);
 
 app.get('/', (req, res) => {
     res.send('ZibMate Backend is running...');

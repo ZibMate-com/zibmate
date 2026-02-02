@@ -2,18 +2,19 @@ import React from "react";
 import { useVerificationForm } from "../viewmodels/use-verification-form";
 import { motion } from "framer-motion";
 import { User, Mail, Phone, Globe, CreditCard, ChevronRight, UserCircle } from "lucide-react";
+import { useOwnerOnboardingForm } from "../viewmodels/use-owner-onboarding";
 
-export default function PersonalDetailsForm() {
-    const {
-        errors,
-        formData,
-        handleChange,
-        handleNext,
-    } = useVerificationForm();
+export default function PersonalDetailsForm({
+    formData,
+    handleChange,
+    next,
+    errors
+}) {
+
 
     return (
         <div className="flex justify-center items-center min-h-[calc(100vh-80px)] md:p-6 bg-slate-50/50 font-Montserrat">
-            <motion.div 
+            <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="w-full max-w-2xl bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-2xl shadow-slate-200/50"
@@ -40,10 +41,10 @@ export default function PersonalDetailsForm() {
                                 <User className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                                 <input
                                     name="firstname"
-                                    data-section="PersonalData"
+                                    data-section="personal"
                                     placeholder="e.g., John"
-                                    value={formData.PersonalData.firstname}
-                                    onChange={handleChange}
+                                    value={formData.personal.firstname || ''}
+                                    onChange={(e) => handleChange(e, e.target.dataset.section)}
                                     className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
                                         ${errors.firstname ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                                 />
@@ -55,10 +56,10 @@ export default function PersonalDetailsForm() {
                             <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Last Name</label>
                             <input
                                 name="lastname"
-                                data-section="PersonalData"
+                                data-section="personal"
                                 placeholder="e.g., Doe"
-                                value={formData.PersonalData.lastname}
-                                onChange={handleChange}
+                                value={formData.personal.lastname}
+                                onChange={(e) => handleChange(e, e.target.dataset.section)}
                                 className={`w-full px-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
                                     ${errors.lastname ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                             />
@@ -68,6 +69,7 @@ export default function PersonalDetailsForm() {
 
                     {/* Contact Group */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        {/* ---email--- */}
                         <div className="space-y-1.5">
                             <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Email Address</label>
                             <div className="relative">
@@ -75,15 +77,15 @@ export default function PersonalDetailsForm() {
                                 <input
                                     name="email"
                                     type="email"
-                                    data-section="PersonalData"
+                                    data-section="personal"
                                     placeholder="john@example.com"
-                                    value={formData.PersonalData.email}
-                                    onChange={handleChange}
+                                    value={formData.personal.email}
+                                    onChange={(e) => handleChange(e, e.target.dataset.section)}
                                     className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
                                         ${errors.email ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                                 />
                             </div>
-                            {errors.email && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.email}</p>}
+                            {/* {errors.email && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.email}</p>} */}
                         </div>
 
                         <div className="space-y-1.5">
@@ -93,10 +95,10 @@ export default function PersonalDetailsForm() {
                                 <input
                                     name="phone"
                                     type="tel"
-                                    data-section="PersonalData"
+                                    data-section="personal"
                                     placeholder="10-digit mobile"
-                                    value={formData.PersonalData.phone}
-                                    onChange={handleChange}
+                                    value={formData.personal.phone}
+                                    onChange={(e) => handleChange(e, e.target.dataset.section)}
                                     className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
                                         ${errors.phone ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                                 />
@@ -111,9 +113,9 @@ export default function PersonalDetailsForm() {
                             <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Gender</label>
                             <select
                                 name="gender"
-                                data-section="PersonalData"
-                                value={formData.PersonalData.gender}
-                                onChange={handleChange}
+                                data-section="personal"
+                                value={formData.personal.gender}
+                                onChange={(e) => handleChange(e, e.target.dataset.section)}
                                 className={`w-full px-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700 appearance-none cursor-pointer
                                     ${errors.gender ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                             >
@@ -131,10 +133,10 @@ export default function PersonalDetailsForm() {
                                 <Globe className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                                 <input
                                     name="nationality"
-                                    data-section="PersonalData"
+                                    data-section="personal"
                                     placeholder="Indian"
-                                    value={formData.PersonalData.nationality}
-                                    onChange={handleChange}
+                                    value={formData.personal.nationality}
+                                    onChange={(e) => handleChange(e, e.target.dataset.section)}
                                     className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
                                         ${errors.nationality ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                                 />
@@ -144,7 +146,7 @@ export default function PersonalDetailsForm() {
                     </div>
 
                     {/* Full Width Aadhaar */}
-                    <div className="space-y-1.5">
+                    {/* <div className="space-y-1.5">
                         <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">Aadhaar Number</label>
                         <div className="relative">
                             <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
@@ -159,11 +161,11 @@ export default function PersonalDetailsForm() {
                             />
                         </div>
                         {errors.aadhar && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.aadhar}</p>}
-                    </div>
+                    </div> */}
 
                     <button
                         type="submit"
-                        onClick={handleNext}
+                        onClick={next}
                         className="w-full mt-6 bg-orange-600 hover:bg-orange-700 text-white py-4 rounded-2xl text-lg font-bold shadow-xl shadow-orange-200 transition-all active:scale-[0.98] flex items-center justify-center gap-2 group"
                     >
                         Save & Continue

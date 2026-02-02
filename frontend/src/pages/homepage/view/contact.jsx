@@ -11,26 +11,26 @@ const Contact = () => {
     const [faqData, setFaqData] = useState([]);
     const [activeFaq, setActiveFaq] = useState(null);
 
-    useEffect(() => {
-        const fetchFaqs = async () => {
-            try {
-                const baseUrl = import.meta.env.VITE_BACKEND_URL;
-                const response = await fetch(`${baseUrl}/api/content/faq`, {
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                if (!response.ok) throw new Error('Failed to fetch FAQs');
-                const data = await response.json();
-                setFaqData(data.map(f => ({
-                    id: f.id,
-                    question: f.title,
-                    answer: f.content
-                })));
-            } catch (error) {
-                console.error("Error fetching FAQs:", error);
-            }
-        };
-        fetchFaqs();
-    }, []);
+    // useEffect(() => {
+    //     const fetchFaqs = async () => {
+    //         try {
+    //             const baseUrl = import.meta.env.VITE_BACKEND_URL;
+    //             const response = await fetch(`${baseUrl}/api/content/faq`, {
+    //                 headers: { 'Content-Type': 'application/json' }
+    //             });
+    //             if (!response.ok) throw new Error('Failed to fetch FAQs');
+    //             const data = await response.json();
+    //             setFaqData(data.map(f => ({
+    //                 id: f.id,
+    //                 question: f.title,
+    //                 answer: f.content
+    //             })));
+    //         } catch (error) {
+    //             console.error("Error fetching FAQs:", error);
+    //         }
+    //     };
+    //     fetchFaqs();
+    // }, []);
 
     const [form, setForm] = useState({
         firstname: '',

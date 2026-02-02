@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Users, MapPin } from "lucide-react";
+import Mycontext from "../../../../context/mycontext";
 
 export const Listedproperties = () => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
-
     useEffect(() => {
         const fetchMyPgs = async () => {
+           
             try {
                 const token = localStorage.getItem('token');
                 const baseUrl = import.meta.env.VITE_BACKEND_URL;
@@ -19,6 +20,7 @@ export const Listedproperties = () => {
                 if (!response.ok) throw new Error('Failed to fetch properties');
                 const data = await response.json();
                 setProperties(data);
+                setLoading(false)
             } catch (error) {
                 console.error('Failed to fetch my properties:', error);
             } finally {

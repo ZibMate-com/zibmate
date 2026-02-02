@@ -5,7 +5,7 @@ import Mycontext from "../../context/mycontext";
 import logo from "../../assets/logoblack.png";
 
 export const NavBar = () => {
-    const { isLoggedIn } = useContext(Mycontext);
+    const { isLoggedIn  , setloading } = useContext(Mycontext);
     const [isScrolled, setIsScrolled] = useState(false);
     const user = JSON.parse(localStorage.getItem("users"));
 
@@ -21,13 +21,16 @@ export const NavBar = () => {
 
     useEffect(() => {
         const fetchNavLinks = async () => {
+            setloading(true)
             try {
                 const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/content/navbar_main`);
                 if (response.ok) {
                     const data = await response.json();
                     setNavLinks(data.map(item => ({ name: item.title, path: item.content })));
+                    setloading(false)
                 }
             } catch (error) {
+                setloading(false)
                 console.error("Failed to fetch nav links", error);
             }
         };
@@ -67,28 +70,33 @@ export const NavBar = () => {
                     </div>
 
                     <div className="flex gap-4 items-center">
-                      
-                        <NavLink
-                            to={user ? "/postproperty" : "/login"}
+                      {
+                        user &&  <NavLink
+                            to={user.role === 'admin' ? "/postproperty" : "/claimyourpg"}
                             className='hidden md:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg active:scale-95'
                         >
                             <PlusCircle className="size-4" />
-                            Post Property
-                        </NavLink>
+                           {user.role === 'admin' && "Post Property"} 
+                           {user.role === 'owner' && "Claim your PG"} 
+                           {user.role === 'tenent' && "Claim your PG"} 
 
+                        </NavLink>
+                      }
+                       
+                    
                         <div className="h-8 w-[1px] bg-slate-800 mx-2 hidden md:block" />
 
                         {user ? (
-                            <NavLink to={`/profile/${user.role}`}>
+                            <NavLink to={`${user.role === 'admin' ? '/admin-dashboard' : `/profile/${user.role}`}`}>
                                 <div className="flex items-center gap-3 p-1 pr-4 bg-[#fafafa] border border-slate-800 rounded-full hover:border-orange-500 transition-all group">
                                     <div className="size-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-xs">
-                                        {user.name?.charAt(0) || "U"}
+                                        {user.firstName?.charAt(0) || "U"}
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-[9px] uppercase font-black text-slate-500 leading-none">Member</span>
-                                        <span className="text-sm hidden md:block font-bold text-orange-500 group-hover:text-orange-500 transition-colors">
-                                            {user.name?.split(' ')[0]}
-                                        </span>
+                                        <span className="text-[9px] uppercase font-black text-slate-500 leading-none"> {user.firstName?.split(' ')[0]}</span>
+                                            <span className="text-sm hidden md:block font-bold text-orange-500 group-hover:text-orange-500 transition-colors">
+                                                {user.role?.split(' ')[0]}
+                                            </span>
                                     </div>
                                 </div>
                             </NavLink>
@@ -104,7 +112,7 @@ export const NavBar = () => {
                 </div>
             </nav>
 
-            <div className="md:hidden fixed bottom-0 left-0 z-50 w-full h-18 bg-black/95 backdrop-blur-lg border-t border-white/10 pb-2">
+            <div className="lg:hidden fixed bottom-0 left-0 z-50 w-full h-18 md:h-25 bg-black/95 backdrop-blur-lg border-t border-white/10 pb-2">
                 <div className="grid h-full grid-cols-5 items-center justify-items-center px-2">
 
 

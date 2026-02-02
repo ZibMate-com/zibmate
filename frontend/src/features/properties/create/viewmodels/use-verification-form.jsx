@@ -1,10 +1,10 @@
 import { useContext, useState } from "react";
-import Mycontext from "../../context/mycontext";
 import { useNavigate } from "react-router-dom";
+import Mycontext from "../../../../context/mycontext";
 
 
 export const useVerificationForm = () => {
-  const { setloading, setActiveStep } = useContext(Mycontext);
+  const { setloading, setActiveStep, activeStep } = useContext(Mycontext);
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     PersonalData: {
@@ -14,7 +14,6 @@ export const useVerificationForm = () => {
       phone: "",
       gender: "",
       nationality: "",
-      aadhar: ""
     },
     PropertyData: {
       propertyName: "",
@@ -68,8 +67,8 @@ export const useVerificationForm = () => {
 
       if (!formData.PersonalData.aadhar)
         newErrors.aadhar = "Aadhaar number is required";
-      else if (!aadhaarRegex.test(formData.PersonalData.aadhar))
-        newErrors.aadhar = "Aadhaar must be 12 digits";
+      // else if (!aadhaarRegex.test(formData.PersonalData.aadhar))
+      //   newErrors.aadhar = "Aadhaar must be 12 digits";
     }
 
 

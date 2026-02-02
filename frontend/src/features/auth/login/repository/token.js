@@ -1,6 +1,9 @@
 import { jwtDecode } from "jwt-decode";
 
 export const getToken = () => {
+    if (localStorage.getItem('adminToken')) {
+        return localStorage.getItem('adminToken')
+    }
     return localStorage.getItem('token');
 };
 

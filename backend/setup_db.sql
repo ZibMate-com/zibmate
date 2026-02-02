@@ -3,10 +3,10 @@ USE zibmate;
 
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL DEFAULT '',
     last_name VARCHAR(255),
     email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL DEFAULT '',
     phone VARCHAR(20),
     role ENUM('user', 'owner', 'admin') DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -14,21 +14,27 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS pg_data (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    property_name VARCHAR(255) NOT NULL,
     description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
-    discount DECIMAL(10, 2) DEFAULT 0,
-    location VARCHAR(255),
-    location_link TEXT,
-    occupancy JSON,
-    looking_for VARCHAR(100),
-    facilities JSON,
+    house_number VARCHAR(100),
+    street VARCHAR(255),
+    landmark VARCHAR(255),
     city VARCHAR(100),
+    state VARCHAR(100),
+    zip VARCHAR(10),
+    maplink TEXT,
+    discount DECIMAL(10,2) DEFAULT 0,
+    occupancy JSON,          
+    prices JSON,            
+    facilities JSON,        
+    looking_for ENUM('Any','Students','Professionals') DEFAULT 'Any',
     owner_id INT,
-    status ENUM('active', 'inactive') DEFAULT 'active',
+    owner_phone VARCHAR(20) NOT NULL,
+    status ENUM('active','inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE SET NULL
+     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE SET NULL
 );
+
 
 CREATE TABLE IF NOT EXISTS rooms (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -92,4 +98,31 @@ CREATE TABLE IF NOT EXISTS app_content (
     image_url TEXT,
     display_order INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS tenent_call_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT, 
+    pg_id INT,
+    full_name VARCHAR(255),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20),
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    email_sent BOOLEAN DEFAULT FALSE,
+    email_sent_at DATETIME NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (pg_id) REFERENCES pg_data(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS owner_call_requests (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT, 
+    full_name VARCHAR(255),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(20) UNIQUE NOT NULL,
+    city VARCHAR(100),
+    state VARCHAR(100),
+    status ENUM('active', 'inactive') DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

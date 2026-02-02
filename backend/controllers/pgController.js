@@ -55,42 +55,137 @@ export const getPGById = async (req, res) => {
     }
 };
 
-export const addPG = async (req, res) => {
-    try {
-        // When using multipart/form-data, non-file fields are in req.body
-        const { name, description, price, discount, location, locationLink, occupancy, lookingFor, facilities, city } = req.body;
-        const ownerId = req.userId;
 
-        // Parse facilities if it's sent as a string (happens with FormData)
-        const parsedFacilities = typeof facilities === 'string' ? JSON.parse(facilities) : facilities;
-        const parsedOccupancy = typeof occupancy === 'string' ? JSON.parse(occupancy) : occupancy;
+export const addPG = async (req, res) => {
+    const propertyData =
+        typeof req.body.property === "string"
+            ? JSON.parse(req.body.property)
+            : req.body.property;
+    try {
+        const {
+            propertyName,
+            description,
+            houseNumber,
+            street,
+            landmark,
+            city,
+            state,
+            zip,
+            maplink,
+            discount,
+            occupancy,
+            prices,
+            facilities,
+            lookingFor,
+            phone,
+        } = propertyData;
+
+        const parsedOccupancy =
+            typeof occupancy === "string" ? JSON.parse(occupancy) : occupancy;
+
+        const parsedPrices =
+            typeof prices === "string" ? JSON.parse(prices) : prices;
+
+        const parsedFacilities =
+            typeof facilities === "string" ? JSON.parse(facilities) : facilities;
+
+
+        const [ownerRows] = await db.execute(
+            `SELECT id, first_name, email, phone FROM users WHERE phone = ?`,
+            [phone]
+        );
+
+        let ownerId;
+        let ownerName;
+        let ownerEmail;
+        let ownerPhone = phone;
+
+
+        if (ownerRows.length === 0) {
+            const [insertResult] = await db.execute(
+                `
+                INSERT INTO users (phone, role)
+                VALUES (?, 'owner')
+                ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)
+                `,
+                [phone]
+            );
+
+            ownerId = insertResult.insertId;
+            ownerName = '';
+            ownerEmail = '';
+        } else {
+            ownerId = ownerRows[0].id;
+            ownerName = ownerRows[0].first_name || '';
+            ownerEmail = ownerRows[0].email || '';
+        }
+
+
         const [result] = await db.execute(
-            'INSERT INTO pg_data (name, description, price, discount, location, location_link, occupancy, looking_for, facilities, city, owner_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [name, description, price, discount, location, locationLink, JSON.stringify(parsedOccupancy ), lookingFor, JSON.stringify(parsedFacilities), city, ownerId]
+            `
+            INSERT INTO pg_data (
+                property_name,
+                description,
+                house_number,
+                street,
+                landmark,
+                city,
+                state,
+                zip,
+                maplink,
+                discount,
+                occupancy,
+                prices,
+                facilities,
+                looking_for,
+                owner_id,
+                owner_phone
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `,
+            [
+                propertyName,
+                description,
+                houseNumber,
+                street,
+                landmark,
+                city,
+                state,
+                zip,
+                maplink,
+                discount || 0,
+                JSON.stringify(parsedOccupancy),
+                JSON.stringify(parsedPrices),
+                JSON.stringify(parsedFacilities),
+                lookingFor || "Any",
+                ownerId,
+                ownerPhone
+            ]
         );
 
         const pgId = result.insertId;
 
-        // Handle uploaded files
         if (req.files && req.files.length > 0) {
             for (let file of req.files) {
                 const imageUrl = `uploads/${file.filename}`;
-                await db.execute('INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)', [pgId, imageUrl]);
-            }
-        } else if (req.body.images) {
-            // Support for external URLs if passed via body (though primary use is files now)
-            const extImages = typeof req.body.images === 'string' ? JSON.parse(req.body.images) : req.body.images;
-            for (let imageUrl of extImages) {
-                await db.execute('INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)', [pgId, imageUrl]);
+                await db.execute(
+                    `INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)`,
+                    [pgId, imageUrl]
+                );
             }
         }
 
-        res.status(201).json({ message: 'PG added successfully', pgId });
+        res.status(201).json({
+            message: "PG added successfully",
+            pgId
+        });
+
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error adding PG' });
+        console.error("Add PG Error:", error);
+        res.status(500).json({ message: "Server error adding PG" });
     }
 };
+
+
 
 export const getMyPGs = async (req, res) => {
     try {
