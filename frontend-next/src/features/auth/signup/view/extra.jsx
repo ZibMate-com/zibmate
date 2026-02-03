@@ -7,16 +7,7 @@ import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { Auth, Firedb } from "../../firebase/firebaseconfig";
 import { useRouter } from "next/navigation";
 export const SignUp = () => {
-  const {
-    role,
-    userdata,
-    errors,
-    validate,
-    setRole,
-    setUserData,
-    handleSubmit,
-
-  } = useSignup()
+  const { role, userdata, errors, validate, setRole, setUserData, handleSubmit } = useSignup();
   // console.log(signupUser());
   const router = useRouter();
   const userSignupFunction = async () => {
@@ -38,7 +29,7 @@ export const SignUp = () => {
           month: "short",
           day: "2-digit",
           year: "numeric",
-        })
+        }),
       };
 
       const UserRef = collection(Firedb, "user");
@@ -64,30 +55,34 @@ export const SignUp = () => {
   return (
     <div className="flex items-center justify-center min-h-screen p-4">
       <div className="w-full max-w-md bg-white p-6 rounded-2xl border border-gray-500">
-        <form className="text-center space-y-4" onSubmit={async (e) => {
-          e.preventDefault();
-          await userSignupFunction();
-        }}>
+        <form
+          className="text-center space-y-4"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            await userSignupFunction();
+          }}
+        >
           <h2 className="text-3xl font-semibold font-Montserrat">Signup</h2>
-
 
           <div className="flex justify-center gap-3">
             <button
               type="button"
-              className={`px-6 py-2 rounded-full border font-Lato ${role === "owner"
-                ? "bg-orange-500 text-white border-orange-500"
-                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                }`}
+              className={`px-6 py-2 rounded-full border font-Lato ${
+                role === "owner"
+                  ? "bg-orange-500 text-white border-orange-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+              }`}
               onClick={() => setRole("owner")}
             >
               Owner
             </button>
             <button
               type="button"
-              className={`px-6 py-2 rounded-full border font-Lato ${role === "buyer"
-                ? "bg-orange-500 text-white border-orange-500"
-                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                }`}
+              className={`px-6 py-2 rounded-full border font-Lato ${
+                role === "buyer"
+                  ? "bg-orange-500 text-white border-orange-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+              }`}
               onClick={() => setRole("buyer")}
             >
               Buyer
@@ -100,36 +95,30 @@ export const SignUp = () => {
               placeholder="First Name"
               value={userdata.firstName}
               onChange={(e) => setUserData({ ...userdata, firstName: e.target.value })}
-              className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.firstName
-                ? "border-red-500 focus:ring-red-400"
-                : "focus:ring-indigo-500"
-                }`}
+              className={`w-full p-2 border rounded-lg focus:ring-2 ${
+                errors.firstName ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
+              }`}
             />
-            {errors.firstName && (
-              <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
-            )}
+            {errors.firstName && <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>}
           </div>
-
 
           <div className="text-left">
             <input
               type="text"
               placeholder="Last Name"
               value={userdata.lastName}
-              onChange={(e) => setUserData({
-                ...userdata,
-                lastName: e.target.value
-              })}
-              className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.lastName
-                ? "border-red-500 focus:ring-red-400"
-                : "focus:ring-indigo-500"
-                }`}
+              onChange={(e) =>
+                setUserData({
+                  ...userdata,
+                  lastName: e.target.value,
+                })
+              }
+              className={`w-full p-2 border rounded-lg focus:ring-2 ${
+                errors.lastName ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
+              }`}
             />
-            {errors.lastName && (
-              <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>
-            )}
+            {errors.lastName && <p className="text-red-500 text-sm mt-1">{errors.lastName}</p>}
           </div>
-
 
           {role === "owner" ? (
             <>
@@ -138,18 +127,17 @@ export const SignUp = () => {
                   type="email"
                   placeholder="Email"
                   value={userdata.email}
-                  onChange={(e) => setUserData({
-                    ...userdata,
-                    email: e.target.value
-                  })}
-                  className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.email
-                    ? "border-red-500 focus:ring-red-400"
-                    : "focus:ring-indigo-500"
-                    }`}
+                  onChange={(e) =>
+                    setUserData({
+                      ...userdata,
+                      email: e.target.value,
+                    })
+                  }
+                  className={`w-full p-2 border rounded-lg focus:ring-2 ${
+                    errors.email ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
+                  }`}
                 />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                )}
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
 
               <div className="text-left">
@@ -157,18 +145,17 @@ export const SignUp = () => {
                   type="password"
                   placeholder="Password"
                   value={userdata.password}
-                  onChange={(e) => setUserData({
-                    ...userdata,
-                    password: e.target.value
-                  })}
-                  className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.password
-                    ? "border-red-500 focus:ring-red-400"
-                    : "focus:ring-indigo-500"
-                    }`}
+                  onChange={(e) =>
+                    setUserData({
+                      ...userdata,
+                      password: e.target.value,
+                    })
+                  }
+                  className={`w-full p-2 border rounded-lg focus:ring-2 ${
+                    errors.password ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
+                  }`}
                 />
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-                )}
+                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
               </div>
             </>
           ) : (
@@ -178,18 +165,17 @@ export const SignUp = () => {
                   type="email"
                   placeholder="Email"
                   value={userdata.email}
-                  onChange={(e) => setUserData({
-                    ...userdata,
-                    email: e.target.value
-                  })}
-                  className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.email
-                    ? "border-red-500 focus:ring-red-400"
-                    : "focus:ring-indigo-500"
-                    }`}
+                  onChange={(e) =>
+                    setUserData({
+                      ...userdata,
+                      email: e.target.value,
+                    })
+                  }
+                  className={`w-full p-2 border rounded-lg focus:ring-2 ${
+                    errors.email ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
+                  }`}
                 />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                )}
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
 
               <div className="text-left">
@@ -197,18 +183,17 @@ export const SignUp = () => {
                   type="tel"
                   placeholder="Phone Number"
                   value={userdata.phone}
-                  onChange={(e) => setUserData({
-                    ...userdata,
-                    phone: e.target.value
-                  })}
-                  className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.phone
-                    ? "border-red-500 focus:ring-red-400"
-                    : "focus:ring-indigo-500"
-                    }`}
+                  onChange={(e) =>
+                    setUserData({
+                      ...userdata,
+                      phone: e.target.value,
+                    })
+                  }
+                  className={`w-full p-2 border rounded-lg focus:ring-2 ${
+                    errors.phone ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
+                  }`}
                 />
-                {errors.phone && (
-                  <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-                )}
+                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
               </div>
             </>
           )}
@@ -224,5 +209,4 @@ export const SignUp = () => {
       </div>
     </div>
   );
-}
-
+};

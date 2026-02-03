@@ -1,25 +1,25 @@
-import { NextResponse, NextRequest } from 'next/server';
-import db from '@/lib/db';
-import { verifyAuth } from '@/lib/auth';
-import { RowDataPacket, ResultSetHeader } from 'mysql2';
-import nodemailer from 'nodemailer';
+import { NextResponse, NextRequest } from "next/server";
+import db from "@/lib/db";
+import { verifyAuth } from "@/lib/auth";
+import { RowDataPacket, ResultSetHeader } from "mysql2";
+import nodemailer from "nodemailer";
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ request_id: string }> }) {
-    try {
-        const authUser = verifyAuth(req);
-        if (!authUser) {
-            return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-        }
+  try {
+    const authUser = verifyAuth(req);
+    if (!authUser) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
 
-        if (authUser.role !== 'admin') {
-            return NextResponse.json({ message: 'Require Admin Role' }, { status: 403 });
-        }
+    if (authUser.role !== "admin") {
+      return NextResponse.json({ message: "Require Admin Role" }, { status: 403 });
+    }
 
-        const { request_id } = await params;
+    const { request_id } = await params;
 
-        // Get request details
-        const [request_details] = await db.execute<RowDataPacket[]>(
-            `SELECT 
+    // Get request details
+    const [request_details] = await db.execute<RowDataPacket[]>(
+      `SELECT 
                 r.full_name, 
                 r.email, 
                 r.phone,
@@ -28,25 +28,25 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ req
              FROM tenent_call_requests r
              JOIN pg_data p ON r.pg_id = p.id
              WHERE r.id = ?`,
-            [request_id]
-        );
+      [request_id],
+    );
 
-        if (request_details.length === 0) {
-            return NextResponse.json({ message: "Request not found" }, { status: 404 });
-        }
+    if (request_details.length === 0) {
+      return NextResponse.json({ message: "Request not found" }, { status: 404 });
+    }
 
-        const { full_name, email, property_name, owner_phone } = request_details[0];
+    const { full_name, email, property_name, owner_phone } = request_details[0];
 
-        // Create transporter
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
+    // Create transporter
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
 
-        const htmlContent = `
+    const htmlContent = `
         <!DOCTYPE html>
         <html>
         <head>
@@ -103,31 +103,36 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ req
         </html>
     `;
 
-        const textContent = `Hi ${full_name},\n\nWe know finding a home is a big step, and we're honored to help. Your requested contact for ${property_name} is ${owner_phone}.\n\nWe're here for you until you find the perfect place.\n\nWarmly,\nTeam Zibmate`;
+    const textContent = `Hi ${full_name},\n\nWe know finding a home is a big step, and we're honored to help. Your requested contact for ${property_name} is ${owner_phone}.\n\nWe're here for you until you find the perfect place.\n\nWarmly,\nTeam Zibmate`;
 
-        await transporter.sendMail({
-            from: `"Zibmate" <${process.env.EMAIL_USER}>`,
-            to: email,
-            subject: `Your journey home to ${property_name} starts here!`,
-            html: htmlContent,
-            text: textContent
-        });
+    await transporter.sendMail({
+      from: `"Zibmate" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: `Your journey home to ${property_name} starts here!`,
+      html: htmlContent,
+      text: textContent,
+    });
 
-        await db.execute(
-            `UPDATE tenent_call_requests SET status = ?, email_sent = true, email_sent_at = NOW() WHERE id = ?`,
-            ['inactive', request_id]
-        );
+    await db.execute(
+      `UPDATE tenent_call_requests SET status = ?, email_sent = true, email_sent_at = NOW() WHERE id = ?`,
+      ["inactive", request_id],
+    );
 
-        return NextResponse.json({
-            message: 'Contact details sent successfully to your email',
-            email: email
-        }, { status: 200 });
-
-    } catch (error: any) {
-        console.error('Error sending email:', error);
-        return NextResponse.json({
-            message: 'Error sending email',
-            error: error.message
-        }, { status: 500 });
-    }
+    return NextResponse.json(
+      {
+        message: "Contact details sent successfully to your email",
+        email: email,
+      },
+      { status: 200 },
+    );
+  } catch (error: any) {
+    console.error("Error sending email:", error);
+    return NextResponse.json(
+      {
+        message: "Error sending email",
+        error: error.message,
+      },
+      { status: 500 },
+    );
+  }
 }

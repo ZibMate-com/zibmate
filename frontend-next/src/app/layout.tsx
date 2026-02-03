@@ -26,14 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
           {/* @ts-ignore - AppLayout is jsx */}
-          <AppLayout>
-            {children}
-          </AppLayout>
+          <AppLayout>{children}</AppLayout>
         </Providers>
       </body>
     </html>

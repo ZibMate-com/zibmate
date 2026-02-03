@@ -8,7 +8,6 @@ export const SectionThree = () => {
   return (
     <section className="w-full relative py-24 px-6 md:px-12 lg:px-24 bg-slate-50/50">
       <div className="max-w-8xl mx-auto flex flex-col lg:flex-row items-center gap-12 overflow-hidden rounded-[3rem] bg-slate-900 relative shadow-2xl">
-
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <img
@@ -41,7 +40,7 @@ export const SectionThree = () => {
               {[
                 "Streamline property management for all users.",
                 "Centralize payments and communication securely.",
-                "Modern platform for efficient operations."
+                "Modern platform for efficient operations.",
               ].map((text, i) => (
                 <motion.div
                   key={i}

@@ -5,7 +5,6 @@ import { getPgData } from "../models/pgdata";
 import Mycontext from "../../../../context/mycontext";
 // import { pgs } from "../models/pgs";
 
-
 export const useFilterPGs = () => {
   const router = useRouter();
   // const {pgs ,setpgs} = usePgData();
@@ -14,20 +13,20 @@ export const useFilterPGs = () => {
   const [filteredPg, setFilteredPg] = useState([]);
   const FilterRef = useRef();
   const [isSortOpen, setSortOpen] = useState(false);
-  const handleSort = () => setSortOpen(prev => !prev);
+  const handleSort = () => setSortOpen((prev) => !prev);
   const [filters, setFilters] = useState({
     Occupancy: "",
     lookingFor: "",
     facilities: [],
     price: "",
-    city: ""
+    city: "",
   });
 
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-  }
+  };
 
   // useEffect(() => {
   //   const handleOutside = (event) => {
@@ -40,25 +39,24 @@ export const useFilterPGs = () => {
   // })
   useEffect(() => {
     const fetchData = async () => {
-      setloading(true)
+      setloading(true);
       try {
         const data = await getPgData();
         setPgs(data);
-        setloading(false)
-        setFilteredPg(data)
-        return data
+        setloading(false);
+        setFilteredPg(data);
+        return data;
       } catch (error) {
         console.log(error);
-        setloading(false)
+        setloading(false);
       }
     };
 
     fetchData();
-
   }, []);
 
   const addPriceRange = () => {
-    pgs.forEach(pg => {
+    pgs.forEach((pg) => {
       switch (true) {
         case pg.price < 10000:
           pg.priceRange = "under 10,000";
@@ -79,9 +77,9 @@ export const useFilterPGs = () => {
   };
 
   const handlefilters = ({ title, values }) => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
-      [title]: values
+      [title]: values,
     }));
   };
 
@@ -91,7 +89,7 @@ export const useFilterPGs = () => {
       lookingFor: "",
       facilities: "",
       price: "",
-      city: ""
+      city: "",
     });
     setSearchQuery("");
     // setFilteredPg(pgs); // logical update will be handled by useEffect
@@ -101,24 +99,19 @@ export const useFilterPGs = () => {
     router.push(`/pgdetails/${id}`);
   };
 
-
   useEffect(() => {
     addPriceRange();
-    const filteredpgs = pgs.filter(pg => {
-      const matchOccupancy =
-        !filters.Occupancy || pg.occupancy === filters.Occupancy;
+    const filteredpgs = pgs.filter((pg) => {
+      const matchOccupancy = !filters.Occupancy || pg.occupancy === filters.Occupancy;
 
-      const matchLookingFor =
-        !filters.lookingFor || pg.lookingFor === filters.lookingFor;
+      const matchLookingFor = !filters.lookingFor || pg.lookingFor === filters.lookingFor;
 
       const matchFacilities =
-        !filters.facilities?.length || filters.facilities.some(faci => pg.facilities.includes(faci));
+        !filters.facilities?.length || filters.facilities.some((faci) => pg.facilities.includes(faci));
 
-      const matchPrice =
-        !filters.price || filters.price === "Price Range" || pg.priceRange === filters.price;
+      const matchPrice = !filters.price || filters.price === "Price Range" || pg.priceRange === filters.price;
 
-      const matchCity =
-        !filters.city || (pg.city && pg.city.toLowerCase() === filters.city.toLowerCase());
+      const matchCity = !filters.city || (pg.city && pg.city.toLowerCase() === filters.city.toLowerCase());
 
       const query = searchQuery.toLowerCase();
       const matchSearch =
@@ -141,6 +134,6 @@ export const useFilterPGs = () => {
     isSortOpen,
     handleSort,
     handleSearch,
-    searchQuery
+    searchQuery,
   };
 };

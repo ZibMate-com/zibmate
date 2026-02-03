@@ -1,14 +1,7 @@
 import { useLogin } from "./viewmodels/uselogin";
 
 export const Login = () => {
-  const {
-    role,
-    userCred,
-    setRole,
-    errors,
-    setUserCred,
-    handleLogin
-  } = useLogin()
+  const { role, userCred, setRole, errors, setUserCred, handleLogin } = useLogin();
 
   return (
     <div className="flex items-center justify-center min-h-screen  p-4">
@@ -19,20 +12,22 @@ export const Login = () => {
           <div className="flex justify-center gap-3">
             <button
               type="button"
-              className={`px-6 py-2 rounded-full border font-Lato ${role === "owner"
-                ? "bg-orange-500 text-white border-orange-500"
-                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                }`}
+              className={`px-6 py-2 rounded-full border font-Lato ${
+                role === "owner"
+                  ? "bg-orange-500 text-white border-orange-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+              }`}
               onClick={() => setRole("owner")}
             >
               Owner
             </button>
             <button
               type="button"
-              className={`px-6 py-2 rounded-full border  font-Lato ${role === "buyer"
-                ? "bg-orange-500 text-white border-orange-500"
-                : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
-                }`}
+              className={`px-6 py-2 rounded-full border  font-Lato ${
+                role === "buyer"
+                  ? "bg-orange-500 text-white border-orange-500"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+              }`}
               onClick={() => setRole("buyer")}
             >
               Buyer
@@ -45,32 +40,34 @@ export const Login = () => {
                   type="email"
                   placeholder="Email"
                   value={userCred.email}
-                  onChange={(e) => setUserCred({
-                    ...userCred,
-                    email: e.target.value
-                  })}
-                  className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.email ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
-                    }`}
+                  onChange={(e) =>
+                    setUserCred({
+                      ...userCred,
+                      email: e.target.value,
+                    })
+                  }
+                  className={`w-full p-2 border rounded-lg focus:ring-2 ${
+                    errors.email ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
+                  }`}
                 />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                )}
+                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
               <div className="text-left">
                 <input
                   type="password"
                   placeholder="Password"
                   value={userCred.password}
-                  onChange={(e) => setUserCred({
-                    ...userCred,
-                    password: e.target.value
-                  })}
-                  className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.password ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
-                    }`}
+                  onChange={(e) =>
+                    setUserCred({
+                      ...userCred,
+                      password: e.target.value,
+                    })
+                  }
+                  className={`w-full p-2 border rounded-lg focus:ring-2 ${
+                    errors.password ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
+                  }`}
                 />
-                {errors.password && (
-                  <p className="text-red-500 text-sm mt-1">{errors.password}</p>
-                )}
+                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
               </div>
             </>
           ) : (
@@ -79,16 +76,17 @@ export const Login = () => {
                 type="tel"
                 placeholder="Phone Number"
                 value={userCred.phone}
-                onChange={(e) => setPhone({
-                  ...userCred,
-                  phone: e.target.value
-                })}
-                className={`w-full p-2 border rounded-lg focus:ring-2 ${errors.phone ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
-                  }`}
+                onChange={(e) =>
+                  setPhone({
+                    ...userCred,
+                    phone: e.target.value,
+                  })
+                }
+                className={`w-full p-2 border rounded-lg focus:ring-2 ${
+                  errors.phone ? "border-red-500 focus:ring-red-400" : "focus:ring-indigo-500"
+                }`}
               />
-              {errors.phone && (
-                <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
-              )}
+              {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
             </div>
           )}
 
@@ -103,5 +101,4 @@ export const Login = () => {
       </div>
     </div>
   );
-}
-
+};
