@@ -144,7 +144,7 @@ const Contact = () => {
                                         <User className='absolute left-3 top-3 size-4 text-gray-400' />
                                         <input
                                             type="text" name='firstname' placeholder='First Name'
-                                            className='w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all'
+                                            className='w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black placeholder-black'
                                             value={form.firstname} onChange={handleChange}
                                         />
                                     </div>
@@ -153,7 +153,7 @@ const Contact = () => {
                                 <div className='space-y-1'>
                                     <input
                                         type="text" name='lastname' placeholder='Last Name'
-                                        className='w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all'
+                                        className='w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black placeholder-black'
                                         value={form.lastname} onChange={handleChange}
                                     />
                                     {errors.lastname && <p className="text-red-500 text-xs ml-1">{errors.lastname}</p>}
@@ -165,7 +165,7 @@ const Contact = () => {
                                     <Mail className='absolute left-3 top-3 size-4 text-gray-400' />
                                     <input
                                         type="email" name='email' placeholder='Email Address'
-                                        className='w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all'
+                                        className='w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black placeholder-black'
                                         value={form.email} onChange={handleChange}
                                     />
                                 </div>
@@ -177,7 +177,7 @@ const Contact = () => {
                                     <MessageSquare className='absolute left-3 top-3 size-4 text-gray-400' />
                                     <textarea
                                         name="message" placeholder='Your message...' rows={4}
-                                        className='w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all resize-none'
+                                        className='w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all resize-none text-black placeholder-black'
                                         value={form.message} onChange={handleChange}
                                     />
                                 </div>

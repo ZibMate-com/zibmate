@@ -1,9 +1,9 @@
 "use client";
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  X, User, Mail, Phone, Globe, Hash, 
-  Layout, Users, PlusCircle, CheckCircle2, 
-  ChevronRight, Sparkles 
+import {
+  X, User, Mail, Phone, Globe, Hash,
+  Layout, Users, PlusCircle, CheckCircle2,
+  ChevronRight, Sparkles
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -24,21 +24,21 @@ export const AddTenantModal = ({ isOpen, onClose, onAdd }) => {
   };
 
   // Helper for input styling to keep JSX clean
-  const inputBase = "w-full pl-12 pr-4 py-3.5 bg-slate-50/50 border border-slate-200 rounded-2xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all duration-300 placeholder:text-slate-400 text-slate-700 font-medium";
+  const inputBase = "w-full pl-12 pr-4 py-3.5 bg-slate-50/50 border border-slate-200 rounded-2xl focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 outline-none transition-all duration-300 text-black placeholder-black font-medium";
 
   return (
     <AnimatePresence>
       {isOpen && (
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
             className="absolute inset-0 bg-slate-900/40 backdrop-blur-md"
           />
-          
-          <motion.div 
+
+          <motion.div
             initial={{ scale: 0.95, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 20 }}
@@ -71,7 +71,7 @@ export const AddTenantModal = ({ isOpen, onClose, onAdd }) => {
                     <div className="size-6 rounded-full bg-slate-900 text-white text-[10px] flex items-center justify-center font-bold">1</div>
                     <h4 className="font-bold text-slate-800 text-sm uppercase tracking-wide">Contact Identity</h4>
                   </div>
-                  
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="md:col-span-2 relative group">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-slate-400 group-focus-within:text-orange-500 transition-colors" />
@@ -98,7 +98,7 @@ export const AddTenantModal = ({ isOpen, onClose, onAdd }) => {
                       <div className="size-6 rounded-full bg-slate-900 text-white text-[10px] flex items-center justify-center font-bold">2</div>
                       <h4 className="font-bold text-slate-800 text-sm uppercase tracking-wide">Profile</h4>
                     </div>
-                    
+
                     <div className="relative group">
                       <Users className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-slate-400 group-focus-within:text-orange-500 transition-colors" />
                       <select name="gender" onChange={handleChange} className={`${inputBase} appearance-none cursor-pointer`}>
@@ -133,8 +133,8 @@ export const AddTenantModal = ({ isOpen, onClose, onAdd }) => {
                       </div>
                     </div>
                     <div className="p-3 bg-blue-50/50 rounded-xl border border-blue-100 flex gap-2 items-start">
-                        <CheckCircle2 size={14} className="text-blue-500 mt-0.5" />
-                        <p className="text-[11px] text-blue-700 leading-tight">System will automatically check for room availability upon submission.</p>
+                      <CheckCircle2 size={14} className="text-blue-500 mt-0.5" />
+                      <p className="text-[11px] text-blue-700 leading-tight">System will automatically check for room availability upon submission.</p>
                     </div>
                   </div>
                 </div>

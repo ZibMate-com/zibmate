@@ -97,7 +97,7 @@ export default function PropertyDetailsForm() {
                                 value={formData.name}
                                 onChange={handleChange}
                                 placeholder="e.g. Skyline Residency"
-                                className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium"
+                                className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-black placeholder-black"
                             />
                         </div>
                         <div className="space-y-1.5">
@@ -107,7 +107,7 @@ export default function PropertyDetailsForm() {
                                 value={formData.city}
                                 onChange={handleChange}
                                 placeholder="Mumbai"
-                                className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium"
+                                className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-black placeholder-black"
                             />
                         </div>
                     </div>
@@ -124,7 +124,7 @@ export default function PropertyDetailsForm() {
                                     value={formData.price}
                                     onChange={handleChange}
                                     placeholder="8500"
-                                    className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium"
+                                    className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-black placeholder-black"
                                 />
                             </div>
                         </div>
@@ -138,7 +138,7 @@ export default function PropertyDetailsForm() {
                                     value={formData.discount}
                                     onChange={handleChange}
                                     placeholder="500"
-                                    className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium"
+                                    className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-black placeholder-black"
                                 />
                             </div>
                         </div>
@@ -185,7 +185,7 @@ export default function PropertyDetailsForm() {
                                 value={formData.address}
                                 onChange={handleChange}
                                 placeholder="Street, Building name..."
-                                className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium"
+                                className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-black placeholder-black"
                             />
                         </div>
                     </div>
@@ -246,7 +246,7 @@ export default function PropertyDetailsForm() {
                             onChange={handleChange}
                             rows="3"
                             placeholder="Tell users why they should choose your PG..."
-                            className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-sm"
+                            className="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-orange-500 transition-all font-medium text-sm text-black placeholder-black"
                         ></textarea>
                     </div>
 

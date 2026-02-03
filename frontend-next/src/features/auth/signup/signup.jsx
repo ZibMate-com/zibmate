@@ -105,7 +105,7 @@ const Signup = () => {
                                     placeholder="First Name"
                                     value={userdata.firstName}
                                     onChange={handleInputChange}
-                                    className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm"
+                                    className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm text-black placeholder-black"
                                 />
                                 {errors.firstName && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.firstName}</p>}
                             </div>
@@ -116,7 +116,7 @@ const Signup = () => {
                                     placeholder="Last Name"
                                     value={userdata.lastName}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm"
+                                    className="w-full px-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm text-black placeholder-black"
                                 />
                                 {errors.lastName && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.lastName}</p>}
                             </div>
@@ -130,7 +130,7 @@ const Signup = () => {
                                 placeholder="Email Address"
                                 value={userdata.email}
                                 onChange={handleInputChange}
-                                className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm"
+                                className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm text-black placeholder-black"
                             />
                             {errors.email && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.email}</p>}
                         </div>
@@ -151,7 +151,7 @@ const Signup = () => {
                                         placeholder="Secure Password"
                                         value={userdata.password}
                                         onChange={handleInputChange}
-                                        className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm"
+                                        className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm text-black placeholder-black"
                                     />
                                     {errors.password && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.password}</p>}
                                 </div>
@@ -169,7 +169,7 @@ const Signup = () => {
                                             placeholder="Mobile Number"
                                             value={userdata.phone}
                                             onChange={handleInputChange}
-                                            className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm"
+                                            className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm text-black placeholder-black"
                                         />
                                         {errors.phone && <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.phone}</p>}
                                     </motion.div>

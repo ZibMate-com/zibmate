@@ -14,7 +14,7 @@ export default function PersonalDetailsForm() {
 
     return (
         <div className="flex justify-center items-center min-h-[calc(100vh-80px)] md:p-6 bg-slate-50/50 font-Montserrat">
-            <motion.div 
+            <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="w-full max-w-2xl bg-white p-8 sm:p-10 rounded-3xl border border-slate-200 shadow-2xl shadow-slate-200/50"
@@ -45,7 +45,7 @@ export default function PersonalDetailsForm() {
                                     placeholder="e.g., John"
                                     value={formData.PersonalData.firstname}
                                     onChange={handleChange}
-                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-black placeholder-black
                                         ${errors.firstname ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                                 />
                             </div>
@@ -60,7 +60,7 @@ export default function PersonalDetailsForm() {
                                 placeholder="e.g., Doe"
                                 value={formData.PersonalData.lastname}
                                 onChange={handleChange}
-                                className={`w-full px-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                className={`w-full px-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-black placeholder-black
                                     ${errors.lastname ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                             />
                             {errors.lastname && <p className="text-rose-500 text-[10px] font-bold mt-1 ml-2">{errors.lastname}</p>}
@@ -80,7 +80,7 @@ export default function PersonalDetailsForm() {
                                     placeholder="john@example.com"
                                     value={formData.PersonalData.email}
                                     onChange={handleChange}
-                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-black placeholder-black
                                         ${errors.email ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                                 />
                             </div>
@@ -98,7 +98,7 @@ export default function PersonalDetailsForm() {
                                     placeholder="10-digit mobile"
                                     value={formData.PersonalData.phone}
                                     onChange={handleChange}
-                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-black placeholder-black
                                         ${errors.phone ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                                 />
                             </div>
@@ -115,7 +115,7 @@ export default function PersonalDetailsForm() {
                                 data-section="PersonalData"
                                 value={formData.PersonalData.gender}
                                 onChange={handleChange}
-                                className={`w-full px-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700 appearance-none cursor-pointer
+                                className={`w-full px-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-black placeholder-black appearance-none cursor-pointer
                                     ${errors.gender ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                             >
                                 <option value="" disabled>Select gender</option>
@@ -136,7 +136,7 @@ export default function PersonalDetailsForm() {
                                     placeholder="Indian"
                                     value={formData.PersonalData.nationality}
                                     onChange={handleChange}
-                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                    className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-black placeholder-black
                                         ${errors.nationality ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                                 />
                             </div>
@@ -155,7 +155,7 @@ export default function PersonalDetailsForm() {
                                 placeholder="XXXX XXXX XXXX"
                                 value={formData.PersonalData.aadhar}
                                 onChange={handleChange}
-                                className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-slate-700
+                                className={`w-full pl-11 pr-4 py-3.5 bg-slate-50 border rounded-2xl outline-none transition-all font-medium text-black placeholder-black
                                     ${errors.aadhar ? "border-rose-400 ring-4 ring-rose-500/10" : "border-slate-200 focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10"}`}
                             />
                         </div>

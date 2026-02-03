@@ -2,7 +2,7 @@ import { Clock, Send, Info, AlertTriangle, CalendarCheck } from 'lucide-react';
 export const NoticePeriod = () => {
     return (
         <div className="bg-white p-8 rounded-[2.5rem] border border-stone-100 shadow-sm overflow-hidden relative group">
-           
+
             <Clock className="absolute -right-10 -top-10 size-48 text-stone-50 opacity-50 rotate-12 transition-transform group-hover:rotate-0 duration-1000" />
 
             <div className="relative z-10">
@@ -37,13 +37,13 @@ export const NoticePeriod = () => {
                             <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Intended Move-out Date</label>
                             <input
                                 type="date"
-                                className="w-full bg-white border border-stone-200 rounded-xl p-3 text-sm focus:border-orange-500 outline-none transition-all"
+                                className="w-full bg-white border border-stone-200 rounded-xl p-3 text-sm focus:border-orange-500 outline-none transition-all text-black placeholder-black"
                             />
                         </div>
 
                         <div className="space-y-2">
                             <label className="text-[10px] font-black uppercase tracking-widest text-stone-400">Reason for Relocation (Optional)</label>
-                            <select className="w-full bg-white border border-stone-200 rounded-xl p-3 text-sm focus:border-orange-500 outline-none transition-all appearance-none">
+                            <select className="w-full bg-white border border-stone-200 rounded-xl p-3 text-sm focus:border-orange-500 outline-none transition-all appearance-none text-black placeholder-black">
                                 <option>Work Relocation</option>
                                 <option>Personal Reasons</option>
                                 <option>Lease Expiry</option>
