@@ -157,7 +157,7 @@ const RaiseTicketSection = () => {
                   type="text"
                   value={issue}
                   onChange={(e) => setIssue(e.target.value)}
-                  className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-orange-500 focus:bg-white outline-none transition-all text-sm font-medium"
+                  className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-orange-500 focus:bg-white outline-none transition-all text-sm font-medium text-black placeholder-black"
                   placeholder="e.g. AC not cooling"
                 />
               </div>
@@ -168,7 +168,7 @@ const RaiseTicketSection = () => {
                   rows={4}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-orange-500 focus:bg-white outline-none transition-all text-sm font-medium resize-none"
+                  className="w-full bg-slate-50 border-2 border-slate-50 rounded-2xl p-4 focus:border-orange-500 focus:bg-white outline-none transition-all text-sm font-medium resize-none text-black placeholder-black"
                   placeholder="Tell us exactly what's wrong..."
                 />
               </div>

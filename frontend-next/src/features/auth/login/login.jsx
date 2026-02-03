@@ -103,7 +103,7 @@ export const Login = () => {
                       placeholder="Work Email"
                       value={userCred.email}
                       onChange={(e) => setUserCred({ ...userCred, email: e.target.value })}
-                      className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium"
+                      className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-black placeholder-black"
                     />
                   </div>
 
@@ -114,7 +114,7 @@ export const Login = () => {
                       placeholder="Password"
                       value={userCred.password}
                       onChange={(e) => setUserCred({ ...userCred, password: e.target.value })}
-                      className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium"
+                      className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-black placeholder-black"
                     />
                   </div>
                 </motion.div>
@@ -132,7 +132,7 @@ export const Login = () => {
                     placeholder="Phone Number"
                     value={userCred.phone}
                     onChange={(e) => setUserCred({ ...userCred, phone: e.target.value })}
-                    className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium"
+                    className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-black placeholder-black"
                   />
                 </motion.div>
               )}

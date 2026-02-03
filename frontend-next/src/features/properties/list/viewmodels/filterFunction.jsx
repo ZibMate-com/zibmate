@@ -23,6 +23,12 @@ export const useFilterPGs = () => {
     city: ""
   });
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  }
+
   // useEffect(() => {
   //   const handleOutside = (event) => {
   //     if (FilterRef.current && !FilterRef.current.contains(event.target)) {
@@ -87,16 +93,14 @@ export const useFilterPGs = () => {
       price: "",
       city: ""
     });
-    setFilteredPg(pgs);
+    setSearchQuery("");
+    // setFilteredPg(pgs); // logical update will be handled by useEffect
   };
 
   const handlePgdetails = (id) => {
     router.push(`/pgdetails/${id}`);
   };
-  const handleSearch = (query) => {
-    const result = filteredPg.filter(item => item.name.toLowerCase().includes(query) || item.address.toLowerCase().includes(query) || item.city.toLowerCase().includes(query))
-    setFilteredPg(result);
-  }
+
 
   useEffect(() => {
     addPriceRange();
@@ -116,10 +120,17 @@ export const useFilterPGs = () => {
       const matchCity =
         !filters.city || (pg.city && pg.city.toLowerCase() === filters.city.toLowerCase());
 
-      return matchOccupancy && matchLookingFor && matchFacilities && matchCity && matchPrice;
+      const query = searchQuery.toLowerCase();
+      const matchSearch =
+        !searchQuery ||
+        (pg.name && pg.name.toLowerCase().includes(query)) ||
+        (pg.address && pg.address.toLowerCase().includes(query)) ||
+        (pg.city && pg.city.toLowerCase().includes(query));
+
+      return matchOccupancy && matchLookingFor && matchFacilities && matchCity && matchPrice && matchSearch;
     });
     setFilteredPg(filteredpgs);
-  }, [filters.city, filters.Occupancy, filters.lookingFor, filters.facilities, filters.price]);
+  }, [filters.city, filters.Occupancy, filters.lookingFor, filters.facilities, filters.price, searchQuery, pgs]);
 
   return {
     filteredPg,
@@ -129,6 +140,7 @@ export const useFilterPGs = () => {
     handleRemoveFilters,
     isSortOpen,
     handleSort,
-    handleSearch
+    handleSearch,
+    searchQuery
   };
 };

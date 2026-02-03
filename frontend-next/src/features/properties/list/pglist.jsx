@@ -13,7 +13,8 @@ export const Pglist = () => {
         handlefilters,
         filters,
         handleRemoveFilters,
-        handleSearch
+        handleSearch,
+        searchQuery
     } = useFilterPGs();
     const { loading } = useContext(Mycontext)
     if (loading) {
@@ -27,6 +28,7 @@ export const Pglist = () => {
                     filters={filters}
                     handleRemoveFilters={handleRemoveFilters}
                     handleSearch={handleSearch}
+                    searchQuery={searchQuery}
                 />
                 <div>
                     <FilteredPg filteredPg={filteredPg} />

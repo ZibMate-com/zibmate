@@ -4,17 +4,17 @@ import { Filters } from "../models/pglist";
 import { ChevronDown } from 'lucide-react';
 
 
-export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, handleSearch }) => {
-    const [searchQuery, setSearchQuery] = useState('');
+export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, handleSearch, searchQuery }) => {
+    // const [searchQuery, setSearchQuery] = useState('');
 
     const [isFacilitiesOpen, setIsFacilitiesOpen] = useState(false);
 
     // Determines if any filter, including array filters, is active
-    const isFilterActive = Object.values(filters).some(value => (Array.isArray(value) ? value.length > 0 : (value && value !== "")));
+    const isFilterActive = Object.values(filters).some(value => (Array.isArray(value) ? value.length > 0 : (value && value !== ""))) || (searchQuery && searchQuery.trim() !== "");
 
     const handleFacilityChange = (facilityTitle, facilityValue) => {
         const currentSelections = filters[facilityTitle] || [];
-        
+
         let newSelections;
         if (currentSelections.includes(facilityValue)) {
             newSelections = currentSelections.filter(val => val !== facilityValue);
@@ -28,16 +28,16 @@ export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, han
         });
     };
 
-    const facilityFilter = Filters.find(f => f.type === 'multiselect'); 
+    const facilityFilter = Filters.find(f => f.type === 'multiselect');
     const otherFilters = Filters.filter(f => f.type !== 'multiselect');
 
-   
+
     const renderFilterPill = (filter, index) => {
         const filterKey = filter.title;
         const isActive = (filters[filterKey] && filters[filterKey] !== "");
         const displayValue = filters[filterKey] || filterKey;
 
-    
+
         return (
             <div
                 key={index}
@@ -51,8 +51,8 @@ export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, han
                     }
                 `}
             >
-                <filter.component 
-                    className={`size-7 ${isActive ? "text-white" : "text-gray-500 group-hover:text-orange-600"}`} 
+                <filter.component
+                    className={`size-7 ${isActive ? "text-white" : "text-gray-500 group-hover:text-orange-600"}`}
                 />
                 <select
                     name={filterKey}
@@ -70,9 +70,9 @@ export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, han
                         <option key={val} value={val}>{val}</option>
                     ))}
                 </select>
-                
+
                 <span className="text-sm font-semibold truncate max-w-[80%]">{displayValue}</span>
-            
+
             </div>
         );
     };
@@ -80,7 +80,7 @@ export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, han
     const currentSelections = facilityFilter ? filters[facilityFilter.title] || [] : [];
     const facilityDisplayValue = currentSelections.length > 0 ? `${currentSelections.length} Selected` : facilityFilter?.title;
     const isFacilityFilterActive = currentSelections.length > 0;
-    
+
     return (
         <div className="w-full  mx-auto py-4 px-4 sm:px-6 lg:px-8  rounded-lg shadow-md">
             <div className="mb-6">
@@ -88,11 +88,11 @@ export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, han
                     <input
                         type="text"
                         placeholder="Search PGs by Name, Locality, or Keyword..."
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-lg font-medium focus:ring-orange-500 focus:border-orange-500 transition-all shadow-sm"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl text-lg font-medium focus:ring-orange-500 focus:border-orange-500 transition-all shadow-sm placeholder-black text-black"
                         value={searchQuery}
                         onChange={(e) => {
-                            setSearchQuery(e.target.value);
-                            handleSearch(e.target.value); 
+                            // setSearchQuery(e.target.value);
+                            handleSearch(e.target.value);
                         }}
                     />
                 </div>
@@ -103,8 +103,8 @@ export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, han
                 <button
                     className={`
                         text-sm font-medium transition duration-300 ease-in-out flex items-center gap-1
-                        ${isFilterActive 
-                            ? "text-red-600 hover:text-red-800 hover:underline" 
+                        ${isFilterActive
+                            ? "text-red-600 hover:text-red-800 hover:underline"
                             : "text-gray-400 cursor-not-allowed"
                         }
                     `}
@@ -116,23 +116,23 @@ export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, han
             </div>
 
             <div className="flex flex-wrap items-start gap-3">
-                
+
                 {facilityFilter && (
                     <div className="border border-gray-300 rounded-lg p-3 bg-white w-full sm:w-auto min-w-[200px]">
-                        <div 
+                        <div
                             className="flex justify-between items-center cursor-pointer"
                             onClick={() => setIsFacilitiesOpen(!isFacilitiesOpen)}
                         >
                             <div className="flex items-center gap-2">
-                                <facilityFilter.component 
-                                    className={`size-5 ${isFacilityFilterActive ? "text-orange-600" : "text-gray-500"}`} 
+                                <facilityFilter.component
+                                    className={`size-5 ${isFacilityFilterActive ? "text-orange-600" : "text-gray-500"}`}
                                 />
                                 <span className="text-sm font-bold text-gray-700">
                                     {facilityDisplayValue}
                                 </span>
                             </div>
-                            <ChevronDown 
-                                className={`size-5 text-gray-500 transform transition-transform duration-300 ${isFacilitiesOpen ? 'rotate-180' : 'rotate-0'}`} 
+                            <ChevronDown
+                                className={`size-5 text-gray-500 transform transition-transform duration-300 ${isFacilitiesOpen ? 'rotate-180' : 'rotate-0'}`}
                             />
                         </div>
 
@@ -157,12 +157,12 @@ export const FilterSection = ({ handlefilters, filters, handleRemoveFilters, han
                         )}
                     </div>
                 )}
-                
+
                 {/* Other Filters (Pills) */}
                 <div className="flex flex-wrap items-center gap-3">
                     {otherFilters.map(renderFilterPill)}
                 </div>
-                
+
             </div>
         </div>
     );
