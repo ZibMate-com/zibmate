@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 import { MapPin, Users, Tag, Building2, Star } from "lucide-react";
 import Link from "next/link";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export const FilteredPg = ({ filteredPg }) => {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    setToken(localStorage.getItem('token'));
+    setToken(localStorage.getItem("token"));
   }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
@@ -78,7 +78,7 @@ export const FilteredPg = ({ filteredPg }) => {
             </div>
 
             {/* CTA Button */}
-            <Link href={token ? `/findpg/${pg.id}` : '/login'}>
+            <Link href={token ? `/findpg/${pg.id}` : "/login"}>
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 className="w-full py-3.5 bg-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-slate-200 group-hover:bg-orange-600 group-hover:shadow-orange-200 transition-all duration-300"
@@ -90,5 +90,5 @@ export const FilteredPg = ({ filteredPg }) => {
         </motion.div>
       ))}
     </div>
-  )
-}
+  );
+};

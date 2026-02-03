@@ -9,27 +9,17 @@
 }
 
 :root {
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    /* Force light mode background preference or keep dark? Original text file didn't specify dark mode. 
-       Original index.css didn't have dark mode variables. keeping default Next.js ones but maybe tweaking to match original if needed. 
-       For now, let's keep it simple and maybe override later. 
-       Actually, original didn't have variables, just Tailwind. 
-    */
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
 html {

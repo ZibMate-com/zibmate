@@ -35,7 +35,9 @@ const PgForm = () => {
           </div>
 
           <div className="bg-slate-50 p-6 text-center border-t border-slate-100">
-            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">ZibMate Verified Property Listing</p>
+            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
+              ZibMate Verified Property Listing
+            </p>
           </div>
         </motion.div>
       </div>

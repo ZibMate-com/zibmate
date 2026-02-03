@@ -6,15 +6,8 @@ import { Mail, Lock, Phone, ArrowRight, Home, User } from "lucide-react";
 import useLogin from "./viewmodels/uselogin";
 
 export const Login = () => {
-  const { role,
-    setRole,
-    errors,
-    userCred,
-    setUserCred,
-    handleLogin,
-    loading,
-    isLoggedIn,
-    handleGoogleSignIn } = useLogin()
+  const { role, setRole, errors, userCred, setUserCred, handleLogin, loading, isLoggedIn, handleGoogleSignIn } =
+    useLogin();
   return (
     <div className="flex min-h-screen bg-white font-Montserrat">
       {loading && <Loader />}
@@ -53,18 +46,12 @@ export const Login = () => {
         </div>
       </div>
 
-
       <div className="w-full max-h-screen lg:w-1/2 flex items-center justify-center p-8 md:p-16 bg-slate-50">
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="w-full max-w-md"
-        >
+        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="w-full max-w-md">
           <div className="mb-8">
             <h2 className="text-4xl font-black text-slate-900 mb-2">Hello Again!</h2>
             <p className="text-slate-500 font-medium">Let's get you into your account.</p>
           </div>
-
 
           <div className="flex p-1.5 bg-slate-200/50 rounded-2xl mb-6 relative">
             <motion.div
@@ -158,17 +145,32 @@ export const Login = () => {
             className="w-full py-4 bg-white border border-slate-200 hover:bg-slate-50 rounded-2xl flex items-center justify-center gap-3 transition-all font-bold text-slate-700 active:scale-[0.98]"
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="h-5 w-5">
-              <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,19.034-8.159,19.611-18.917V20.083z" />
-              <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.664,8.307,6.306,14.691z" />
-              <path fill="#4CAF50" d="M24,44c5.166,0,9.914-1.841,13.25-4.908l-6.643-4.898C29.622,34.02,26.963,35,24,35c-5.263,0-9.734-2.887-12.063-7.108l-6.848,5.326C9.522,39.73,16.299,44,24,44z" />
-              <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.002,0.001-0.003,0.002-0.005l6.848,5.326c-0.106,0.083-0.224,0.162-0.347,0.237C39.673,38.874,44,33.483,44,28C44,26.919,43.864,25.867,43.611,24.84V20.083z" />
+              <path
+                fill="#FFC107"
+                d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,19.034-8.159,19.611-18.917V20.083z"
+              />
+              <path
+                fill="#FF3D00"
+                d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.664,8.307,6.306,14.691z"
+              />
+              <path
+                fill="#4CAF50"
+                d="M24,44c5.166,0,9.914-1.841,13.25-4.908l-6.643-4.898C29.622,34.02,26.963,35,24,35c-5.263,0-9.734-2.887-12.063-7.108l-6.848,5.326C9.522,39.73,16.299,44,24,44z"
+              />
+              <path
+                fill="#1976D2"
+                d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.002,0.001-0.003,0.002-0.005l6.848,5.326c-0.106,0.083-0.224,0.162-0.347,0.237C39.673,38.874,44,33.483,44,28C44,26.919,43.864,25.867,43.611,24.84V20.083z"
+              />
             </svg>
             Sign in with Google
           </button>
 
           <p className="mt-8 text-center text-slate-500 font-medium text-sm">
             Not part of the community yet?{" "}
-            <Link href="/signup" className="text-orange-600 font-black hover:underline decoration-2 underline-offset-4 transition-all">
+            <Link
+              href="/signup"
+              className="text-orange-600 font-black hover:underline decoration-2 underline-offset-4 transition-all"
+            >
               Join for free
             </Link>
           </p>

@@ -8,32 +8,25 @@ import { Loader } from "../../../components/view/loader";
 // import { usePgData } from "./viewmodels/usePgData";
 import { useContext } from "react";
 export const Pglist = () => {
-    const {
-        filteredPg,
-        handlefilters,
-        filters,
-        handleRemoveFilters,
-        handleSearch,
-        searchQuery
-    } = useFilterPGs();
-    const { loading } = useContext(Mycontext)
-    if (loading) {
-        return <Loader />
-    }
-    return (
-        <MotionSection className="w-full min-h-screen flex justify-center ">
-            <div className="w-7xl flex flex-col gap-4 justify-center mt-10 mb-10">
-                <FilterSection
-                    handlefilters={handlefilters}
-                    filters={filters}
-                    handleRemoveFilters={handleRemoveFilters}
-                    handleSearch={handleSearch}
-                    searchQuery={searchQuery}
-                />
-                <div>
-                    <FilteredPg filteredPg={filteredPg} />
-                </div>
-            </div>
-        </MotionSection>
-    )
-}
+  const { filteredPg, handlefilters, filters, handleRemoveFilters, handleSearch, searchQuery } = useFilterPGs();
+  const { loading } = useContext(Mycontext);
+  if (loading) {
+    return <Loader />;
+  }
+  return (
+    <MotionSection className="w-full min-h-screen flex justify-center ">
+      <div className="w-7xl flex flex-col gap-4 justify-center mt-10 mb-10">
+        <FilterSection
+          handlefilters={handlefilters}
+          filters={filters}
+          handleRemoveFilters={handleRemoveFilters}
+          handleSearch={handleSearch}
+          searchQuery={searchQuery}
+        />
+        <div>
+          <FilteredPg filteredPg={filteredPg} />
+        </div>
+      </div>
+    </MotionSection>
+  );
+};

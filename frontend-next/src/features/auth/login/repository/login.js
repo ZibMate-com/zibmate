@@ -1,15 +1,13 @@
-
-
-const BASE_URL = '/api/auth';
+const BASE_URL = "/api/auth";
 
 // Basic fetch wrapper to handle errors
 const fetchRequest = async (url, options) => {
   const response = await fetch(url, {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
-      ...options.headers
-    }
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
   });
   const data = await response.json();
   if (!response.ok) {
@@ -21,8 +19,8 @@ const fetchRequest = async (url, options) => {
 export const loginUser = async ({ email, password }) => {
   try {
     return await fetchRequest(`${BASE_URL}/login`, {
-      method: 'POST',
-      body: JSON.stringify({ email, password })
+      method: "POST",
+      body: JSON.stringify({ email, password }),
     });
   } catch (error) {
     throw error;
@@ -32,8 +30,8 @@ export const loginUser = async ({ email, password }) => {
 export const googleLoginUser = async (socialData) => {
   try {
     return await fetchRequest(`${BASE_URL}/google`, {
-      method: 'POST',
-      body: JSON.stringify(socialData)
+      method: "POST",
+      body: JSON.stringify(socialData),
     });
   } catch (error) {
     throw error;
@@ -44,7 +42,7 @@ export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
   try {
     const data = await loginUser({
       email: userCred.email,
-      password: userCred.password
+      password: userCred.password,
     });
 
     if (data.token) {
@@ -53,7 +51,7 @@ export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
       setUserCred({
         email: "",
         password: "",
-        phone: ""
+        phone: "",
       });
       return true;
     } else {

@@ -1,14 +1,13 @@
-
-const BASE_URL = '/api/auth';
+const BASE_URL = "/api/auth";
 
 export const signupUser = async (payload) => {
   try {
     const response = await fetch(`${BASE_URL}/signup`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
     const data = await response.json();
     if (!response.ok) {
@@ -28,7 +27,7 @@ export const userSignupFunction = async ({ role, userdata, setUserData }) => {
       email: userdata.email,
       password: userdata.password,
       phone: userdata.phone,
-      role: role
+      role: role,
     };
 
     const data = await signupUser(payload);

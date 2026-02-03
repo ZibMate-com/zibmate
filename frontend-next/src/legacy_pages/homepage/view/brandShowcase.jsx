@@ -66,7 +66,9 @@ export const Brandshowcase = () => {
               viewport={{ once: true }}
               className="relative group p-8 bg-white rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+              />
 
               <div className="relative z-10 flex flex-col h-full">
                 <div className="mb-6 p-3 w-fit rounded-2xl bg-gray-50 group-hover:bg-white group-hover:scale-110 transition-all duration-300 shadow-sm">
@@ -77,20 +79,18 @@ export const Brandshowcase = () => {
                   <h1 className="text-4xl font-black text-slate-900 tracking-tight">
                     <Counter value={stat.value} suffix={stat.suffix} />
                   </h1>
-                  
+
                   <h2 className="text-lg font-bold text-slate-800 mt-1 group-hover:text-orange-600 transition-colors">
                     {stat.label}
                   </h2>
-                  
-                  <p className="text-sm text-slate-500 mt-2 leading-relaxed">
-                    {stat.sub}
-                  </p>
+
+                  <p className="text-sm text-slate-500 mt-2 leading-relaxed">{stat.sub}</p>
                 </div>
               </div>
               <div className="absolute -bottom-6 -right-6 text-slate-50 group-hover:text-slate-100 transition-colors duration-500">
-                  <div className="scale-[4] opacity-10 group-hover:rotate-12 transition-transform duration-700">
-                    {stat.icon}
-                  </div>
+                <div className="scale-[4] opacity-10 group-hover:rotate-12 transition-transform duration-700">
+                  {stat.icon}
+                </div>
               </div>
             </motion.div>
           ))}

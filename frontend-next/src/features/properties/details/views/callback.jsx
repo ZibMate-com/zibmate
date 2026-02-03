@@ -1,7 +1,7 @@
 "use client";
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Phone, User, Mail, Send, CheckCircle } from 'lucide-react';
-import { useState } from 'react';
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Phone, User, Mail, Send, CheckCircle } from "lucide-react";
+import { useState } from "react";
 
 export const CallBackModal = ({ isOpen, onClose, pgName }) => {
   const [submitted, setSubmitted] = useState(false);
@@ -54,27 +54,49 @@ export const CallBackModal = ({ isOpen, onClose, pgName }) => {
                     <label className="text-xs font-bold text-slate-700 ml-1 uppercase tracking-wider">Full Name</label>
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
-                      <input required type="text" placeholder="John Doe" className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black placeholder-black" />
+                      <input
+                        required
+                        type="text"
+                        placeholder="John Doe"
+                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black placeholder-black"
+                      />
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-700 ml-1 uppercase tracking-wider">Email Address</label>
+                    <label className="text-xs font-bold text-slate-700 ml-1 uppercase tracking-wider">
+                      Email Address
+                    </label>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
-                      <input required type="email" placeholder="john@example.com" className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black placeholder-black" />
+                      <input
+                        required
+                        type="email"
+                        placeholder="john@example.com"
+                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black placeholder-black"
+                      />
                     </div>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-700 ml-1 uppercase tracking-wider">Phone Number</label>
+                    <label className="text-xs font-bold text-slate-700 ml-1 uppercase tracking-wider">
+                      Phone Number
+                    </label>
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
-                      <input required type="tel" placeholder="+91 98765 43210" className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black placeholder-black" />
+                      <input
+                        required
+                        type="tel"
+                        placeholder="+91 98765 43210"
+                        className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black placeholder-black"
+                      />
                     </div>
                   </div>
 
-                  <button type="submit" className="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-orange-600 transition-all flex items-center justify-center gap-2 mt-4 shadow-lg shadow-slate-200">
+                  <button
+                    type="submit"
+                    className="w-full bg-slate-900 text-white font-bold py-4 rounded-2xl hover:bg-orange-600 transition-all flex items-center justify-center gap-2 mt-4 shadow-lg shadow-slate-200"
+                  >
                     Submit Request <Send className="size-4" />
                   </button>
                 </form>
