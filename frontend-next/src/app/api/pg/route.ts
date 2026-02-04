@@ -40,70 +40,205 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    // Add detailed auth logging
+    console.log("=== AUTH DEBUG START ===");
+    const authHeader = req.headers.get("authorization");
+    console.log("Authorization header:", authHeader);
+    
     const authUser = verifyAuth(req);
+    console.log("Auth user result:", authUser);
+    console.log("=== AUTH DEBUG END ===");
+    
     if (!authUser) {
+      console.error("Authentication failed - no valid user");
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
+    console.log("Authenticated user:", authUser);
+
     const formData = await req.formData();
-    const name = formData.get("name") as string;
-    const description = formData.get("description") as string;
-    const price = formData.get("price");
-    const discount = formData.get("discount");
-    const location = formData.get("location") as string;
-    const locationLink = formData.get("locationLink") as string;
-    const occupancy = formData.get("occupancy");
-    const lookingFor = formData.get("lookingFor") as string;
-    const facilities = formData.get("facilities");
-    const city = formData.get("city") as string;
+    console.log("FormData received");
+    
+    const propertyString = formData.get('property');
+    console.log("Property string:", propertyString);
+    
+    if (!propertyString) {
+      return NextResponse.json({ message: "Property data missing" }, { status: 400 });
+    }
+    
+    const propertyData = typeof propertyString === "string" 
+        ? JSON.parse(propertyString) 
+        : propertyString;
 
-    // Parse JSON fields
-    const parsedFacilities = typeof facilities === "string" ? JSON.parse(facilities) : facilities;
-    const parsedOccupancy = typeof occupancy === "string" ? JSON.parse(occupancy as string) : occupancy;
+    console.log("Parsed property data:", propertyData);
 
-    const ownerId = authUser.id;
+    const {
+      propertyName,
+      description,
+      houseNumber,
+      street,
+      landmark,
+      city,
+      state,
+      zip,
+      maplink,
+      discount,
+      occupancy,
+      prices,
+      facilities,
+      lookingFor,
+      phone,
+    } = propertyData;
 
+    // Validate required fields
+    if (!propertyName || !phone) {
+      return NextResponse.json({ 
+        message: "Missing required fields: propertyName and phone are required" 
+      }, { status: 400 });
+    }
+
+    const parsedOccupancy =
+      typeof occupancy === "string" ? JSON.parse(occupancy) : occupancy;
+
+    const parsedPrices =
+      typeof prices === "string" ? JSON.parse(prices) : prices;
+
+    const parsedFacilities =
+      typeof facilities === "string" ? JSON.parse(facilities) : facilities;
+
+    console.log("Checking owner with phone:", phone);
+    
+    // Check if owner exists
+    const [ownerRows] = await db.execute<RowDataPacket[]>(
+      `SELECT id, first_name, email, phone FROM users WHERE phone = ?`,
+      [phone]
+    );
+
+    console.log("Owner rows found:", ownerRows.length);
+
+    let ownerId;
+    let ownerName;
+    let ownerEmail;
+    let ownerPhone = phone;
+
+    if (ownerRows.length === 0) {
+      console.log("Creating new owner");
+      const [insertResult] = await db.execute<ResultSetHeader>(
+        `
+        INSERT INTO users (phone, role)
+        VALUES (?, 'owner')
+        ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)
+        `,
+        [phone]
+      );
+
+      ownerId = insertResult.insertId;
+      console.log("New owner ID:", ownerId);
+      ownerName = '';
+      ownerEmail = '';
+    } else {
+      ownerId = ownerRows[0].id;
+      ownerName = ownerRows[0].first_name || '';
+      ownerEmail = ownerRows[0].email || '';
+      console.log("Existing owner ID:", ownerId);
+    }
+
+    console.log("Inserting PG data");
+    
+    // Insert PG data
     const [result] = await db.execute<ResultSetHeader>(
-      "INSERT INTO pg_data (name, description, price, discount, location, location_link, occupancy, looking_for, facilities, city, owner_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [
-        name,
+      `
+      INSERT INTO pg_data (
+        property_name,
         description,
-        price,
-        discount,
-        location,
-        locationLink,
-        JSON.stringify(parsedOccupancy),
-        lookingFor,
-        JSON.stringify(parsedFacilities),
+        house_number,
+        street,
+        landmark,
         city,
+        state,
+        zip,
+        maplink,
+        discount,
+        occupancy,
+        prices,
+        facilities,
+        looking_for,
+        owner_id,
+        owner_phone
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `,
+      [
+        propertyName,
+        description,
+        houseNumber,
+        street,
+        landmark,
+        city,
+        state,
+        zip,
+        maplink,
+        discount || 0,
+        JSON.stringify(parsedOccupancy),
+        JSON.stringify(parsedPrices),
+        JSON.stringify(parsedFacilities),
+        lookingFor || "Any",
         ownerId,
-      ],
+        ownerPhone
+      ]
     );
 
     const pgId = result.insertId;
-    const files = formData.getAll("images") as File[];
+    console.log("PG created with ID:", pgId);
 
-    if (files && files.length > 0) {
-      for (const file of files) {
-        if (file instanceof File) {
+    // Handle image uploads
+    const images = formData.getAll('images') as File[];
+    console.log("Number of images:", images.length);
+    
+    if (images && images.length > 0) {
+      const uploadDir = path.join(process.cwd(), "public/uploads");
+      console.log("Upload directory:", uploadDir);
+      
+      // Ensure uploads directory exists
+      const fs = require('fs');
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+        console.log("Created uploads directory");
+      }
+      
+      for (const file of images) {
+        if (file instanceof File && file.size > 0) {
           const buffer = Buffer.from(await file.arrayBuffer());
-          const filename = `${Date.now()}-${file.name.replace(/\s/g, "_")}`;
-          const uploadDir = path.join(process.cwd(), "public/uploads");
-
-          // Ensure directory exists (you might want to check this once or assume standard structure)
-          // await mkdir(uploadDir, { recursive: true });
-
+          const timestamp = Date.now();
+          const filename = `${timestamp}-${file.name.replace(/\s/g, '-')}`;
+          
+          console.log("Saving image:", filename);
           await writeFile(path.join(uploadDir, filename), buffer);
-
+          
           const imageUrl = `uploads/${filename}`;
-          await db.execute("INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)", [pgId, imageUrl]);
+          await db.execute(
+            `INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)`,
+            [pgId, imageUrl]
+          );
+          console.log("Image saved:", imageUrl);
         }
       }
     }
 
-    return NextResponse.json({ message: "PG added successfully", pgId }, { status: 201 });
+    console.log("PG onboarding completed successfully");
+    return NextResponse.json({
+      message: "PG added successfully",
+      pgId
+    }, { status: 201 });
+
   } catch (error) {
-    console.error("AddPG error:", error);
-    return NextResponse.json({ message: "Server error adding PG" }, { status: 500 });
+    console.error("Add PG Error (detailed):", error);
+    console.error("Error stack:", error instanceof Error ? error.stack : 'No stack trace');
+    return NextResponse.json(
+      { 
+        message: "Server error adding PG",
+        error: error instanceof Error ? error.message : "Unknown error"
+      },
+      { status: 500 }
+    );
   }
 }

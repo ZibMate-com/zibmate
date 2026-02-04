@@ -1,10 +1,10 @@
 import PgForm from "@/features/properties/create/postPropertyForm";
-import { OwnerRoute } from "@/features/protected-Routes/owner";
+import { AdminRoute } from "@/features/protected-Routes/admin";
 
 export default function Page() {
   return (
-    <OwnerRoute>
+    <AdminRoute>
       <PgForm />
-    </OwnerRoute>
+    </AdminRoute>
   );
 }

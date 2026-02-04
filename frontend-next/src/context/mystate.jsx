@@ -6,7 +6,7 @@ export const MyState = ({ children }) => {
   const [loading, setloading] = useState(false);
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [loggedUser, setUser] = useState(null);
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(1);
 
   useEffect(() => {
     const user = localStorage.getItem("users");

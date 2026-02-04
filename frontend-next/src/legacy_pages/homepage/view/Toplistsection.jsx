@@ -12,7 +12,7 @@ export const Toplistsection = () => {
   useEffect(() => {
     const fetchTopPgs = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "";
+        const baseUrl = "";
         const response = await fetch(`${baseUrl}/api/pg/top`, {
           headers: { "Content-Type": "application/json" },
         });
