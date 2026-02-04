@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ZibMate",
-  description: "ZibMate Application",
+  title: "zibmate",
+  description: "zibmate application",
 };
 
 export default function RootLayout({

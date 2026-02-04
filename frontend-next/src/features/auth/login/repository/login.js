@@ -45,14 +45,23 @@ export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
       password: userCred.password,
     });
 
-    if (data.token) {
-      localStorage.setItem("token", data.token);
+    // Handle both regular token and adminToken
+    if (data.token || data.adminToken) {
+      // Store the appropriate token
+      if (data.adminToken) {
+        localStorage.setItem("adminToken", data.adminToken);
+      } else {
+        localStorage.setItem("token", data.token);
+      }
+      
       localStorage.setItem("users", JSON.stringify(data.user));
+      
       setUserCred({
         email: "",
         password: "",
         phone: "",
       });
+      
       return true;
     } else {
       throw new Error("Invalid response from server");

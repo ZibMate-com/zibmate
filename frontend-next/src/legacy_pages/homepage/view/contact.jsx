@@ -16,7 +16,7 @@ const Contact = () => {
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "";
+        const baseUrl =  "";
         const response = await fetch(`${baseUrl}/api/content/faq`, {
           headers: { "Content-Type": "application/json" },
         });
@@ -90,6 +90,16 @@ const Contact = () => {
               Frequently Asked <span className="text-orange-500">Questions.</span>
             </h1>
             <p className="text-gray-500 mt-4 text-lg">Can't find what you're looking for? Reach out to our team.</p>
+            <div className="mt-6 flex items-center gap-3 text-gray-700 bg-orange-50 w-fit px-4 py-2 rounded-full border border-orange-100">
+              <Mail className="size-5 text-orange-500" />
+              <span className="font-medium">Direct Support:</span>
+              <a 
+                href="mailto:support@yourdomain.com" 
+                className="text-orange-600 font-bold hover:underline transition-all"
+              >
+                support.zibmate.com
+              </a>
+            </div>
           </motion.div>
 
           <div className="space-y-4">

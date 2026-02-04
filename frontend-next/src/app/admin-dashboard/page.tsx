@@ -45,7 +45,7 @@ export default function AdminDashboard() {
   // Authentication check and data fetching
   useEffect(() => {
     const checkAuthAndFetch = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("adminToken");
       if (!token) {
         router.push("/login");
         return;
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("users");
-    localStorage.removeItem("token");
+    localStorage.removeItem("adminToken");
     router.push("/login");
   };
 
