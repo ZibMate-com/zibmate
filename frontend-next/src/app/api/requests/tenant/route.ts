@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     }
 
     const [requests] = await db.execute<RowDataPacket[]>(
-      `SELECT r.*, p.name as property_name
+      `SELECT r.*, p.property_name as property_name
             FROM tenent_call_requests r
             JOIN pg_data p ON r.pg_id = p.id
             ORDER BY r.created_at DESC`,

@@ -23,7 +23,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ req
                 r.full_name, 
                 r.email, 
                 r.phone,
-                p.name as property_name,
+                p.property_name as property_name,
                 p.owner_phone
              FROM tenent_call_requests r
              JOIN pg_data p ON r.pg_id = p.id

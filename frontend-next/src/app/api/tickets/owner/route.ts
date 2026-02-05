@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
     const [tickets] = await db.execute<RowDataPacket[]>(
       `
-            SELECT t.*, u.first_name, u.last_name, p.name as pg_name, r.room_number
+            SELECT t.*, u.first_name, u.last_name, p.property_name as pg_name, r.room_number
             FROM tickets t 
             JOIN users u ON t.user_id = u.id 
             JOIN pg_data p ON t.pg_id = p.id 

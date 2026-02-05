@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
     const ownerId = authUser.id;
     const [rooms] = await db.execute<RowDataPacket[]>(
       `
-            SELECT r.*, p.name as pg_name, 
+            SELECT r.*, p.property_name as pg_name, 
             (SELECT CONCAT(u.first_name, ' ', u.last_name) 
              FROM bookings b 
              JOIN users u ON b.user_id = u.id 
