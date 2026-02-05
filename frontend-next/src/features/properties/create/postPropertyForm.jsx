@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { Loader } from "../../../components/view/loader";
@@ -14,19 +14,19 @@ import Link from "next/link"; // Added Next.js Link
 const PgForm = () => {
   const { loading, activeStep } = useContext(Mycontext);
   const {
-        formData,
-        handleChange,
-        next,
-        back,
-        submitAll,
-        errors,
-        toggleOccupancy,
-        toggleFacility,
-        handleFileChange,
-        removeImage,
-        imagePreviews,
-  } = useOwnerOnboardingForm()
-  
+    formData,
+    handleChange,
+    next,
+    back,
+    submitAll,
+    errors,
+    toggleOccupancy,
+    toggleFacility,
+    handleFileChange,
+    removeImage,
+    imagePreviews,
+  } = useOwnerOnboardingForm();
+
   return (
     <section className="min-h-screen bg-slate-50 pb-20">
       <div className="max-w-7xl mx-auto p-6">
@@ -49,15 +49,32 @@ const PgForm = () => {
           className="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/60 border border-slate-100 overflow-hidden"
         >
           <div className="md:p-2">
-            {activeStep == 1 && <PersonalDetailsForm formData={formData} handleChange={handleChange} errors={errors} next={next}/>}
+            {activeStep == 1 && (
+              <PersonalDetailsForm formData={formData} handleChange={handleChange} errors={errors} next={next} />
+            )}
 
-           {activeStep == 2 && <PropertyDetailsForm formData={formData} handleChange={handleChange} errors={errors} next={next} back={back} toggleFacility={toggleFacility} toggleOccupancy={toggleOccupancy} handleFileChange={handleFileChange} removeImage={removeImage} imagePreviews={imagePreviews}/>} 
-           
-           {activeStep == 3 && <ReviewandSubmit formData={formData} submitAll={submitAll}/>}
+            {activeStep == 2 && (
+              <PropertyDetailsForm
+                formData={formData}
+                handleChange={handleChange}
+                errors={errors}
+                next={next}
+                back={back}
+                toggleFacility={toggleFacility}
+                toggleOccupancy={toggleOccupancy}
+                handleFileChange={handleFileChange}
+                removeImage={removeImage}
+                imagePreviews={imagePreviews}
+              />
+            )}
+
+            {activeStep == 3 && <ReviewandSubmit formData={formData} submitAll={submitAll} />}
           </div>
 
           <div className="bg-slate-50 p-6 text-center border-t border-slate-100">
-            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">ZibMate Verified Property Listing</p>
+            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
+              ZibMate Verified Property Listing
+            </p>
           </div>
         </motion.div>
       </div>

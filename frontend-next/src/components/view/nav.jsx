@@ -54,8 +54,9 @@ export const NavBar = () => {
   return (
     <>
       <nav
-        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${isScrolled ? "bg-black backdrop-blur-md border-b border-white/10 py-3" : "bg-black py-5"
-          }`}
+        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${
+          isScrolled ? "bg-black backdrop-blur-md border-b border-white/10 py-3" : "bg-black py-5"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-3 md:px-10 flex justify-between items-center">
           <div className="flex items-center gap-12">
@@ -98,15 +99,18 @@ export const NavBar = () => {
             <div className="h-8 w-[1px] bg-slate-800 mx-2 hidden md:block" />
 
             {user ? (
-              <Link href={`${user.role === 'admin' ? '/admin-dashboard' : `/profile/${user.role}`}`}>
+              <Link href={`${user.role === "admin" ? "/admin-dashboard" : `/profile/${user.role}`}`}>
                 <div className="flex items-center gap-3 p-1 pr-4 bg-[#fafafa] border border-slate-800 rounded-full hover:border-orange-500 transition-all group">
                   <div className="size-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-xs">
                     {user.firstName?.charAt(0) || "U"}
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[9px] uppercase font-black text-slate-500 leading-none"> {user.firstName?.split(' ')[0]}</span>
+                    <span className="text-[9px] uppercase font-black text-slate-500 leading-none">
+                      {" "}
+                      {user.firstName?.split(" ")[0]}
+                    </span>
                     <span className="text-sm hidden md:block font-bold text-orange-500 group-hover:text-orange-500 transition-colors">
-                      {user.role?.split(' ')[0]}
+                      {user.role?.split(" ")[0]}
                     </span>
                   </div>
                 </div>

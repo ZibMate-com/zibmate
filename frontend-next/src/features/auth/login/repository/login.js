@@ -53,15 +53,15 @@ export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
       } else {
         localStorage.setItem("token", data.token);
       }
-      
+
       localStorage.setItem("users", JSON.stringify(data.user));
-      
+
       setUserCred({
         email: "",
         password: "",
         phone: "",
       });
-      
+
       return true;
     } else {
       throw new Error("Invalid response from server");

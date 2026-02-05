@@ -26,8 +26,26 @@ export async function GET(req: NextRequest) {
     for (let pg of pgs) {
       const [images] = await db.execute<RowDataPacket[]>("SELECT image_url FROM pg_images WHERE pg_id = ?", [pg.id]);
       pg.images = images.map((img: any) => formatImageUrl(img.image_url));
-      if (typeof pg.facilities === "string") {
-        pg.facilities = JSON.parse(pg.facilities);
+
+      try {
+        if (typeof pg.facilities === "string") pg.facilities = JSON.parse(pg.facilities);
+        if (typeof pg.occupancy === "string") pg.occupancy = JSON.parse(pg.occupancy);
+        if (typeof pg.prices === "string") pg.prices = JSON.parse(pg.prices);
+
+        // Derive min price for compatibility with listing views
+        if (pg.prices && typeof pg.prices === "object") {
+          const priceValues = Object.values(pg.prices)
+            .map((p: any) => Number(p))
+            .filter((n) => !isNaN(n));
+          pg.price = priceValues.length > 0 ? Math.min(...priceValues) : 0;
+        }
+      } catch (e) {
+        console.error("Error parsing JSON fields for PG:", pg.id, e);
+        // Initialize defaults if parsing fails
+        if (!pg.facilities) pg.facilities = [];
+        if (!pg.occupancy) pg.occupancy = [];
+        if (!pg.prices) pg.prices = {};
+        pg.price = 0;
       }
     }
 
@@ -44,11 +62,11 @@ export async function POST(req: NextRequest) {
     console.log("=== AUTH DEBUG START ===");
     const authHeader = req.headers.get("authorization");
     console.log("Authorization header:", authHeader);
-    
+
     const authUser = verifyAuth(req);
     console.log("Auth user result:", authUser);
     console.log("=== AUTH DEBUG END ===");
-    
+
     if (!authUser) {
       console.error("Authentication failed - no valid user");
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -58,17 +76,15 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     console.log("FormData received");
-    
-    const propertyString = formData.get('property');
+
+    const propertyString = formData.get("property");
     console.log("Property string:", propertyString);
-    
+
     if (!propertyString) {
       return NextResponse.json({ message: "Property data missing" }, { status: 400 });
     }
-    
-    const propertyData = typeof propertyString === "string" 
-        ? JSON.parse(propertyString) 
-        : propertyString;
+
+    const propertyData = typeof propertyString === "string" ? JSON.parse(propertyString) : propertyString;
 
     console.log("Parsed property data:", propertyData);
 
@@ -92,26 +108,26 @@ export async function POST(req: NextRequest) {
 
     // Validate required fields
     if (!propertyName || !phone) {
-      return NextResponse.json({ 
-        message: "Missing required fields: propertyName and phone are required" 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          message: "Missing required fields: propertyName and phone are required",
+        },
+        { status: 400 },
+      );
     }
 
-    const parsedOccupancy =
-      typeof occupancy === "string" ? JSON.parse(occupancy) : occupancy;
+    const parsedOccupancy = typeof occupancy === "string" ? JSON.parse(occupancy) : occupancy;
 
-    const parsedPrices =
-      typeof prices === "string" ? JSON.parse(prices) : prices;
+    const parsedPrices = typeof prices === "string" ? JSON.parse(prices) : prices;
 
-    const parsedFacilities =
-      typeof facilities === "string" ? JSON.parse(facilities) : facilities;
+    const parsedFacilities = typeof facilities === "string" ? JSON.parse(facilities) : facilities;
 
     console.log("Checking owner with phone:", phone);
-    
+
     // Check if owner exists
     const [ownerRows] = await db.execute<RowDataPacket[]>(
       `SELECT id, first_name, email, phone FROM users WHERE phone = ?`,
-      [phone]
+      [phone],
     );
 
     console.log("Owner rows found:", ownerRows.length);
@@ -129,22 +145,22 @@ export async function POST(req: NextRequest) {
         VALUES (?, 'owner')
         ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)
         `,
-        [phone]
+        [phone],
       );
 
       ownerId = insertResult.insertId;
       console.log("New owner ID:", ownerId);
-      ownerName = '';
-      ownerEmail = '';
+      ownerName = "";
+      ownerEmail = "";
     } else {
       ownerId = ownerRows[0].id;
-      ownerName = ownerRows[0].first_name || '';
-      ownerEmail = ownerRows[0].email || '';
+      ownerName = ownerRows[0].first_name || "";
+      ownerEmail = ownerRows[0].email || "";
       console.log("Existing owner ID:", ownerId);
     }
 
     console.log("Inserting PG data");
-    
+
     // Insert PG data
     const [result] = await db.execute<ResultSetHeader>(
       `
@@ -183,62 +199,67 @@ export async function POST(req: NextRequest) {
         JSON.stringify(parsedFacilities),
         lookingFor || "Any",
         ownerId,
-        ownerPhone
-      ]
+        ownerPhone,
+      ],
     );
 
     const pgId = result.insertId;
     console.log("PG created with ID:", pgId);
 
     // Handle image uploads
-    const images = formData.getAll('images') as File[];
+    const images = formData.getAll("images") as any[];
     console.log("Number of images:", images.length);
-    
+    if (images.length > 0) {
+      console.log("First image type:", typeof images[0]);
+      console.log("First image constructor:", images[0]?.constructor?.name);
+      console.log("First image keys:", Object.keys(images[0]));
+    }
+
     if (images && images.length > 0) {
       const uploadDir = path.join(process.cwd(), "public/uploads");
       console.log("Upload directory:", uploadDir);
-      
+
       // Ensure uploads directory exists
-      const fs = require('fs');
+      const fs = require("fs");
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
         console.log("Created uploads directory");
       }
-      
+
       for (const file of images) {
-        if (file instanceof File && file.size > 0) {
+        // Relaxed check for File-like object
+        if (file && typeof file === "object" && "arrayBuffer" in file && "name" in file) {
           const buffer = Buffer.from(await file.arrayBuffer());
           const timestamp = Date.now();
-          const filename = `${timestamp}-${file.name.replace(/\s/g, '-')}`;
-          
+          const filename = `${timestamp}-${file.name.replace(/\s/g, "-")}`;
+
           console.log("Saving image:", filename);
           await writeFile(path.join(uploadDir, filename), buffer);
-          
+
           const imageUrl = `uploads/${filename}`;
-          await db.execute(
-            `INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)`,
-            [pgId, imageUrl]
-          );
+          await db.execute(`INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)`, [pgId, imageUrl]);
           console.log("Image saved:", imageUrl);
         }
       }
     }
 
     console.log("PG onboarding completed successfully");
-    return NextResponse.json({
-      message: "PG added successfully",
-      pgId
-    }, { status: 201 });
-
+    return NextResponse.json(
+      {
+        message: "PG added successfully",
+        pgId,
+      },
+      { status: 201 },
+    );
   } catch (error) {
     console.error("Add PG Error (detailed):", error);
-    console.error("Error stack:", error instanceof Error ? error.stack : 'No stack trace');
+    console.error("Error stack:", error instanceof Error ? error.stack : "No stack trace");
     return NextResponse.json(
-      { 
+      {
         message: "Server error adding PG",
-        error: error instanceof Error ? error.message : "Unknown error"
+        error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
