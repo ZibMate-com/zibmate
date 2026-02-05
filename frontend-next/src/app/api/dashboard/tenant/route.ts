@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     // Current Stay
     const [stays] = await db.execute<RowDataPacket[]>(
       `
-            SELECT b.*, p.name as pg_name, r.room_number 
+            SELECT b.*, p.property_name as pg_name, r.room_number 
             FROM bookings b 
             JOIN pg_data p ON b.pg_id = p.id 
             LEFT JOIN rooms r ON b.room_id = r.id

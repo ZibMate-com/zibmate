@@ -17,7 +17,7 @@ export const AdminRoute = ({ children }) => {
   }, [router]);
 
   if (!isAuthorized) {
-    return null; 
+    return null;
   }
 
   return children;

@@ -44,11 +44,11 @@ export async function POST(req: NextRequest) {
     console.log("=== AUTH DEBUG START ===");
     const authHeader = req.headers.get("authorization");
     console.log("Authorization header:", authHeader);
-    
+
     const authUser = verifyAuth(req);
     console.log("Auth user result:", authUser);
     console.log("=== AUTH DEBUG END ===");
-    
+
     if (!authUser) {
       console.error("Authentication failed - no valid user");
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -58,17 +58,15 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     console.log("FormData received");
-    
-    const propertyString = formData.get('property');
+
+    const propertyString = formData.get("property");
     console.log("Property string:", propertyString);
-    
+
     if (!propertyString) {
       return NextResponse.json({ message: "Property data missing" }, { status: 400 });
     }
-    
-    const propertyData = typeof propertyString === "string" 
-        ? JSON.parse(propertyString) 
-        : propertyString;
+
+    const propertyData = typeof propertyString === "string" ? JSON.parse(propertyString) : propertyString;
 
     console.log("Parsed property data:", propertyData);
 
@@ -92,26 +90,26 @@ export async function POST(req: NextRequest) {
 
     // Validate required fields
     if (!propertyName || !phone) {
-      return NextResponse.json({ 
-        message: "Missing required fields: propertyName and phone are required" 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          message: "Missing required fields: propertyName and phone are required",
+        },
+        { status: 400 },
+      );
     }
 
-    const parsedOccupancy =
-      typeof occupancy === "string" ? JSON.parse(occupancy) : occupancy;
+    const parsedOccupancy = typeof occupancy === "string" ? JSON.parse(occupancy) : occupancy;
 
-    const parsedPrices =
-      typeof prices === "string" ? JSON.parse(prices) : prices;
+    const parsedPrices = typeof prices === "string" ? JSON.parse(prices) : prices;
 
-    const parsedFacilities =
-      typeof facilities === "string" ? JSON.parse(facilities) : facilities;
+    const parsedFacilities = typeof facilities === "string" ? JSON.parse(facilities) : facilities;
 
     console.log("Checking owner with phone:", phone);
-    
+
     // Check if owner exists
     const [ownerRows] = await db.execute<RowDataPacket[]>(
       `SELECT id, first_name, email, phone FROM users WHERE phone = ?`,
-      [phone]
+      [phone],
     );
 
     console.log("Owner rows found:", ownerRows.length);
@@ -125,26 +123,29 @@ export async function POST(req: NextRequest) {
       console.log("Creating new owner");
       const [insertResult] = await db.execute<ResultSetHeader>(
         `
-        INSERT INTO users (phone, role)
-        VALUES (?, 'owner')
+        INSERT INTO users (phone, role, email, first_name, last_name, password)
+        VALUES (?, 'owner', CONCAT(?, '@temp.com'), 'Owner', 'Temp', 'temp_hash')
         ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)
         `,
-        [phone]
+        [phone, phone],
       );
 
       ownerId = insertResult.insertId;
       console.log("New owner ID:", ownerId);
-      ownerName = '';
-      ownerEmail = '';
+      ownerName = "";
+      ownerEmail = "";
     } else {
       ownerId = ownerRows[0].id;
-      ownerName = ownerRows[0].first_name || '';
-      ownerEmail = ownerRows[0].email || '';
+      ownerName = ownerRows[0].first_name || "";
+      ownerEmail = ownerRows[0].email || "";
       console.log("Existing owner ID:", ownerId);
+
+      // Upgrade user to owner if not already
+      await db.execute("UPDATE users SET role = 'owner' WHERE id = ?", [ownerId]);
     }
 
     console.log("Inserting PG data");
-    
+
     // Insert PG data
     const [result] = await db.execute<ResultSetHeader>(
       `
@@ -183,62 +184,61 @@ export async function POST(req: NextRequest) {
         JSON.stringify(parsedFacilities),
         lookingFor || "Any",
         ownerId,
-        ownerPhone
-      ]
+        ownerPhone,
+      ],
     );
 
     const pgId = result.insertId;
     console.log("PG created with ID:", pgId);
 
     // Handle image uploads
-    const images = formData.getAll('images') as File[];
+    const images = formData.getAll("images") as File[];
     console.log("Number of images:", images.length);
-    
+
     if (images && images.length > 0) {
       const uploadDir = path.join(process.cwd(), "public/uploads");
       console.log("Upload directory:", uploadDir);
-      
+
       // Ensure uploads directory exists
-      const fs = require('fs');
+      const fs = require("fs");
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
         console.log("Created uploads directory");
       }
-      
+
       for (const file of images) {
         if (file instanceof File && file.size > 0) {
           const buffer = Buffer.from(await file.arrayBuffer());
           const timestamp = Date.now();
-          const filename = `${timestamp}-${file.name.replace(/\s/g, '-')}`;
-          
+          const filename = `${timestamp}-${file.name.replace(/\s/g, "-")}`;
+
           console.log("Saving image:", filename);
           await writeFile(path.join(uploadDir, filename), buffer);
-          
+
           const imageUrl = `uploads/${filename}`;
-          await db.execute(
-            `INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)`,
-            [pgId, imageUrl]
-          );
+          await db.execute(`INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)`, [pgId, imageUrl]);
           console.log("Image saved:", imageUrl);
         }
       }
     }
 
     console.log("PG onboarding completed successfully");
-    return NextResponse.json({
-      message: "PG added successfully",
-      pgId
-    }, { status: 201 });
-
+    return NextResponse.json(
+      {
+        message: "PG added successfully",
+        pgId,
+      },
+      { status: 201 },
+    );
   } catch (error) {
     console.error("Add PG Error (detailed):", error);
-    console.error("Error stack:", error instanceof Error ? error.stack : 'No stack trace');
+    console.error("Error stack:", error instanceof Error ? error.stack : "No stack trace");
     return NextResponse.json(
-      { 
+      {
         message: "Server error adding PG",
-        error: error instanceof Error ? error.message : "Unknown error"
+        error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
     const [bookings] = await db.execute<RowDataPacket[]>(
       `
-            SELECT b.*, p.name as pg_name 
+            SELECT b.*, p.property_name as pg_name 
             FROM bookings b 
             JOIN pg_data p ON b.pg_id = p.id 
             WHERE p.owner_id = ?
