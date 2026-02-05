@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 
     const [bookings] = await db.execute<RowDataPacket[]>(
       `
-            SELECT b.*, p.name as pg_name, p.location as pg_location, r.room_number 
+            SELECT b.*, p.property_name as pg_name, CONCAT(p.street, ', ', p.city) as pg_location, r.room_number 
             FROM bookings b 
             JOIN pg_data p ON b.pg_id = p.id 
             LEFT JOIN rooms r ON b.room_id = r.id

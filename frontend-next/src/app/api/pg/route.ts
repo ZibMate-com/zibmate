@@ -141,11 +141,11 @@ export async function POST(req: NextRequest) {
       console.log("Creating new owner");
       const [insertResult] = await db.execute<ResultSetHeader>(
         `
-        INSERT INTO users (phone, role)
-        VALUES (?, 'owner')
+        INSERT INTO users (phone, role, email, first_name, last_name, password)
+        VALUES (?, 'owner', CONCAT(?, '@temp.com'), 'Owner', 'Temp', 'temp_hash')
         ON DUPLICATE KEY UPDATE id = LAST_INSERT_ID(id)
         `,
-        [phone],
+        [phone, phone],
       );
 
       ownerId = insertResult.insertId;
@@ -157,6 +157,9 @@ export async function POST(req: NextRequest) {
       ownerName = ownerRows[0].first_name || "";
       ownerEmail = ownerRows[0].email || "";
       console.log("Existing owner ID:", ownerId);
+
+      // Upgrade user to owner if not already
+      await db.execute("UPDATE users SET role = 'owner' WHERE id = ?", [ownerId]);
     }
 
     console.log("Inserting PG data");
@@ -207,13 +210,8 @@ export async function POST(req: NextRequest) {
     console.log("PG created with ID:", pgId);
 
     // Handle image uploads
-    const images = formData.getAll("images") as any[];
+    const images = formData.getAll("images") as File[];
     console.log("Number of images:", images.length);
-    if (images.length > 0) {
-      console.log("First image type:", typeof images[0]);
-      console.log("First image constructor:", images[0]?.constructor?.name);
-      console.log("First image keys:", Object.keys(images[0]));
-    }
 
     if (images && images.length > 0) {
       const uploadDir = path.join(process.cwd(), "public/uploads");
