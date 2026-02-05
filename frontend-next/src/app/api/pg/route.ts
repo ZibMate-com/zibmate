@@ -26,8 +26,26 @@ export async function GET(req: NextRequest) {
     for (let pg of pgs) {
       const [images] = await db.execute<RowDataPacket[]>("SELECT image_url FROM pg_images WHERE pg_id = ?", [pg.id]);
       pg.images = images.map((img: any) => formatImageUrl(img.image_url));
-      if (typeof pg.facilities === "string") {
-        pg.facilities = JSON.parse(pg.facilities);
+
+      try {
+        if (typeof pg.facilities === "string") pg.facilities = JSON.parse(pg.facilities);
+        if (typeof pg.occupancy === "string") pg.occupancy = JSON.parse(pg.occupancy);
+        if (typeof pg.prices === "string") pg.prices = JSON.parse(pg.prices);
+
+        // Derive min price for compatibility with listing views
+        if (pg.prices && typeof pg.prices === "object") {
+          const priceValues = Object.values(pg.prices)
+            .map((p: any) => Number(p))
+            .filter((n) => !isNaN(n));
+          pg.price = priceValues.length > 0 ? Math.min(...priceValues) : 0;
+        }
+      } catch (e) {
+        console.error("Error parsing JSON fields for PG:", pg.id, e);
+        // Initialize defaults if parsing fails
+        if (!pg.facilities) pg.facilities = [];
+        if (!pg.occupancy) pg.occupancy = [];
+        if (!pg.prices) pg.prices = {};
+        pg.price = 0;
       }
     }
 
@@ -207,7 +225,8 @@ export async function POST(req: NextRequest) {
       }
 
       for (const file of images) {
-        if (file instanceof File && file.size > 0) {
+        // Relaxed check for File-like object
+        if (file && typeof file === "object" && "arrayBuffer" in file && "name" in file) {
           const buffer = Buffer.from(await file.arrayBuffer());
           const timestamp = Date.now();
           const filename = `${timestamp}-${file.name.replace(/\s/g, "-")}`;

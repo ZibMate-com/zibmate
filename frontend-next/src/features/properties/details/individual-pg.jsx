@@ -37,25 +37,29 @@ export const IndividualPg = () => {
     occupancy: "",
     lookingFor: "",
     facilities: [],
+    prices: {},
   });
 
-  // Mock pricing plans (ideally these come from your DB)
-  const pricingPlans = [
-    {
-      name: "Private Room",
-      price: product.price,
-      desc: "Single occupancy with premium privacy",
-      icon: Bed,
-      featured: true,
-    },
-    {
-      name: "Double Sharing",
-      price: Math.floor(Number(product.price) * 0.7),
-      desc: "Perfect for friends",
-      icon: Bed,
-      featured: false,
-    },
-  ];
+  // Dynamic pricing plans based on product.prices
+  const pricingPlans =
+    Object.keys(product.prices).length > 0
+      ? Object.entries(product.prices).map(([name, price], index) => ({
+          name: name.charAt(0).toUpperCase() + name.slice(1),
+          price: price,
+          desc: `${name} Occupancy`,
+          icon: Bed,
+          featured: index === 0,
+        }))
+      : [
+          // Fallback if no specific prices found but we have a base price
+          {
+            name: "Standard Room",
+            price: product.price || "N/A",
+            desc: "Standard occupancy",
+            icon: Bed,
+            featured: true,
+          },
+        ];
 
   useEffect(() => {
     async function fetchProduct() {
@@ -75,6 +79,7 @@ export const IndividualPg = () => {
           lookingFor: data.looking_for || data.lookingFor,
           docId: data.id,
           address: data.location,
+          prices: data.prices || {},
           // Ensure arrays where arrays are expected
           facilities: Array.isArray(data.facilities) ? data.facilities : [],
         });
@@ -134,7 +139,7 @@ export const IndividualPg = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-125 mb-12">
           <div className="md:col-span-2 md:row-span-2 rounded-3xl overflow-hidden group relative">
             <img
-              src={product.images[0]}
+              src={product.images[0] || "/assets/pgimage1.png"}
               className="w-full h-full object-cover transition duration-500 group-hover:scale-105"
               alt="Main"
             />
@@ -142,21 +147,21 @@ export const IndividualPg = () => {
           </div>
           <div className="hidden md:block md:col-span-1 rounded-3xl overflow-hidden group relative">
             <img
-              src={product.images[1] || product.images[0]}
+              src={product.images[1] || product.images[0] || "/assets/pgimage1.png"}
               className="w-full h-full object-cover group-hover:scale-105 transition"
               alt="Room"
             />
           </div>
           <div className="hidden md:block md:col-span-1 rounded-3xl overflow-hidden group relative">
             <img
-              src={product.images[2] || product.images[0]}
+              src={product.images[2] || product.images[0] || "/assets/pgimage1.png"}
               className="w-full h-full object-cover group-hover:scale-105 transition"
               alt="Interior"
             />
           </div>
           <div className="hidden md:block md:col-span-2 rounded-3xl overflow-hidden group relative">
             <img
-              src={product.images[3] || product.images[0]}
+              src={product.images[3] || product.images[0] || "/assets/pgimage1.png"}
               className="w-full h-full object-cover group-hover:scale-105 transition"
               alt="View"
             />
