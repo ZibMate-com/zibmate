@@ -12,6 +12,9 @@ export const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [user, setUser] = useState(null);
   const pathname = usePathname();
+  // derive auth state safely
+  const isAuthenticated = Boolean(user);
+  const userRole = user?.role;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -54,9 +57,8 @@ export const NavBar = () => {
   return (
     <>
       <nav
-        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-black backdrop-blur-md border-b border-white/10 py-3" : "bg-black py-5"
-        }`}
+        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${isScrolled ? "bg-black backdrop-blur-md border-b border-white/10 py-3" : "bg-black py-5"
+          }`}
       >
         <div className="max-w-7xl mx-auto px-3 md:px-10 flex justify-between items-center">
           <div className="flex items-center gap-12">
@@ -88,29 +90,30 @@ export const NavBar = () => {
           </div>
 
           <div className="flex gap-4 items-center">
-            <Link
-              href={user ? "/postproperty" : "/login"}
-              className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg active:scale-95"
-            >
-              <PlusCircle className="size-4" />
-              Post Property
-            </Link>
+            {isAuthenticated && (
+              <Link
+                href={userRole === "admin" ? "/postproperty" : "/claimyourpg"}
+                className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg active:scale-95"
+              >
+                <PlusCircle className="size-4" />
+                {user.role === 'admin' ? "Post Property": 'Claim your PG'}
+              </Link>
+            )}
+
 
             <div className="h-8 w-[1px] bg-slate-800 mx-2 hidden md:block" />
-
-            {user ? (
-              <Link href={`${user.role === "admin" ? "/admin-dashboard" : `/profile/${user.role}`}`}>
+            {isAuthenticated ? (
+              <Link href={userRole === "admin" ? "/admin-dashboard" : `/profile/${userRole}`}>
                 <div className="flex items-center gap-3 p-1 pr-4 bg-[#fafafa] border border-slate-800 rounded-full hover:border-orange-500 transition-all group">
                   <div className="size-8 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-xs">
-                    {user.firstName?.charAt(0) || "U"}
+                    {user.firstName?.charAt(0) ?? "U"}
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[9px] uppercase font-black text-slate-500 leading-none">
-                      {" "}
                       {user.firstName?.split(" ")[0]}
                     </span>
-                    <span className="text-sm hidden md:block font-bold text-orange-500 group-hover:text-orange-500 transition-colors">
-                      {user.role?.split(" ")[0]}
+                    <span className="text-sm hidden md:block font-bold text-orange-500">
+                      {userRole}
                     </span>
                   </div>
                 </div>
@@ -123,6 +126,7 @@ export const NavBar = () => {
                 </button>
               </Link>
             )}
+
           </div>
         </div>
       </nav>
@@ -146,11 +150,12 @@ export const NavBar = () => {
 
           <div className="relative flex flex-col items-center">
             <Link
-              href={user ? "/postproperty" : "/login"}
+              href={isAuthenticated ? "/postproperty" : "/login"}
               className="flex items-center justify-center size-14 bg-orange-500 text-white rounded-full shadow-[0_8px_20px_rgba(249,115,22,0.4)] active:scale-90 transition-transform border-4 border-black -mt-8"
             >
               <Plus className="size-8" strokeWidth={3} />
             </Link>
+
             <span className="text-[10px] font-bold text-orange-500 mt-1 uppercase tracking-wider">Add New</span>
           </div>
 

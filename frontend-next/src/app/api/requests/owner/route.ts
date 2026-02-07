@@ -10,8 +10,8 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    if (authUser.role !== "owner") {
-      return NextResponse.json({ message: "Require Owner Role" }, { status: 403 });
+    if (authUser.role !== "admin") {
+      return NextResponse.json({ message: "Require admin Role" }, { status: 403 });
     }
 
     const [requests] = await db.execute<RowDataPacket[]>(

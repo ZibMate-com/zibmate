@@ -25,6 +25,7 @@ const PgForm = () => {
     handleFileChange,
     removeImage,
     imagePreviews,
+    handleCloudinaryImages
   } = useOwnerOnboardingForm();
 
   return (
@@ -65,6 +66,7 @@ const PgForm = () => {
                 handleFileChange={handleFileChange}
                 removeImage={removeImage}
                 imagePreviews={imagePreviews}
+                handleCloudinaryImages={handleCloudinaryImages}
               />
             )}
 

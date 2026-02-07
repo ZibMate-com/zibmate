@@ -12,17 +12,17 @@ export const BookingButton = ({ handleBooking }) => {
         {/* Price & Status Header */}
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-[10px] font-bold text-orange-600 uppercase tracking-[0.2em] mb-1">Total Membership</p>
+            <p className="text-[10px] font-bold text-orange-600 uppercase tracking-[0.2em] mb-1">Book Now!</p>
             <h3 className="text-4xl font-light text-gray-900 tracking-tighter italic">
-              3,804<span className="text-lg font-bold not-italic text-gray-400 ml-1">.35</span>
+              {/* 3,804<span className="text-lg font-bold not-italic text-gray-400 ml-1">.35</span> */}
             </h3>
           </div>
-          <div className="flex flex-col items-end">
+          {/* <div className="flex flex-col items-end">
             <span className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-wider border border-emerald-100">
               <Zap size={10} fill="currentColor" /> Available Now
             </span>
             <p className="text-[10px] text-gray-400 mt-2 font-medium tracking-tight italic">Tokens per cycle</p>
-          </div>
+          </div> */}
         </div>
 
         {/* Quick Selection Summary (Read-Only Feel) */}
@@ -45,12 +45,12 @@ export const BookingButton = ({ handleBooking }) => {
             className="w-full group relative bg-gray-900 hover:bg-orange-600 p-5 rounded-2xl transition-all duration-500 shadow-xl hover:shadow-orange-200"
             onClick={() => console.log("Finalizing Booking...")}
           >
-            <Link href="/booking">
+            {/* <Link href="/booking" > */}
               <div className="flex items-center justify-between">
                 <div className="flex flex-col items-start" onClick={handleBooking}>
-                  <span className="text-white font-bold uppercase tracking-widest text-[10px]">Instant Booking</span>
+                  <span className="text-white font-bold uppercase tracking-widest text-[10px]">Avaible Soon</span>
                   <span className="text-orange-400 text-xs font-medium group-hover:text-white transition-colors">
-                    Pay 300 Tokens
+                    {/* Pay 300 Tokens */}
                   </span>
                 </div>
                 <div className="h-10 w-10 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
@@ -60,7 +60,7 @@ export const BookingButton = ({ handleBooking }) => {
                   />
                 </div>
               </div>
-            </Link>
+            {/* </Link> */}
           </button>
 
           {/* Trust Indicator */}
@@ -77,9 +77,9 @@ export const BookingButton = ({ handleBooking }) => {
       {/* Footer Urgency */}
       <div className="bg-stone-50 p-4 border-t border-stone-100 flex items-center justify-center gap-2">
         <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
-        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">
+        {/* <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">
           Only 2 suites remaining at this price
-        </p>
+        </p> */}
       </div>
     </div>
   );
