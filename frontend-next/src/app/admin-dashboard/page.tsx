@@ -95,7 +95,7 @@ export default function AdminDashboard() {
   };
 
   const handleSendDetails = async (requestId: number) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     const res = await fetch(`/api/requests/sendmail/${requestId}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },

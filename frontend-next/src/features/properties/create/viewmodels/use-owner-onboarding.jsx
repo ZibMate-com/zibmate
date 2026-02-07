@@ -1,16 +1,13 @@
 "use client";
 import { useState, useContext } from "react";
-import { useRouter } from "next/navigation"; // Changed from react-router-dom
+import { useRouter } from "next/navigation";
 import Mycontext from "../../../../context/mycontext";
 
 export const useOwnerOnboardingForm = () => {
   const { setloading, activeStep, setActiveStep } = useContext(Mycontext);
-  const router = useRouter(); // Changed from navigate
-
-  //   const [activeStep, setActiveStep] = useState(0);
+  const router = useRouter();
   const [errors, setErrors] = useState({});
 
-  /* ------------------ FORM STATE ------------------ */
   const [formData, setFormData] = useState({
     personal: {
       firstname: "",
@@ -38,22 +35,17 @@ export const useOwnerOnboardingForm = () => {
     },
   });
 
-  const [imageFiles, setImageFiles] = useState([]);
+  // ✅ CHANGED: Store Cloudinary URLs instead of File objects
   const [imagePreviews, setImagePreviews] = useState([]);
 
   /* ------------------ VALIDATION ------------------ */
   const validate = (step) => {
     const e = {};
-    const nameRegex = /^[A-Za-z]+$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^\d{10}$/;
     const zipRegex = /^\d{6}$/;
 
     if (step === 1) {
       const p = formData.personal;
-      // if (!p.firstname || !nameRegex.test(p.firstname)) e.firstname = "Invalid first name";
-      // if (!p.lastname || !nameRegex.test(p.lastname)) e.lastname = "Invalid last name";
-      //   if (!emailRegex.test(p.email)) e.email = "Invalid email";
       if (!phoneRegex.test(p.phone)) e.phone = "Invalid phone";
       if (!p.gender) e.gender = "Gender required";
     }
@@ -123,15 +115,9 @@ export const useOwnerOnboardingForm = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImageFiles((prev) => [...prev, ...files]);
-    setImagePreviews((prev) => [...prev, ...files.map((f) => URL.createObjectURL(f))]);
-  };
-
-  const removeImage = (i) => {
-    setImageFiles((f) => f.filter((_, idx) => idx !== i));
-    setImagePreviews((p) => p.filter((_, idx) => idx !== i));
+  // ✅ NEW: Handle Cloudinary URLs
+  const handleCloudinaryImages = (urls) => {
+    setImagePreviews(urls);
   };
 
   /* ------------------ NAVIGATION ------------------ */
@@ -150,24 +136,20 @@ export const useOwnerOnboardingForm = () => {
         throw new Error("No admin token found. Please login again.");
       }
 
-      const data = new FormData();
-
+      // ✅ CHANGED: Send JSON instead of FormData
       const propertyPayload = {
         ...formData.property,
         phone: formData.personal.phone,
+        imageUrls: imagePreviews, // ✅ Send Cloudinary URLs
       };
-
-      data.append("property", JSON.stringify(propertyPayload));
-
-      // Only append images if they exist
-      if (imageFiles && imageFiles.length > 0) {
-        imageFiles.forEach((img) => data.append("images", img));
-      }
 
       const res = await fetch("/api/pg", {
         method: "POST",
-        headers: { Authorization: `Bearer ${adminToken}` },
-        body: data,
+        headers: {
+          Authorization: `Bearer ${adminToken}`,
+          "Content-Type": "application/json", // ✅ Changed to JSON
+        },
+        body: JSON.stringify({ property: JSON.stringify(propertyPayload) }),
       });
 
       const responseText = await res.text();
@@ -190,6 +172,7 @@ export const useOwnerOnboardingForm = () => {
       setloading(false);
     }
   };
+
   return {
     activeStep,
     errors,
@@ -197,8 +180,7 @@ export const useOwnerOnboardingForm = () => {
     handleChange,
     toggleOccupancy,
     toggleFacility,
-    handleFileChange,
-    removeImage,
+    handleCloudinaryImages, // ✅ Export new handler
     imagePreviews,
     next,
     back,

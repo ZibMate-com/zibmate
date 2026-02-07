@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
+import CloudinaryImageUpload from "@/components/CloudinaryImageUpload";
 import {
   MoveLeft,
   Home,
@@ -23,6 +24,7 @@ export default function PropertyDetailsForm({
   toggleFacility,
   handleFileChange,
   removeImage,
+  handleCloudinaryImages,
   imagePreviews,
   next,
   back,
@@ -58,44 +60,11 @@ export default function PropertyDetailsForm({
 
         <div className="space-y-8">
           {/* Image Upload Section */}
-          <div className="space-y-4">
-            <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">
-              Upload Property Photos
-            </label>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
-              {imagePreviews.map((preview, index) => (
-                <div
-                  key={index}
-                  className="relative aspect-square rounded-2xl overflow-hidden group border border-slate-100"
-                >
-                  <img src={preview} className="w-full h-full object-cover" alt={`Preview ${index}`} />
-                  <button
-                    type="button"
-                    onClick={() => removeImage(index)}
-                    className="absolute top-1 right-1 p-1 bg-rose-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={() => fileInputRef.current.click()}
-                className="aspect-square rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400 hover:border-orange-500 hover:text-orange-500 transition-all bg-slate-50"
-              >
-                <Plus size={24} />
-                <span className="text-[10px] font-bold mt-1 uppercase">Add Photo</span>
-              </button>
-            </div>
-            <input
-              type="file"
-              multiple
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              className="hidden"
-              accept="image/*"
-            />
-          </div>
+          <CloudinaryImageUpload
+            imagePreviews={imagePreviews}
+            onImagesChange={handleCloudinaryImages}
+            maxImages={10}
+          />
 
           {/* Basic Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -139,11 +108,10 @@ export default function PropertyDetailsForm({
                   data-section="property"
                   onClick={() => toggleOccupancy(o)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border
-                                    ${
-                                      formData.property.occupancy.includes(o)
-                                        ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
-                                        : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
-                                    }`}
+                                    ${formData.property.occupancy.includes(o)
+                      ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
+                      : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
+                    }`}
                 >
                   {o.charAt(0).toUpperCase() + o.slice(1)}
                 </button>
@@ -296,11 +264,10 @@ export default function PropertyDetailsForm({
                   type="button"
                   onClick={() => toggleFacility(f)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border
-                                        ${
-                                          formData.property.facilities.includes(f)
-                                            ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
-                                            : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
-                                        }`}
+                                        ${formData.property.facilities.includes(f)
+                      ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
+                      : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
+                    }`}
                 >
                   {f}
                 </button>
@@ -325,11 +292,10 @@ export default function PropertyDetailsForm({
                   />
                   <div
                     className={`py-3 text-center rounded-2xl text-xs font-bold transition-all border
-                                        ${
-                                          formData.property.lookingFor === type
-                                            ? "bg-slate-900 border-slate-900 text-white shadow-lg"
-                                            : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
-                                        }`}
+                                        ${formData.property.lookingFor === type
+                        ? "bg-slate-900 border-slate-900 text-white shadow-lg"
+                        : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
+                      }`}
                   >
                     {type}
                   </div>
