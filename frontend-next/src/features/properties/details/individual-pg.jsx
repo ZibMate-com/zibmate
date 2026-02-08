@@ -8,9 +8,12 @@ import Mycontext from "../../../context/mycontext";
 import { Loader } from "../../../components/view/loader";
 import { motion,AnimatePresence } from "framer-motion";
 import { CallBackModal } from "./views/callback";
+import { useRouter } from "next/router";
+import { Login } from "@/features/auth/login/login";
 
 export const IndividualPg = () => {
   const { loading, setloading } = useContext(Mycontext);
+  const token = localStorage.getItem('token');
   const { id } = useParams();
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
@@ -147,16 +150,14 @@ export const IndividualPg = () => {
 
   if (loading) return <Loader />;
 
-  if (loading) return <Loader />;
-
   return (
       <section className="min-h-screen bg-[#f8fafc] pb-20">
             <CallBackModal
                 isOpen={isCallModalOpen}
                 onClose={() => setIsCallModalOpen(false)}
                 pgName={product.property_name}
+                pgId={id}
             />
-
             {/* Photo Gallery Modal */}
             <AnimatePresence>
                 {isGalleryOpen && (
@@ -469,7 +470,7 @@ export const IndividualPg = () => {
                                 </div>
                                 <div className="w-full md:w-auto mt-5 flex justify-end">
                                     <button
-                                        onClick={() => setIsCallModalOpen(true)}
+                                        onClick={() => setIsCallModalOpen(true) }
                                         className="w-full md:w-auto px-8 py-3 bg-white border-2 border-slate-200 text-slate-700 font-bold rounded-2xl hover:border-orange-500 hover:text-orange-500 transition-all duration-300 flex items-center justify-center gap-2"
                                     >
                                         <Phone className="size-4" /> Request Call Back

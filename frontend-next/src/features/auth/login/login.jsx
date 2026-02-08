@@ -3,7 +3,9 @@ import Link from "next/link";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Lock, Phone, ArrowRight, Home, User } from "lucide-react";
+import logo from '@/assets/logoorange.png'
 import useLogin from "./viewmodels/uselogin";
+import Image from "next/image";
 
 export const Login = () => {
   const { role, setRole, errors, userCred, setUserCred, handleLogin, loading, isLoggedIn, handleGoogleSignIn } =
@@ -25,7 +27,7 @@ export const Login = () => {
 
         <div className="relative z-10 w-full p-16 flex flex-col justify-between text-white">
           <div>
-            <img src="/assets/logoorange.png" alt="" className="w-45 rounded-lg" />
+            <Image src={logo} alt="Logo" className="w-45 rounded-lg" />
           </div>
 
           <div>
@@ -165,7 +167,7 @@ export const Login = () => {
             Sign in with Google
           </button>
 
-          <p className="mt-8 text-center text-slate-500 font-medium text-sm">
+          <p className="mt-8 text-center text-slate-500 font-medium text-lg">
             Not part of the community yet?{" "}
             <Link
               href="/signup"
