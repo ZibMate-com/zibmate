@@ -32,7 +32,12 @@ export const userSignupFunction = async ({ role, userdata, setUserData }) => {
 
     const data = await signupUser(payload);
 
-    if (data.userId) {
+    if (data.userId && data.token) {
+      // Store token and user data in localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('users', JSON.stringify(data.user));
+      
+      // Clear form
       setUserData({
         firstName: "",
         lastName: "",
@@ -40,6 +45,7 @@ export const userSignupFunction = async ({ role, userdata, setUserData }) => {
         password: "",
         phone: "",
       });
+      
       return true;
     } else {
       throw new Error("Signup failed");
@@ -48,4 +54,10 @@ export const userSignupFunction = async ({ role, userdata, setUserData }) => {
     console.log(error);
     throw error;
   }
+};
+export const getToken = () => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('token');
+  }
+  return null;
 };

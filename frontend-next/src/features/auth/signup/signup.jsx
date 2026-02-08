@@ -5,6 +5,8 @@ import { useSignup } from "./viewmodels/useSignup";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Mail, Lock, Phone, ArrowRight, Home, CheckCircle2 } from "lucide-react";
+import logo from '@/assets/logoorange.png'
+import Image from "next/image";
 
 const Signup = () => {
   const { role, userdata, errors, setRole, handleInputChange, handleSignup, loading } = useSignup();
@@ -26,7 +28,7 @@ const Signup = () => {
 
         <div className="relative z-10 w-full p-10 flex flex-col justify-between text-white">
           <div>
-            <img src="/assets/logoorange.png" alt="" className="w-45 rounded-lg" />
+            <Image src={logo} alt="Logo" className="w-45 rounded-lg" />
           </div>
 
           <div className="space-y-8">
@@ -51,7 +53,7 @@ const Signup = () => {
             </ul>
           </div>
 
-          <p className="text-slate-400 text-sm">© 2025 ZIBMATE Inc. All rights reserved.</p>
+          <p className="text-slate-400 text-sm">© {new Date().getFullYear()} ZIBMATE Inc. All rights reserved.</p>
         </div>
       </div>
 
@@ -151,7 +153,7 @@ const Signup = () => {
                   )}
                 </div>
 
-                {role === "buyer" && (
+               
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="relative">
                     <Phone className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                     <input
@@ -166,7 +168,7 @@ const Signup = () => {
                       <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.phone}</p>
                     )}
                   </motion.div>
-                )}
+                
               </motion.div>
             </AnimatePresence>
 

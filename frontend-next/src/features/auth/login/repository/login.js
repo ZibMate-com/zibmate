@@ -29,7 +29,7 @@ export const loginUser = async ({ email, password }) => {
 
 export const googleLoginUser = async (socialData) => {
   try {
-    return await fetchRequest(`${BASE_URL}/google`, {
+    return await fetchRequest(`${BASE_URL}/google-login`, {
       method: "POST",
       body: JSON.stringify(socialData),
     });
