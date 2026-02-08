@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
-import { MapPin, Users, Tag, Building2, Star } from "lucide-react";
+import { MapPin, Users, Building2, Star } from "lucide-react";
 import Link from "next/link";
 
 
 export const FilteredPg = ({ filteredPg }) => {
-  const token = localStorage.getItem('token');
-  console.log(filteredPg);
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
