@@ -49,12 +49,12 @@ export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
     if (data.token || data.adminToken) {
       // Store the appropriate token
       if (data.adminToken) {
-        localStorage.setItem("adminToken", data.adminToken);
+        localStorage.setItem("zibmate_adminToken", data.adminToken);
       } else {
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("zibmate_token", data.token);
       }
 
-      localStorage.setItem("users", JSON.stringify(data.user));
+      localStorage.setItem("zibmate_users", JSON.stringify(data.user));
 
       setUserCred({
         email: "",

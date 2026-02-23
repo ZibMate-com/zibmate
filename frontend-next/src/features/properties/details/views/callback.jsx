@@ -27,7 +27,7 @@ export const CallBackModal = ({ isOpen, onClose, pgName, pgId }) => {
 
     try {
       // Get user token (check if user is logged in)
-      const userToken = localStorage.getItem("token") || localStorage.getItem("userToken");
+      const userToken = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_userToken");
 
       if (!userToken) {
         toast.error("Please login to request a callback");
@@ -44,7 +44,6 @@ export const CallBackModal = ({ isOpen, onClose, pgName, pgId }) => {
         phone: formData.phone,
       };
 
-      console.log("Sending callback request:", payload);
 
       const response = await fetch("/api/requests/tenant/create/", {
         method: "POST",
@@ -60,8 +59,6 @@ export const CallBackModal = ({ isOpen, onClose, pgName, pgId }) => {
       if (!response.ok) {
         throw new Error(data.message || "Failed to submit request");
       }
-
-      console.log("Callback request success:", data);
       
       // Show success state
       setSubmitted(true);
@@ -184,7 +181,7 @@ export const CallBackModal = ({ isOpen, onClose, pgName, pgId }) => {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        placeholder="+91 98765 43210"
+                        placeholder="98765 43210"
                         pattern="[0-9]{10}"
                         title="Please enter a valid 10-digit phone number"
                         className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-black"

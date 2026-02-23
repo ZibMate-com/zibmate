@@ -2,6 +2,7 @@
 import { ArrowRight, ShieldCheck, Star, MapPin, Zap, Search } from "lucide-react";
 import { motion } from "framer-motion";
 import MotionSection from "../../../components/view/motionComponents";
+import Link from "next/link";
 
 export const SectionOne = () => {
   return (
@@ -108,6 +109,7 @@ export const SectionOne = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-5">
+              <Link href={"/findpg"}>
               <button className="relative group px-10 py-5 bg-orange-500 text-white rounded-2xl font-bold overflow-hidden transition-all active:scale-95 shadow-xl shadow-orange-500/25">
                 <span className="relative z-10 flex items-center gap-2">
                   Explore PGs Near You
@@ -115,10 +117,12 @@ export const SectionOne = () => {
                 </span>
                 <div className="absolute inset-0 bg-slate-900 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300" />
               </button>
-
+              </Link>
+              <Link href={'/claimyourpg'}>
               <button className="px-10 py-5 bg-transparent text-slate-900 border-2 border-slate-900 rounded-2xl font-bold hover:bg-slate-900 hover:text-white transition-all active:scale-95">
                 List Your PG
               </button>
+              </Link>
             </div>
           </motion.div>
         </div>

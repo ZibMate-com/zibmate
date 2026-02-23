@@ -24,7 +24,7 @@ const TicketManagementSection = () => {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("zibmate_token");
         const response = await fetch(`/api/tickets/owner`, {
           headers: {
             Authorization: `Bearer ${token}`,

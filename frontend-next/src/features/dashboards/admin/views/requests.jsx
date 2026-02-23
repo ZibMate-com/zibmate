@@ -10,7 +10,7 @@ export const UserRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("zibmate_token");
       const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const response = await fetch(`${baseUrl}/api/bookings/owner-bookings`, {
         headers: {
@@ -34,7 +34,7 @@ export const UserRequests = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("zibmate_token");
       const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const response = await fetch(`${baseUrl}/api/bookings/${id}/status`, {
         method: "PUT",

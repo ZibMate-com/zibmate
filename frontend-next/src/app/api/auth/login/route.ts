@@ -33,7 +33,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
     }
 
-    // Admin login - return adminToken
     if (user.role === "admin") {
       const adminToken = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET || "secret", {
         expiresIn: "24h",

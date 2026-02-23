@@ -34,8 +34,8 @@ export const userSignupFunction = async ({ role, userdata, setUserData }) => {
 
     if (data.userId && data.token) {
       // Store token and user data in localStorage
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('users', JSON.stringify(data.user));
+      localStorage.setItem('zibmate_token', data.token);
+      localStorage.setItem('zibmate_users', JSON.stringify(data.user));
       
       // Clear form
       setUserData({
@@ -57,7 +57,7 @@ export const userSignupFunction = async ({ role, userdata, setUserData }) => {
 };
 export const getToken = () => {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('token');
+    return localStorage.getItem('zibmate_token');
   }
   return null;
 };

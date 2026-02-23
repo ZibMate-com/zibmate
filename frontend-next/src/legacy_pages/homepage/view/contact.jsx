@@ -1,40 +1,39 @@
 "use client";
 import React, { useState, useContext, useEffect } from "react";
 import toast from "react-hot-toast";
-
 import MotionSection from "../../../components/view/motionComponents";
 import Mycontext from "../../../context/mycontext";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Mail, User, MessageSquare, ShieldCheck } from "lucide-react";
-
+import {FAQ } from "./../models/faq.js"
 const Contact = () => {
   const { loading } = useContext(Mycontext);
-  const [faqData, setFaqData] = useState([]);
+  const [faqData, setFaqData] = useState(FAQ);
   const [activeFaq, setActiveFaq] = useState(null);
 
-  useEffect(() => {
-    const fetchFaqs = async () => {
-      try {
-        const baseUrl = "";
-        const response = await fetch(`${baseUrl}/api/content/faq`, {
-          headers: { "Content-Type": "application/json" },
-        });
-        if (!response.ok) throw new Error("Failed to fetch FAQs");
-        const data = await response.json();
-        setFaqData(
-          data.map((f) => ({
-            id: f.id,
-            question: f.title,
-            answer: f.content,
-          })),
-        );
-      } catch (error) {
-        console.error("Error fetching FAQs:", error);
-      }
-    };
-    fetchFaqs();
-  }, []);
+  // useEffect(() => {
+  //   const fetchFaqs = async () => {
+  //     try {
+  //       const baseUrl = "";
+  //       const response = await fetch(`${baseUrl}/api/content/faq`, {
+  //         headers: { "Content-Type": "application/json" },
+  //       });
+  //       if (!response.ok) throw new Error("Failed to fetch FAQs");
+  //       const data = await response.json();
+  //       setFaqData(
+  //         data.map((f) => ({
+  //           id: f.id,
+  //           question: f.title,
+  //           answer: f.content,
+  //         })),
+  //       );
+  //     } catch (error) {
+  //       console.error("Error fetching FAQs:", error);
+  //     }
+  //   };
+  //   fetchFaqs();
+  // }, []);
 
   const [form, setForm] = useState({
     firstname: "",
@@ -97,7 +96,7 @@ const Contact = () => {
                 href="mailto:support@yourdomain.com"
                 className="text-orange-600 font-bold hover:underline transition-all"
               >
-                support.zibmate.com
+                zibmate.service@gmail.com
               </a>
             </div>
           </motion.div>
@@ -143,7 +142,7 @@ const Contact = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           className="w-full lg:w-[450px]"
         >
-          <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100">
+          <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 sticky top-20">
             <div className="mb-8">
               <h2 className="text-3xl font-bold text-gray-900">Reach out to us</h2>
               <p className="text-gray-500 mt-2">We typically respond within 2 hours.</p>

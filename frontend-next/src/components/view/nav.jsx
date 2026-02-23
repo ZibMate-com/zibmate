@@ -18,7 +18,7 @@ export const NavBar = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const userData = localStorage.getItem("users");
+      const userData = localStorage.getItem("zibmate_users");
       if (userData) setUser(JSON.parse(userData));
     }
   }, [isLoggedIn]);
@@ -96,7 +96,7 @@ export const NavBar = () => {
                 className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg active:scale-95"
               >
                 <PlusCircle className="size-4" />
-                {user.role === 'admin' ? "Post Property": 'Claim your PG'}
+                {user.role === 'admin' ? "Post Property" : 'Claim your PG'}
               </Link>
             )}
 

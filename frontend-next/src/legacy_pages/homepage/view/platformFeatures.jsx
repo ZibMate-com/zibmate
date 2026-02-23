@@ -53,7 +53,7 @@ export const PlatformFeatures = () => {
 
   useEffect(() => {
     // Get user role from localStorage
-    const role = localStorage.getItem("user-role") || "tenant";
+    const role = localStorage.getItem("zibmate_user-role") || "tenant";
     setUserRole(role);
 
     const fetchFeatures = async () => {
@@ -181,7 +181,7 @@ export const PlatformFeatures = () => {
         >
           {sectionSubtitle || (
             <>
-              Effortless management for <br />
+              Effortless Management for <br />
               <span className={`text-transparent bg-clip-text bg-gradient-to-r ${colorScheme.gradient}`}>
                 {userRole === "tenant" ? "Tenent" : userRole}
               </span>

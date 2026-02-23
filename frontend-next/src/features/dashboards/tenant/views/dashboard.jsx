@@ -35,7 +35,7 @@ export const Dashboard = ({ activeTab }) => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("zibmate_token");
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/dashboard/tenant`, {
           headers: {

@@ -37,7 +37,7 @@ export const Overview = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("zibmate_token");
         const headers = { Authorization: `Bearer ${token}` };
 
         const fetchJson = async (url) => {

@@ -7,7 +7,7 @@ export const AdminRoute = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const userStr = localStorage.getItem("users");
+    const userStr = localStorage.getItem("zibmate_users");
     const user = userStr ? JSON.parse(userStr) : null;
     if (user && user.role === "admin") {
       setIsAuthorized(true);

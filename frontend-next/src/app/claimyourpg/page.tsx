@@ -117,15 +117,8 @@ export default function ClaimPropertyPage() {
     setLoading(true);
 
     try {
-      // Assuming a simple mock or local storage for token if needed, but in Next.js we might use cookies or context.
-      // For now, replicating localStorage usage or assuming authenticated session.
-      // But claim pg page might be public or protected?
-      // Legacy code used `OwnerRoute` which implies protection.
-      // However, usually "claiming" is an onboarding step.
-      // Checking legacy route: /claimyourpg wrapped in <OwnerRoute>
-      // So token is expected.
-
-      const token = localStorage.getItem("token"); // Simplification for migration
+    
+      const token = localStorage.getItem("zibmate_token"); // Simplification for migration
       if (!token) throw new Error("Authentication required");
 
       const response = await fetch(`/api/requests/owner/create`, {

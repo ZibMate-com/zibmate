@@ -9,8 +9,8 @@ export const MyState = ({ children }) => {
   const [activeStep, setActiveStep] = useState(1);
 
   useEffect(() => {
-    const user = localStorage.getItem("users");
-    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("zibmate_users");
+    const token = localStorage.getItem("zibmate_token");
     if (user && token) {
       setUser(JSON.parse(user));
       setisLoggedIn(true);

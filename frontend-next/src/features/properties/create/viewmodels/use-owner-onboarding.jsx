@@ -130,7 +130,7 @@ export const useOwnerOnboardingForm = () => {
   const submitAll = async () => {
     setloading(true);
     try {
-      const adminToken = localStorage.getItem("adminToken");
+      const adminToken = localStorage.getItem("zibmate_adminToken");
 
       if (!adminToken) {
         throw new Error("No admin token found. Please login again.");

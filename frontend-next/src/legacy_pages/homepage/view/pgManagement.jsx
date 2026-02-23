@@ -1,130 +1,122 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import Image from "next/image";
 import MotionSection from "../../../components/view/motionComponents";
+import organize from "../../../assets/organize.png";
+import payment from "../../../assets/payments.png";
+import bridge from "../../../assets/bridge.png";
+import alerts from "../../../assets/alerts.png";
 
 export const PgManagement = () => {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.15,
-        duration: 0.6,
-        ease: [0.215, 0.61, 0.355, 1],
-      },
-    }),
-  };
-
-  const cardStyles =
-    "relative overflow-hidden group rounded-[2.5rem] border border-gray-100 bg-white shadow-sm hover:shadow-2xl hover:shadow-orange-500/10 transition-all duration-500 p-8 md:p-10 flex flex-col justify-between min-h-[450px]";
+  const containerRef = useRef(null);
+  
+  const cardStyles = `relative group overflow-hidden rounded-[3rem] border border-white/20 bg-white/40 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] transition-all duration-700 hover:shadow-[0_20px_80px_rgba(249,115,22,0.15)]`;
 
   return (
-    <MotionSection className="w-full mt-24 px-6 max-w-7xl mx-auto" id="management">
-      <div className="w-full mb-16 text-center flex flex-col justify-center items-center">
-        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-          <div className="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 leading-[1.1]">
-            Streamline your
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-rose-500 italic text-3xl md:text-5xl">
-              PG management
-            </span>
-          </div>
-          <p className="text-lg md:text-xl text-gray-500 mt-6 leading-relaxed max-w-2xl">
-            Effortlessly manage your properties with our all-in-one platform, designed for seamless tenant coordination,
-            payment tracking, and building management.
-          </p>
-        </motion.div>
-      </div>
+    <MotionSection 
+      className="relative w-full py-32 px-6 overflow-hidden bg-[#fafafa]" 
+      id="management"
+    >
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-orange-200/30 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-rose-200/20 rounded-full blur-[120px] -z-10" />
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        {/* Card 1: Large (Tenant Organization) */}
-        <motion.div
-          custom={1}
-          variants={cardVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className={`${cardStyles} md:col-span-7`}
-        >
-          <div className="max-w-xs">
-            <h3 className="text-3xl font-bold text-gray-800 tracking-tight">Organize Tenants with ease</h3>
-            <p className="text-gray-500 mt-3 font-medium">Digital onboarding and room allocation in seconds.</p>
-          </div>
-          <div className="mt-10 -mr-10 -mb-10 rounded-tl-3xl overflow-hidden border-t border-l border-gray-200 shadow-2xl transition-transform group-hover:-translate-y-2 group-hover:-translate-x-2 duration-700">
-            <img
-              src="https://cdn.prod.website-files.com/68c6fea85160c01eac0c934f/68c6fffbf8eeadead66fba6f_aeeaae13-b328-49be-8619-d3f0381a56d4.avif"
-              className="w-full h-full object-cover"
-              alt="Tenant Organization Interface"
-            />
-          </div>
-        </motion.div>
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-24">
+          <motion.span 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="inline-block px-4 py-1.5 mb-6 text-sm font-bold tracking-widest text-orange-500 uppercase bg-orange-100/50 rounded-full"
+          >
+            Smart Infrastructure
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-6xl font-black text-slate-900 tracking-tight"
+          >
+            Management <span className="text-transparent bg-clip-text bg-gradient-to-tr from-orange-500 to-rose-500">Redefined</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="mt-8 text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed"
+          >
+            Stop juggling apps. Experience a fluid, intelligent ecosystem built specifically for the modern property owner
+          </motion.p>
+        </div>
 
-        {/* Card 2: Small (Rent Collection) */}
-        <motion.div
-          custom={2}
-          variants={cardVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className={`${cardStyles} md:col-span-5 bg-orange-50/50`}
-        >
-          <div>
-            <h3 className="text-3xl font-bold text-gray-800 tracking-tight">Collect Rent</h3>
-            <p className="text-gray-500 mt-3 font-medium">Automatic reminders and instant digital receipts.</p>
-          </div>
-          <div className="mt-10 rounded-2xl overflow-hidden border border-gray-200 shadow-xl transition-transform group-hover:scale-[1.05] duration-700">
-            <img
-              src="https://cdn.prod.website-files.com/68c6fea85160c01eac0c934f/68c6fffb3cfa78298bffd113_aa26e5cb-4d1a-4724-b7c3-971aab8f8a80.avif"
-              className="w-full h-full object-cover"
-              alt="Payment Dashboard"
-            />
-          </div>
-        </motion.div>
+        {/* The Bento Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 auto-rows-[300px] md:auto-rows-[350px]">
+          
+          {/* Card 1: The "Hero" Feature */}
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className={`${cardStyles} md:col-span-8 md:row-span-1 flex flex-row items-center p-10`}
+          >
+            <div className="flex-1 z-10">
+              <h3 className="text-3xl font-bold text-slate-900 mb-4">Onboard in Seconds</h3>
+              <p className="text-slate-500 text-lg max-w-xs">Smart KYC and automated room allocation without the paperwork headache.</p>
+              <button className="mt-6 px-6 py-2 bg-slate-900 text-white rounded-full font-medium hover:bg-orange-500 transition-colors">Try it now</button>
+            </div>
+            <div className="flex-1 relative h-full hidden lg:block">
+               <Image 
+                src={organize} 
+                alt="UI" 
+                className="absolute top-10 left-10 w-[120%] max-w-none rounded-2xl shadow-2xl transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-2" 
+               />
+            </div>
+          </motion.div>
 
-        {/* Card 3: Small (Communication) */}
-        <motion.div
-          custom={3}
-          variants={cardVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className={`${cardStyles} md:col-span-5`}
-        >
-          <div>
-            <h3 className="text-3xl font-bold text-gray-800 tracking-tight">Direct Contact</h3>
-            <p className="text-gray-500 mt-3 font-medium">Bridge the gap between owners and residents instantly.</p>
-          </div>
-          <div className="mt-10 rounded-2xl overflow-hidden border border-gray-200 shadow-xl transition-transform group-hover:rotate-2 duration-700">
-            <img
-              src="https://cdn.prod.website-files.com/68c6fea85160c01eac0c934f/68c6fffb4ac3836441634496_9eb03614-6030-4410-afb6-34e4fa26d078.avif"
-              className="w-full h-full object-cover"
-              alt="Messaging Feature"
-            />
-          </div>
-        </motion.div>
+          {/* Card 2: Aesthetic Stats/Payments */}
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className={`${cardStyles} md:col-span-4 md:row-span-2 bg-gradient-to-br from-orange-500 to-rose-500 p-10 text-white border-none`}
+          >
+            <div className="h-full flex flex-col justify-between">
+              <div>
+                <h3 className="text-3xl font-bold mb-4 text-white">Automated Collections</h3>
+                <p className="text-orange-100 text-lg">Set it and forget it. Rent hits your account, receipts hit theirs.</p>
+              </div>
+              <div className="relative mt-10 md:inline-block hidden">
+                <Image src={payment} alt="Payments" className="rounded-2xl shadow-xl group-hover:translate-y-[-10px] transition-transform duration-500" />
+              </div>
+            </div>
+          </motion.div>
 
-        {/* Card 4: Large (Instant Updates) */}
-        <motion.div
-          custom={4}
-          variants={cardVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className={`${cardStyles} md:col-span-7 bg-slate-900 text-white border-none`}
-        >
-          <div className="max-w-xs">
-            <h3 className="text-3xl font-bold tracking-tight">Stay Updated Instantly</h3>
-            <p className="text-slate-400 mt-3 font-medium">Never miss a maintenance request or a payment alert.</p>
-          </div>
-          <div className="mt-10 -mb-10 -ml-10 rounded-tr-3xl overflow-hidden border-t border-r border-slate-700 shadow-2xl transition-transform group-hover:scale-[1.02] duration-700">
-            <img
-              src="https://cdn.prod.website-files.com/68c6fea85160c01eac0c934f/68c6fffbf483a0310041f17e_abcfccfb-28a0-48eb-a7d0-ea234ad51b11.avif"
-              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-              alt="Notifications Interface"
-            />
-          </div>
-        </motion.div>
+          {/* Card 3: Communication Bridge */}
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className={`${cardStyles} md:col-span-4 md:row-span-1 p-10`}
+          >
+            <h3 className="text-2xl font-bold text-slate-900 mb-2">Direct Bridge</h3>
+            <p className="text-slate-500">Eliminate the middleman with direct resident chat.</p>
+            <div className="mt-8 flex justify-center">
+               <div className="relative object-cover">
+                  <div className="absolute inset-0 bg-orange-400 blur-3xl opacity-20 group-hover:opacity-40 transition-opacity" />
+                  <Image src={bridge} alt="Chat" className="relative w-100 h-60   group-hover:grayscale-0 transition-all duration-500" />
+               </div>
+            </div>
+          </motion.div>
+
+          {/* Card 4: Dark Mode Alert Center */}
+          <motion.div 
+            whileHover={{ y: -10 }}
+            className={`${cardStyles} md:col-span-4 md:row-span-1 bg-slate-900 p-10 border-none shadow-orange-900/20`}
+          >
+            <div className="flex flex-col h-full">
+               <span className="text-2xl font-bold text-slate-900 mb-2">LIVE SYSTEM</span>
+               {/* <h3 className="text-2xl font-bold text-white mb-2">Instant Alert Engine</h3> */}
+               <p className="text-slate-400">Real-time notifications for repairs and payments.</p>
+               <div className="mt-auto overflow-hidden rounded-t-xl bg-slate-800 p-4 border-t border-x border-slate-700 group-hover:bg-slate-700 transition-colors">
+                  <Image src={alerts} alt="Alerts" className="w-full" />
+               </div>
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </MotionSection>
   );

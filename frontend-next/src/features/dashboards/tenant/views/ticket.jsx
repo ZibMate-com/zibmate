@@ -29,7 +29,7 @@ const RaiseTicketSection = () => {
   useEffect(() => {
     const fetchStay = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("zibmate_token");
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/dashboard/tenant`, {
           headers: {
@@ -67,7 +67,7 @@ const RaiseTicketSection = () => {
 
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("zibmate_token");
       const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const response = await fetch(`${baseUrl}/api/tickets`, {
         method: "POST",

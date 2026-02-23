@@ -11,7 +11,7 @@ const RoomStructurePage = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("zibmate_token");
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/dashboard/owner/rooms`, {
           headers: {

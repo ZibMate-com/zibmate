@@ -9,7 +9,7 @@ export const Listedproperties = () => {
   useEffect(() => {
     const fetchMyPgs = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("zibmate_token");
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/pg/my-pgs`, {
           headers: {

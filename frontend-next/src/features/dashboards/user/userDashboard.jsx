@@ -25,7 +25,7 @@ export const UserDashBoard = () => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const u = localStorage.getItem("users");
+    const u = localStorage.getItem("zibmate_users");
     if (u) setUser(JSON.parse(u));
   }, []);
   const [viewTab, setviewtab] = useState("Saved Properties");
@@ -33,8 +33,8 @@ export const UserDashBoard = () => {
   const router = useRouter();
 
   const handlelogout = () => {
-    localStorage.removeItem("users");
-    localStorage.removeItem("token");
+    localStorage.removeItem("zibmate_users");
+    localStorage.removeItem("zibmate_token");
     setisLoggedIn(false);
     router.push("/login");
   };

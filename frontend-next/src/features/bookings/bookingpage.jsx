@@ -42,7 +42,7 @@ export const BookingPage = () => {
   const handleBooked = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("zibmate_token");
       const payload = {
         pgId: bookingPropertydetails.id,
         fullName: bookingData.fullName,

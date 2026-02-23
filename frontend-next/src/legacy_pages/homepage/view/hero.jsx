@@ -14,8 +14,8 @@ export const Hero = () => {
   const [role, setRole] = useState("tenant");
 
   useEffect(() => {
-    const userRole = localStorage.getItem("user-role");
-    const usersRaw = localStorage.getItem("users");
+    const userRole = localStorage.getItem("zibmate_user-role");
+    const usersRaw = localStorage.getItem("zibmate_users");
 
     if (usersRaw) {
       try {

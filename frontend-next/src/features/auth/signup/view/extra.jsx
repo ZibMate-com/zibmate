@@ -8,7 +8,6 @@ import { Auth, Firedb } from "../../firebase/firebaseconfig";
 import { useRouter } from "next/navigation";
 export const SignUp = () => {
   const { role, userdata, errors, validate, setRole, setUserData, handleSubmit } = useSignup();
-  // console.log(signupUser());
   const router = useRouter();
   const userSignupFunction = async () => {
     // if (userdata.firstName === "" || userdata.email === "" || userdata.password === "") {

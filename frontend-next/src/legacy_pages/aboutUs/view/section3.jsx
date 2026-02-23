@@ -58,7 +58,7 @@ export const SectionThree = () => {
             </div>
 
             <div className="mt-12 flex items-center gap-6">
-              <Link href="/contact">
+              <Link href="/help">
                 <button className="group px-8 py-4 bg-orange-500 text-white rounded-2xl font-bold text-base hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 flex items-center gap-2 active:scale-95">
                   Contact Us
                   <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />

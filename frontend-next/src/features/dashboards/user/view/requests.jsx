@@ -10,7 +10,7 @@ export const SentRequests = () => {
   useEffect(() => {
     const fetchMyBookings = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("zibmate_token");
         
         if (!token) {
           setError("Please login to view your enquiries");

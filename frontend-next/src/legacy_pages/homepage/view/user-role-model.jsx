@@ -7,8 +7,8 @@ export const UserRoleModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const savedRole = localStorage.getItem("user-role");
-    const token = localStorage.getItem("token");
+    const savedRole = localStorage.getItem("zibmate_user-role");
+    const token = localStorage.getItem("zibmate_token");
     if (!token && !savedRole) {
       const timer = setTimeout(() => setIsOpen(true), 1200);
       return () => clearTimeout(timer);
@@ -16,7 +16,7 @@ export const UserRoleModal = () => {
   }, []);
 
   const selectRole = (role) => {
-    localStorage.setItem("user-role", role);
+    localStorage.setItem("zibmate_user-role", role);
     setIsOpen(false);
   };
 

@@ -48,7 +48,7 @@ const useLogin = () => {
       setloading(false);
       if (success) {
         setisLoggedIn(true);
-        const user = JSON.parse(localStorage.getItem("users"));
+        const user = JSON.parse(localStorage.getItem("zibmate_users"));
         setUser(user);
         if (user.role === "owner") {
           router.push("/owner-dashboard");
@@ -81,8 +81,8 @@ const useLogin = () => {
       });
 
       if (data.token) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("users", JSON.stringify(data.user));
+        localStorage.setItem("zibmate_token", data.token);
+        localStorage.setItem("zibmate_users", JSON.stringify(data.user));
         setisLoggedIn(true);
         setUser(data.user);
 

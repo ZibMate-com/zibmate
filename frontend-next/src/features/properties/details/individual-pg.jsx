@@ -13,7 +13,7 @@ import { Login } from "@/features/auth/login/login";
 
 export const IndividualPg = () => {
   const { loading, setloading } = useContext(Mycontext);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('zibmate_token');
   const { id } = useParams();
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);

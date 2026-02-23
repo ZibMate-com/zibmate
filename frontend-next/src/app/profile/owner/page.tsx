@@ -29,8 +29,8 @@ export default function OwnerProfilePage() {
   const router = useRouter();
 
   useEffect(() => {
-    const userStr = localStorage.getItem("users");
-    if (!userStr || !localStorage.getItem("token")) {
+    const userStr = localStorage.getItem("zibmate_users");
+    if (!userStr || !localStorage.getItem("zibmate_token")) {
       router.push("/login");
       return;
     }
@@ -39,8 +39,8 @@ export default function OwnerProfilePage() {
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("users");
-    localStorage.removeItem("token");
+    localStorage.removeItem("zibmate_users");
+    localStorage.removeItem("zibmate_token");
     router.push("/login");
   };
 

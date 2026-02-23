@@ -45,7 +45,7 @@ export default function AdminDashboard() {
   // Authentication check and data fetching
   useEffect(() => {
     const checkAuthAndFetch = async () => {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("zibmate_adminToken");
       if (!token) {
         router.push("/login");
         return;
@@ -53,7 +53,7 @@ export default function AdminDashboard() {
 
       try {
         // Mock user check (replace with real auth hook or context)
-        const userStr = localStorage.getItem("users");
+        const userStr = localStorage.getItem("zibmate_users");
         if (userStr) {
           const user = JSON.parse(userStr);
           if (user.role !== "admin") {
@@ -89,13 +89,13 @@ export default function AdminDashboard() {
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("users");
-    localStorage.removeItem("adminToken");
+    localStorage.removeItem("zibmate_users");
+    localStorage.removeItem("zibmate_adminToken");
     router.push("/login");
   };
 
   const handleSendDetails = async (requestId: number) => {
-    const token = localStorage.getItem("adminToken");
+    const token = localStorage.getItem("zibmate_adminToken");
     const res = await fetch(`/api/requests/sendmail/${requestId}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },

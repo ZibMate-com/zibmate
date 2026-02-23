@@ -9,7 +9,7 @@ export const ListedProperties = () => {
   useEffect(() => {
     const fetchMyPgs = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("zibmate_token");
         // Use relative path for Next.js internal API or env var
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "";
         // However, since we are in Next.js app, we can call our own API routes directly if they are on same domain

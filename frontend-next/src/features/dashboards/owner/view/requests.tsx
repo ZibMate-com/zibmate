@@ -9,7 +9,7 @@ export const UserRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("zibmate_token");
       const response = await fetch(`/api/bookings/owner-bookings`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -32,7 +32,7 @@ export const UserRequests = () => {
 
   const updateStatus = async (id: number, status: string) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("zibmate_token");
       const response = await fetch(`/api/bookings/${id}/status`, {
         method: "PUT",
         headers: {
