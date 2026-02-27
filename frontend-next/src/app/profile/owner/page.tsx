@@ -17,6 +17,7 @@ import {
 import { useEffect, useState, useMemo } from "react";
 import { ListedProperties } from "../../../features/dashboards/owner/view/properties";
 import { UserRequests } from "../../../features/dashboards/owner/view/requests";
+import { TenantCallRequests } from "../../../features/dashboards/owner/view/call-requests";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -48,6 +49,7 @@ export default function OwnerProfilePage() {
   const tabs = [
     { id: "Properties", label: "My Listings", icon: <Home className="size-4" /> },
     { id: "Requests", label: "Inquiry Requests", icon: <ClipboardList className="size-4" /> },
+    { id: "CallRequests", label: "Call Requests", icon: <Phone size={14} /> },
     { id: "Bookings", label: "Final Bookings", icon: <BookCheck className="size-4" /> },
   ];
 
@@ -57,6 +59,8 @@ export default function OwnerProfilePage() {
         return <ListedProperties />;
       case "Requests":
         return <UserRequests />;
+      case "CallRequests":
+        return <TenantCallRequests />;
       default:
         return <NullData viewTab={viewTab} />;
     }
@@ -161,11 +165,10 @@ export default function OwnerProfilePage() {
                     key={tab.id}
                     onClick={() => setViewTab(tab.id)}
                     className={`relative flex items-center gap-2 px-8 py-4 rounded-2xl text-sm font-bold transition-all
-                                            ${
-                                              viewTab === tab.id
-                                                ? "bg-white text-orange-600 shadow-sm text-slate-900"
-                                                : "text-slate-400 hover:text-slate-600 hover:bg-white/50"
-                                            }`}
+                                            ${viewTab === tab.id
+                        ? "bg-white text-orange-600 shadow-sm text-slate-900"
+                        : "text-slate-400 hover:text-slate-600 hover:bg-white/50"
+                      }`}
                   >
                     {tab.icon}
                     {tab.label}

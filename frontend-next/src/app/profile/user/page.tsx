@@ -15,15 +15,12 @@ import {
   Camera,
 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
-// import { SavedProperties } from "./view/properties"
-// import { SentRequests } from "./view/requests"
-// import { NullData } from "../../../components/view/null-data"
+import { SentRequests } from "../../../features/dashboards/user/view/requests";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Placeholder components
 const SavedProperties = () => <div className="p-4">Saved Properties Component</div>;
-const SentRequests = () => <div className="p-4">Sent Requests Component</div>;
 const NullData = ({ viewTab }: { viewTab: string }) => <div className="p-4 text-slate-500">No data for {viewTab}</div>;
 
 export default function UserDashboardPage() {
@@ -57,7 +54,7 @@ export default function UserDashboardPage() {
 
   const tabs = [
     { id: "Saved Properties", icon: <Heart className="size-4" /> },
-    { id: "Sent Requests", icon: <Send className="size-4" /> },
+    { id: "Sent Requests", label: "Call Requests", icon: <Send className="size-4" /> },
     { id: "Bookings", icon: <BookOpen className="size-4" /> },
   ];
 
@@ -164,11 +161,10 @@ export default function UserDashboardPage() {
                     key={tab.id}
                     onClick={() => setViewTab(tab.id)}
                     className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold transition-all whitespace-nowrap
-                                            ${
-                                              viewTab === tab.id
-                                                ? "bg-white text-orange-600 shadow-sm border border-slate-200 translate-y-0"
-                                                : "text-slate-500 hover:bg-white/50 hover:text-slate-700"
-                                            }`}
+                                            ${viewTab === tab.id
+                        ? "bg-white text-orange-600 shadow-sm border border-slate-200 translate-y-0"
+                        : "text-slate-500 hover:bg-white/50 hover:text-slate-700"
+                      }`}
                   >
                     {tab.icon}
                     {tab.id}

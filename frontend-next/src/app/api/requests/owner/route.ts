@@ -10,14 +10,19 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    if (authUser.role !== "admin") {
-      return NextResponse.json({ message: "Require admin Role" }, { status: 403 });
+    let query = "";
+    let params: any[] = [];
+
+    if (authUser.role === "admin") {
+      query = `SELECT * FROM owner_call_requests ORDER BY created_at DESC`;
+    } else if (authUser.role === "owner") {
+      query = `SELECT * FROM owner_call_requests WHERE user_id = ? ORDER BY created_at DESC`;
+      params = [authUser.id];
+    } else {
+      return NextResponse.json({ message: "Forbidden" }, { status: 403 });
     }
 
-    const [requests] = await db.execute<RowDataPacket[]>(
-      `SELECT * FROM owner_call_requests 
-            ORDER BY created_at DESC`,
-    );
+    const [requests] = await db.execute<RowDataPacket[]>(query, params);
 
     return NextResponse.json(requests, { status: 200 });
   } catch (error) {
@@ -25,3 +30,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: "Failed to fetch requests" }, { status: 500 });
   }
 }
+
