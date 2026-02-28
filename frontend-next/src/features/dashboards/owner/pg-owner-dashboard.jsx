@@ -5,6 +5,7 @@ import { SideBar } from "./view/side-bar";
 import { Overview } from "./view/overview";
 import RoomStructurePage from "./view/room-layout";
 import TicketManagementSection from "./view/tickets";
+import { TenantCallRequests } from "./view/call-requests";
 
 const OwnerDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -16,6 +17,7 @@ const OwnerDashboard = () => {
       {activeTab === "overview" && <Overview />}
       {activeTab === "tenants" && <RoomStructurePage />}
       {activeTab === "tickets" && <TicketManagementSection />}
+      {activeTab === "call-requests" && <TenantCallRequests />}
     </div>
   );
 };

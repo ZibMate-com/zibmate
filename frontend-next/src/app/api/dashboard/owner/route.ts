@@ -54,15 +54,28 @@ export async function GET(req: NextRequest) {
       [ownerId],
     );
 
+    // Call Requests
+    const [callRequests] = await db.execute<RowDataPacket[]>(
+      `
+            SELECT COUNT(*) as count 
+            FROM tenent_call_requests r 
+            JOIN pg_data p ON r.pg_id = p.id 
+            WHERE p.owner_id = ?
+        `,
+      [ownerId],
+    );
+
     return NextResponse.json(
       {
         totalPgs: pgs[0].count,
         totalBookings: bookings[0].count,
         activeTickets: tickets[0].count,
         totalRevenue: revenue[0].total || 0,
+        callRequests: callRequests[0].count,
       },
       { status: 200 },
     );
+
   } catch (error) {
     console.error("GetOwnerDashboardStats error:", error);
     return NextResponse.json({ message: "Server error fetching dashboard stats" }, { status: 500 });

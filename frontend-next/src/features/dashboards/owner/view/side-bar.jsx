@@ -6,6 +6,7 @@ import {
   Wrench,
   Search,
   Plus,
+  Phone,
   ChevronRight,
   AlertCircle,
   CheckCircle2,
@@ -37,6 +38,12 @@ export const SideBar = ({ activeTab, setActiveTab }) => {
             label="Tickets"
             active={activeTab === "tickets"}
             onClick={() => setActiveTab("tickets")}
+          />
+          <SideBarLink
+            icon={Phone}
+            label="Call Requests"
+            active={activeTab === "call-requests"}
+            onClick={() => setActiveTab("call-requests")}
           />
           <SideBarLink
             icon={FileText}

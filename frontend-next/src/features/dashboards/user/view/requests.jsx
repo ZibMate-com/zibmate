@@ -11,14 +11,14 @@ export const SentRequests = () => {
     const fetchMyBookings = async () => {
       try {
         const token = localStorage.getItem("zibmate_token");
-        
+
         if (!token) {
           setError("Please login to view your enquiries");
           setLoading(false);
           return;
         }
 
-        const response = await fetch(`/api/requests/tenents`, {
+        const response = await fetch(`/api/requests/tenant`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export const SentRequests = () => {
 
     fetchMyBookings();
   }, []);
-  
+
   const getStatusStyles = (status) => {
     switch (status?.toLowerCase()) {
       case "confirmed":
@@ -108,7 +108,7 @@ export const SentRequests = () => {
           <p className="text-slate-500 mb-6">
             You haven't sent any enquiries yet. Start exploring PGs to find your perfect stay!
           </p>
-          <a 
+          <a
             href="/findpg"
             className="inline-block px-6 py-3 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 transition"
           >
@@ -152,7 +152,7 @@ export const SentRequests = () => {
                       </p>
                     )}
                   </div>
-                  
+
                   <span
                     className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${getStatusStyles(req.status)}`}
                   >
@@ -174,7 +174,7 @@ export const SentRequests = () => {
                       year: 'numeric'
                     })}</span>
                   </div>
-                  
+
                   {req.owner_name && (
                     <div className="flex items-center gap-2 text-slate-500">
                       <User size={16} className="text-orange-500" />
@@ -194,7 +194,7 @@ export const SentRequests = () => {
                       Call Owner
                     </a>
                   )}
-                  
+
                   {req.owner_email && (
                     <a
                       href={`mailto:${req.owner_email}`}

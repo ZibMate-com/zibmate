@@ -10,16 +10,33 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    if (authUser.role !== "admin") {
-      return NextResponse.json({ message: "Require Admin Role" }, { status: 403 });
-    }
+    let query = "";
+    let params: any[] = [];
 
-    const [requests] = await db.execute<RowDataPacket[]>(
-      `SELECT r.*, p.property_name as property_name
+    if (authUser.role === "admin") {
+      query = `SELECT r.*, p.property_name as pg_name
             FROM tenent_call_requests r
             JOIN pg_data p ON r.pg_id = p.id
-            ORDER BY r.created_at DESC`,
-    );
+            ORDER BY r.created_at DESC`;
+    } else if (authUser.role === "owner") {
+      query = `SELECT r.*, p.property_name as pg_name
+            FROM tenent_call_requests r
+            JOIN pg_data p ON r.pg_id = p.id
+            WHERE p.owner_id = ?
+            ORDER BY r.created_at DESC`;
+      params = [authUser.id];
+    } else {
+      // For tenants, show their own requests
+      query = `SELECT r.*, p.property_name as pg_name, CONCAT(u.first_name, ' ', u.last_name) as owner_name, p.owner_phone
+            FROM tenent_call_requests r
+            JOIN pg_data p ON r.pg_id = p.id
+            JOIN users u ON p.owner_id = u.id
+            WHERE r.user_id = ?
+            ORDER BY r.created_at DESC`;
+      params = [authUser.id];
+    }
+
+    const [requests] = await db.execute<RowDataPacket[]>(query, params);
 
     return NextResponse.json(requests, { status: 200 });
   } catch (error) {
@@ -27,3 +44,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: "Failed to fetch requests" }, { status: 500 });
   }
 }
+

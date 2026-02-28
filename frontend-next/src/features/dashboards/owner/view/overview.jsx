@@ -29,6 +29,7 @@ export const Overview = () => {
     totalBookings: 0,
     activeTickets: 0,
     totalPgs: 0,
+    callRequests: 0,
   });
   const [tenants, setTenants] = useState([]);
   const [tickets, setTickets] = useState([]);
@@ -113,13 +114,19 @@ export const Overview = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
         <StatCard
           label="Total Revenue"
           value={`₹${stats.totalRevenue.toLocaleString()}`}
           sub="Current confirmed earnings"
         />
         <StatCard label="Total Bookings" value={stats.totalBookings.toString()} sub="Total stay requests" />
+        <StatCard
+          label="Call Requests"
+          value={stats.callRequests.toString()}
+          sub="Potential leads"
+          isAlert={stats.callRequests > 0}
+        />
         <StatCard
           label="Active Tickets"
           value={stats.activeTickets.toString()}
@@ -128,6 +135,7 @@ export const Overview = () => {
         />
         <StatCard label="My Properties" value={stats.totalPgs.toString()} sub="Total listings on ZibMate" />
       </div>
+
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Tenant & Room Management (2/3 Width) */}
