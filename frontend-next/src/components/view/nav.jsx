@@ -57,8 +57,9 @@ export const NavBar = () => {
   return (
     <>
       <nav
-        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${isScrolled ? "bg-black backdrop-blur-md border-b border-white/10 py-3" : "bg-black py-5"
-          }`}
+        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${
+          isScrolled ? "bg-black backdrop-blur-md border-b border-white/10 py-3" : "bg-black py-5"
+        }`}
       >
         <div className="max-w-7xl mx-auto px-3 md:px-10 flex justify-between items-center">
           <div className="flex items-center gap-12">
@@ -96,10 +97,9 @@ export const NavBar = () => {
                 className="hidden md:flex items-center gap-2 px-5 py-2.5 bg-orange-500 text-white rounded-xl text-sm font-bold hover:bg-orange-600 transition-all shadow-lg active:scale-95"
               >
                 <PlusCircle className="size-4" />
-                {user.role === 'admin' ? "Post Property" : 'Claim your PG'}
+                {user.role === "admin" ? "Post Property" : "Claim your PG"}
               </Link>
             )}
-
 
             <div className="h-8 w-[1px] bg-slate-800 mx-2 hidden md:block" />
             {isAuthenticated ? (
@@ -112,9 +112,7 @@ export const NavBar = () => {
                     <span className="text-[9px] uppercase font-black text-slate-500 leading-none">
                       {user.firstName?.split(" ")[0]}
                     </span>
-                    <span className="text-sm hidden md:block font-bold text-orange-500">
-                      {userRole}
-                    </span>
+                    <span className="text-sm hidden md:block font-bold text-orange-500">{userRole}</span>
                   </div>
                 </div>
               </Link>
@@ -126,7 +124,6 @@ export const NavBar = () => {
                 </button>
               </Link>
             )}
-
           </div>
         </div>
       </nav>

@@ -44,33 +44,33 @@ export const useSignup = () => {
     return Object.keys(newErrors).length === 0;
   };
 
- const handleSignup = async () => {
-  if (!validate()) {
-    return;
-  }
-
-  setloading(true);
-  try {
-    const backendRole = role === "buyer" ? "user" : role;
-    const success = await userSignupFunction({ role: backendRole, userdata, setUserData });
-    
-    if (success) {
-      toast.success("Signup successful! Welcome aboard!");
-      
-      // Redirect based on role
-      if (role === "owner") {
-        router.push("/owner-dashboard"); // Owner dashboard
-      } else {
-        router.push("/findpg"); // Buyer/User page
-      }
+  const handleSignup = async () => {
+    if (!validate()) {
+      return;
     }
-    setloading(false);
-  } catch (error) {
-    setloading(false);
-    toast.error(error.message || "Signup failed");
-    setErrors({ general: error.message || "Signup failed" });
-  }
-};
+
+    setloading(true);
+    try {
+      const backendRole = role === "buyer" ? "user" : role;
+      const success = await userSignupFunction({ role: backendRole, userdata, setUserData });
+
+      if (success) {
+        toast.success("Signup successful! Welcome aboard!");
+
+        // Redirect based on role
+        if (role === "owner") {
+          router.push("/owner-dashboard"); // Owner dashboard
+        } else {
+          router.push("/findpg"); // Buyer/User page
+        }
+      }
+      setloading(false);
+    } catch (error) {
+      setloading(false);
+      toast.error(error.message || "Signup failed");
+      setErrors({ general: error.message || "Signup failed" });
+    }
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData((prev) => ({ ...prev, [name]: value }));

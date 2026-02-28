@@ -1,6 +1,6 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+"use client";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const ComingSoon = () => {
   const [email, setEmail] = useState("");
@@ -8,12 +8,15 @@ const ComingSoon = () => {
 
   // Countdown logic
   const [timeLeft, setTimeLeft] = useState({
-    days: 0, hours: 0, minutes: 0, seconds: 0
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
   });
 
   useEffect(() => {
     const targetDate = new Date("2026-08-30T00:00:00");
-    
+
     const interval = setInterval(() => {
       const now = new Date();
       const difference = targetDate.getTime() - now.getTime();
@@ -36,7 +39,6 @@ const ComingSoon = () => {
 
   return (
     <div className="relative min-h-screen w-full bg-[#050505] flex flex-col items-center justify-center overflow-hidden font-sans">
-      
       {/* Dynamic Background Effects */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-orange-600/20 blur-[120px] rounded-full animate-pulse" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-rose-600/10 blur-[120px] rounded-full" />
@@ -54,7 +56,7 @@ const ComingSoon = () => {
 
       <main className="z-10 px-6 text-center">
         {/* Badge */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-8"
@@ -67,41 +69,38 @@ const ComingSoon = () => {
         </motion.div>
 
         {/* Hero Title */}
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-none mb-6"
         >
           THE NEXT <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-orange-400 to-orange-700">
-            CHAPTER.
-          </span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-orange-400 to-orange-700">CHAPTER.</span>
         </motion.h1>
 
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
           className="text-slate-400 text-lg md:text-xl max-w-xl mx-auto mb-12 font-medium"
         >
-          We're reimagining the PG experience from the ground up. 
-          Efficiency for owners. Comfort for residents.
+          We're reimagining the PG experience from the ground up. Efficiency for owners. Comfort for residents.
         </motion.p>
 
         {/* Countdown Grid */}
         <div className="flex justify-center gap-4 mb-16">
           {Object.entries(timeLeft).map(([unit, value], idx) => (
-            <motion.div 
+            <motion.div
               key={unit}
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 + (idx * 0.1) }}
+              transition={{ delay: 0.3 + idx * 0.1 }}
               className="flex flex-col"
             >
               <div className="w-20 h-20 md:w-28 md:h-28 bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2rem] flex items-center justify-center mb-3">
                 <span className="text-3xl md:text-5xl font-bold text-white tracking-tighter">
-                  {String(value).padStart(2, '0')}
+                  {String(value).padStart(2, "0")}
                 </span>
               </div>
               <span className="text-[10px] uppercase tracking-[0.3em] text-slate-500 font-bold">{unit}</span>
@@ -110,7 +109,7 @@ const ComingSoon = () => {
         </div>
 
         {/* Waitlist Form */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
@@ -118,20 +117,20 @@ const ComingSoon = () => {
         >
           <AnimatePresence mode="wait">
             {!isSubmitted ? (
-              <motion.form 
+              <motion.form
                 key="input"
                 exit={{ opacity: 0, scale: 0.9 }}
                 onSubmit={handleSubmit}
                 className="relative flex items-center p-1 bg-white/5 border border-white/10 rounded-full focus-within:border-orange-500/50 transition-all duration-500 shadow-2xl shadow-orange-500/5"
               >
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   required
                   placeholder="name@company.com"
                   className="w-full bg-transparent py-4 px-6 text-white outline-none placeholder:text-slate-600"
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <button 
+                <button
                   type="submit"
                   className="bg-orange-600 hover:bg-orange-500 text-white px-8 py-4 rounded-full font-bold text-sm transition-all active:scale-95"
                 >
@@ -139,7 +138,7 @@ const ComingSoon = () => {
                 </button>
               </motion.form>
             ) : (
-              <motion.div 
+              <motion.div
                 key="success"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}

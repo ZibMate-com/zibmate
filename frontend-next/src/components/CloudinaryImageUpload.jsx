@@ -3,11 +3,7 @@ import React, { useState } from "react";
 import { Plus, X, Upload } from "lucide-react";
 import toast from "react-hot-toast";
 
-export default function CloudinaryImageUpload({ 
-  imagePreviews = [], 
-  onImagesChange,
-  maxImages = 10 
-}) {
+export default function CloudinaryImageUpload({ imagePreviews = [], onImagesChange, maxImages = 10 }) {
   const [uploading, setUploading] = useState(false);
 
   const uploadToCloudinary = async (files) => {
@@ -26,7 +22,7 @@ export default function CloudinaryImageUpload({
           {
             method: "POST",
             body: formData,
-          }
+          },
         );
 
         if (!response.ok) {
@@ -71,18 +67,11 @@ export default function CloudinaryImageUpload({
       <label className="text-xs font-black text-slate-500 uppercase tracking-wider ml-1">
         Upload Property Photos {uploading && <span className="text-orange-500">(Uploading...)</span>}
       </label>
-      
+
       <div className="grid grid-cols-3 sm:grid-cols-4 gap-4">
         {imagePreviews.map((url, index) => (
-          <div
-            key={index}
-            className="relative aspect-square rounded-2xl overflow-hidden group border border-slate-100"
-          >
-            <img 
-              src={url} 
-              className="w-full h-full object-cover" 
-              alt={`Preview ${index + 1}`} 
-            />
+          <div key={index} className="relative aspect-square rounded-2xl overflow-hidden group border border-slate-100">
+            <img src={url} className="w-full h-full object-cover" alt={`Preview ${index + 1}`} />
             <button
               type="button"
               onClick={() => removeImage(index)}
@@ -92,7 +81,7 @@ export default function CloudinaryImageUpload({
             </button>
           </div>
         ))}
-        
+
         {imagePreviews.length < maxImages && (
           <label className="aspect-square rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-slate-400 hover:border-orange-500 hover:text-orange-500 transition-all bg-slate-50 cursor-pointer">
             <input
@@ -117,7 +106,7 @@ export default function CloudinaryImageUpload({
           </label>
         )}
       </div>
-      
+
       <p className="text-xs text-slate-400 ml-1">
         {imagePreviews.length} of {maxImages} images uploaded
       </p>

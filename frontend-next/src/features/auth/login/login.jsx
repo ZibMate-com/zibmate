@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Lock, Phone, ArrowRight, Home, User } from "lucide-react";
-import logo from '@/assets/logoorange.png'
+import logo from "@/assets/logoorange.png";
 import useLogin from "./viewmodels/uselogin";
 import Image from "next/image";
 

@@ -44,7 +44,6 @@ export const CallBackModal = ({ isOpen, onClose, pgName, pgId }) => {
         phone: formData.phone,
       };
 
-
       const response = await fetch("/api/requests/tenant/create/", {
         method: "POST",
         headers: {
@@ -59,7 +58,7 @@ export const CallBackModal = ({ isOpen, onClose, pgName, pgId }) => {
       if (!response.ok) {
         throw new Error(data.message || "Failed to submit request");
       }
-      
+
       // Show success state
       setSubmitted(true);
       toast.success("Callback request sent successfully!");
@@ -122,19 +121,14 @@ export const CallBackModal = ({ isOpen, onClose, pgName, pgId }) => {
                     <h3 className="text-2xl font-black text-slate-900">Request Call</h3>
                     <p className="text-sm text-slate-500">Owner will contact you shortly</p>
                   </div>
-                  <button 
-                    onClick={handleClose} 
-                    className="p-2 hover:bg-slate-100 rounded-full transition-colors"
-                  >
+                  <button onClick={handleClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
                     <X className="size-5 text-slate-400" />
                   </button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-700 ml-1 uppercase tracking-wider">
-                      Full Name
-                    </label>
+                    <label className="text-xs font-bold text-slate-700 ml-1 uppercase tracking-wider">Full Name</label>
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                       <input

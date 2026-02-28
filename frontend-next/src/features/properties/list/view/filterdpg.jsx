@@ -1,33 +1,25 @@
 import { motion } from "framer-motion";
-import { MapPin, Users, Building2, Star } from "lucide-react";
+import { MapPin, Users, Building2, Star, Heart } from "lucide-react";
 import Link from "next/link";
 
-
-export const FilteredPg = ({ filteredPg }) => {
-  
+export const FilteredPg = ({ filteredPg, savedPgIds = [], toggleSavedPg }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
       {filteredPg.map((pg) => {
         // Parse JSON fields if they're strings
-        const occupancy = typeof pg.occupancy === 'string' 
-          ? JSON.parse(pg.occupancy) 
-          : pg.occupancy;
-        
-        const prices = typeof pg.prices === 'string' 
-          ? JSON.parse(pg.prices) 
-          : pg.prices;
-        
-        const images = typeof pg.images === 'string' 
-          ? JSON.parse(pg.images) 
-          : pg.images;
+        const occupancy = typeof pg.occupancy === "string" ? JSON.parse(pg.occupancy) : pg.occupancy;
+
+        const prices = typeof pg.prices === "string" ? JSON.parse(pg.prices) : pg.prices;
+
+        const images = typeof pg.images === "string" ? JSON.parse(pg.images) : pg.images;
+
+        const isSaved = savedPgIds.includes(pg.id);
 
         // Get the lowest price from the prices object
         const lowestPrice = prices ? Math.min(...Object.values(prices)) : 0;
-        
+
         // Get occupancy display text
-        const occupancyText = occupancy && occupancy.length > 0 
-          ? occupancy.join(', ') 
-          : 'N/A';
+        const occupancyText = occupancy && occupancy.length > 0 ? occupancy.join(", ") : "N/A";
 
         return (
           <motion.div
@@ -45,15 +37,29 @@ export const FilteredPg = ({ filteredPg }) => {
                   <Star className="w-3 h-3 fill-orange-400 text-orange-400" /> 4.8
                 </span>
               </div>
+              <div className="absolute top-3 right-3 z-20">
+                <motion.button
+                  whileTap={{ scale: 0.8 }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleSavedPg(pg.id);
+                  }}
+                  className={`p-2 rounded-full backdrop-blur-md transition-all duration-300 ${
+                    isSaved ? "bg-red-500 text-white shadow-lg" : "bg-white/90 text-gray-600 hover:bg-white"
+                  }`}
+                >
+                  <Heart className={`w-5 h-5 ${isSaved ? "fill-current" : ""}`} />
+                </motion.button>
+              </div>
               {pg.discount > 0 && (
-                <div className="absolute top-3 right-3 z-10">
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 z-10">
                   <span className="bg-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
                     OFFER
                   </span>
                 </div>
               )}
               <motion.img
-                src={images && images.length > 0 ? images[0] : '/placeholder-pg.jpg'}
+                src={images && images.length > 0 ? images[0] : "/placeholder-pg.jpg"}
                 alt={pg.property_name}
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
@@ -67,15 +73,14 @@ export const FilteredPg = ({ filteredPg }) => {
                   {pg.property_name}
                 </h2>
                 <div className="flex items-center text-sm text-gray-400 mt-1">
-                  <MapPin className="h-3.5 w-3.5 mr-1 text-orange-500" />{pg.street}, {pg.city} ,{pg.state}
+                  <MapPin className="h-3.5 w-3.5 mr-1 text-orange-500" />
+                  {pg.street}, {pg.city} ,{pg.state}
                 </div>
               </div>
 
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <span className="text-2xl font-black text-slate-900">
-                    ₹{lowestPrice - (pg.discount || 0)}
-                  </span>
+                  <span className="text-2xl font-black text-slate-900">₹{lowestPrice - (pg.discount || 0)}</span>
                   <span className="text-xs text-gray-400 ml-1">/mo</span>
                 </div>
                 {pg.discount > 0 && (
@@ -91,12 +96,12 @@ export const FilteredPg = ({ filteredPg }) => {
                   <Users className="h-3 w-3 mr-1" /> {occupancyText}
                 </div>
                 <div className="flex items-center bg-slate-50 px-2 py-1 rounded-md text-[11px] font-medium text-slate-600">
-                  <Building2 className="h-3 w-3 mr-1" /> {pg.looking_for || pg.lookingFor || 'Any'}
+                  <Building2 className="h-3 w-3 mr-1" /> {pg.looking_for || pg.lookingFor || "Any"}
                 </div>
               </div>
 
               {/* CTA Button */}
-              <Link href={ `/findpg/${pg.id}`}>
+              <Link href={`/findpg/${pg.id}`}>
                 <motion.button
                   whileTap={{ scale: 0.95 }}
                   className="w-full py-3.5 bg-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-slate-200 group-hover:bg-orange-600 group-hover:shadow-orange-200 transition-all duration-300"
