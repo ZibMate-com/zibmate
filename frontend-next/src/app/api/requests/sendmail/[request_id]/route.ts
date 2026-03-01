@@ -3,7 +3,9 @@ import db from "@/lib/db";
 import { verifyAuth } from "@/lib/auth";
 import { RowDataPacket, ResultSetHeader } from "mysql2";
 import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req: NextRequest, { params }: { params: Promise<{ request_id: string }> }) {
   try {
     const authUser = verifyAuth(req);
@@ -38,14 +40,18 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ req
     const { full_name, email, property_name, owner_phone } = request_details[0];
 
     // Create transporter
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
+    // const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+      //     user: process.env.EMAIL_USER,
+      //     pass: process.env.EMAIL_PASS,
+      //   },
+      // });
+      
+      await db.execute(
+        `UPDATE tenent_call_requests SET status = ?, email_sent = true, email_sent_at = NOW() WHERE id = ?`,
+        ["inactive", request_id],
+      );
     const htmlContent = `
         <!DOCTYPE html>
         <html>
@@ -105,18 +111,14 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ req
 
     const textContent = `Hi ${full_name},\n\nWe know finding a home is a big step, and we're honored to help. Your requested contact for ${property_name} is ${owner_phone}.\n\nWe're here for you until you find the perfect place.\n\nWarmly,\nTeam Zibmate`;
 
-    await transporter.sendMail({
-      from: `"Zibmate" <${process.env.EMAIL_USER}>`,
+    await resend.emails.send({
+      from: 'no-reply@zibmate.com',
       to: email,
       subject: `Your journey home to ${property_name} starts here!`,
       html: htmlContent,
       text: textContent,
     });
 
-    await db.execute(
-      `UPDATE tenent_call_requests SET status = ?, email_sent = true, email_sent_at = NOW() WHERE id = ?`,
-      ["inactive", request_id],
-    );
 
     return NextResponse.json(
       {
