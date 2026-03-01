@@ -117,7 +117,6 @@ export default function ClaimPropertyPage() {
     setLoading(true);
 
     try {
-    
       const token = localStorage.getItem("zibmate_token"); // Simplification for migration
       if (!token) throw new Error("Authentication required");
 

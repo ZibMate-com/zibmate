@@ -142,9 +142,7 @@ export const SentRequests = () => {
               <div className="flex-1">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-1">
-                      {req.pg_name || "PG Name"}
-                    </h3>
+                    <h3 className="text-xl font-bold text-slate-900 mb-1">{req.pg_name || "PG Name"}</h3>
                     {req.location && (
                       <p className="text-sm text-slate-500 flex items-center gap-1">
                         <MapPin size={14} />
@@ -160,19 +158,20 @@ export const SentRequests = () => {
                   </span>
                 </div>
 
-                <p className="text-slate-600 mb-4">
-                  {getStatusMessage(req.status)}
-                </p>
+                <p className="text-slate-600 mb-4">{getStatusMessage(req.status)}</p>
 
                 {/* Meta Info */}
                 <div className="flex flex-wrap gap-4 text-sm">
                   <div className="flex items-center gap-2 text-slate-500">
                     <Clock size={16} className="text-orange-500" />
-                    <span>Sent on {new Date(req.created_at).toLocaleDateString('en-IN', {
-                      day: 'numeric',
-                      month: 'short',
-                      year: 'numeric'
-                    })}</span>
+                    <span>
+                      Sent on{" "}
+                      {new Date(req.created_at).toLocaleDateString("en-IN", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}
+                    </span>
                   </div>
 
                   {req.owner_name && (

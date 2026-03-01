@@ -161,10 +161,11 @@ export default function UserDashboardPage() {
                     key={tab.id}
                     onClick={() => setViewTab(tab.id)}
                     className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold transition-all whitespace-nowrap
-                                            ${viewTab === tab.id
-                        ? "bg-white text-orange-600 shadow-sm border border-slate-200 translate-y-0"
-                        : "text-slate-500 hover:bg-white/50 hover:text-slate-700"
-                      }`}
+                                            ${
+                                              viewTab === tab.id
+                                                ? "bg-white text-orange-600 shadow-sm border border-slate-200 translate-y-0"
+                                                : "text-slate-500 hover:bg-white/50 hover:text-slate-700"
+                                            }`}
                   >
                     {tab.icon}
                     {tab.id}

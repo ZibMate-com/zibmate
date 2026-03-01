@@ -23,26 +23,35 @@ export const useFilterPGs = () => {
   });
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [savedPgIds, setSavedPgIds] = useState([]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
 
-  // useEffect(() => {
-  //   const handleOutside = (event) => {
-  //     if (FilterRef.current && !FilterRef.current.contains(event.target)) {
-  //       setFilters()
-  //     }
-  //   }
-  //   document.addEventListener('mousedown', handleOutside);
-  //   return () => document.removeEventListener('mousedown', handleOutside)
-  // })
+  const fetchSavedPgs = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    try {
+      const response = await fetch("/api/pg/save", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setSavedPgIds(data.map((pg) => pg.id));
+      }
+    } catch (error) {
+      console.error("Error fetching saved PGs:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setloading(true);
       try {
         const data = await getPgData();
         setPgs(data);
+        await fetchSavedPgs();
         setloading(false);
         setFilteredPg(data);
         return data;
@@ -54,6 +63,36 @@ export const useFilterPGs = () => {
 
     fetchData();
   }, []);
+
+  const toggleSavedPg = async (pgId) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to save PGs");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/pg/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ pgId }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.saved) {
+          setSavedPgIds((prev) => [...prev, pgId]);
+        } else {
+          setSavedPgIds((prev) => prev.filter((id) => id !== pgId));
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling save PG:", error);
+    }
+  };
 
   const addPriceRange = () => {
     pgs.forEach((pg) => {
@@ -116,8 +155,8 @@ export const useFilterPGs = () => {
       const query = searchQuery.toLowerCase();
       const matchSearch =
         !searchQuery ||
-        (pg.name && pg.name.toLowerCase().includes(query)) ||
-        (pg.address && pg.address.toLowerCase().includes(query)) ||
+        (pg.property_name && pg.property_name.toLowerCase().includes(query)) ||
+        (pg.street && pg.street.toLowerCase().includes(query)) ||
         (pg.city && pg.city.toLowerCase().includes(query));
 
       return matchOccupancy && matchLookingFor && matchFacilities && matchCity && matchPrice && matchSearch;
@@ -135,5 +174,7 @@ export const useFilterPGs = () => {
     handleSort,
     handleSearch,
     searchQuery,
+    savedPgIds,
+    toggleSavedPg,
   };
 };

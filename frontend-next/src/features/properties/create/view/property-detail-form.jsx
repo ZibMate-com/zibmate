@@ -60,11 +60,7 @@ export default function PropertyDetailsForm({
 
         <div className="space-y-8">
           {/* Image Upload Section */}
-          <CloudinaryImageUpload
-            imagePreviews={imagePreviews}
-            onImagesChange={handleCloudinaryImages}
-            maxImages={10}
-          />
+          <CloudinaryImageUpload imagePreviews={imagePreviews} onImagesChange={handleCloudinaryImages} maxImages={10} />
 
           {/* Basic Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -108,10 +104,11 @@ export default function PropertyDetailsForm({
                   data-section="property"
                   onClick={() => toggleOccupancy(o)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border
-                                    ${formData.property.occupancy.includes(o)
-                      ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
-                      : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
-                    }`}
+                                    ${
+                                      formData.property.occupancy.includes(o)
+                                        ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
+                                        : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
+                                    }`}
                 >
                   {o.charAt(0).toUpperCase() + o.slice(1)}
                 </button>
@@ -264,10 +261,11 @@ export default function PropertyDetailsForm({
                   type="button"
                   onClick={() => toggleFacility(f)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border
-                                        ${formData.property.facilities.includes(f)
-                      ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
-                      : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
-                    }`}
+                                        ${
+                                          formData.property.facilities.includes(f)
+                                            ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-100"
+                                            : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
+                                        }`}
                 >
                   {f}
                 </button>
@@ -292,10 +290,11 @@ export default function PropertyDetailsForm({
                   />
                   <div
                     className={`py-3 text-center rounded-2xl text-xs font-bold transition-all border
-                                        ${formData.property.lookingFor === type
-                        ? "bg-slate-900 border-slate-900 text-white shadow-lg"
-                        : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
-                      }`}
+                                        ${
+                                          formData.property.lookingFor === type
+                                            ? "bg-slate-900 border-slate-900 text-white shadow-lg"
+                                            : "bg-white border-slate-200 text-slate-400 hover:border-slate-300"
+                                        }`}
                   >
                     {type}
                   </div>

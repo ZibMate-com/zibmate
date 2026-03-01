@@ -24,11 +24,8 @@ export async function GET(req: NextRequest) {
     const [pgs] = await db.execute<RowDataPacket[]>("SELECT * FROM pg_data");
 
     for (let pg of pgs) {
-      const [images] = await db.execute<RowDataPacket[]>(
-        "SELECT image_url FROM pg_images WHERE pg_id = ?",
-        [pg.id]
-      );
-      
+      const [images] = await db.execute<RowDataPacket[]>("SELECT image_url FROM pg_images WHERE pg_id = ?", [pg.id]);
+
       // ← No need to format - Cloudinary URLs are already complete
       pg.images = images.map((img: any) => img.image_url);
 
@@ -100,7 +97,7 @@ export async function POST(req: NextRequest) {
     if (!propertyName || !phone) {
       return NextResponse.json(
         { message: "Missing required fields: propertyName and phone are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -109,17 +106,14 @@ export async function POST(req: NextRequest) {
     const parsedFacilities = typeof facilities === "string" ? JSON.parse(facilities) : facilities;
 
     // Check/create owner
-    const [ownerRows] = await db.execute<RowDataPacket[]>(
-      `SELECT id FROM users WHERE phone = ?`,
-      [phone]
-    );
+    const [ownerRows] = await db.execute<RowDataPacket[]>(`SELECT id FROM users WHERE phone = ?`, [phone]);
 
     let ownerId;
     if (ownerRows.length === 0) {
       const [insertResult] = await db.execute<ResultSetHeader>(
         `INSERT INTO users (phone, role, email, first_name, last_name, password)
          VALUES (?, 'owner', CONCAT(?, '@temp.com'), 'Owner', 'Temp', 'temp_hash')`,
-        [phone, phone]
+        [phone, phone],
       );
       ownerId = insertResult.insertId;
     } else {
@@ -135,13 +129,23 @@ export async function POST(req: NextRequest) {
         facilities, looking_for, owner_id, owner_phone
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
-        propertyName, description, houseNumber, street, landmark,
-        city, state, zip, maplink, discount || 0,
+        propertyName,
+        description,
+        houseNumber,
+        street,
+        landmark,
+        city,
+        state,
+        zip,
+        maplink,
+        discount || 0,
         JSON.stringify(parsedOccupancy),
         JSON.stringify(parsedPrices),
         JSON.stringify(parsedFacilities),
-        lookingFor || "Any", ownerId, phone,
-      ]
+        lookingFor || "Any",
+        ownerId,
+        phone,
+      ],
     );
 
     const pgId = result.insertId;
@@ -149,17 +153,11 @@ export async function POST(req: NextRequest) {
     // ✅ CHANGED: Save Cloudinary URLs (no file system operations!)
     if (imageUrls && Array.isArray(imageUrls) && imageUrls.length > 0) {
       for (const url of imageUrls) {
-        await db.execute(
-          `INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)`,
-          [pgId, url]
-        );
+        await db.execute(`INSERT INTO pg_images (pg_id, image_url) VALUES (?, ?)`, [pgId, url]);
       }
     }
 
-    return NextResponse.json(
-      { message: "PG added successfully", pgId },
-      { status: 201 }
-    );
+    return NextResponse.json({ message: "PG added successfully", pgId }, { status: 201 });
   } catch (error) {
     console.error("Add PG Error:", error);
     return NextResponse.json(
@@ -167,7 +165,7 @@ export async function POST(req: NextRequest) {
         message: "Server error adding PG",
         error: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

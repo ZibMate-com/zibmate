@@ -75,7 +75,6 @@ export async function GET(req: NextRequest) {
       },
       { status: 200 },
     );
-
   } catch (error) {
     console.error("GetOwnerDashboardStats error:", error);
     return NextResponse.json({ message: "Server error fetching dashboard stats" }, { status: 500 });
