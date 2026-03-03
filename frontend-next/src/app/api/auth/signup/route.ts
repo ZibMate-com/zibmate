@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       { expiresIn: "7d" },
     );
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         message: "User registered successfully",
         userId: result.insertId,
@@ -50,6 +50,16 @@ export async function POST(req: Request) {
       },
       { status: 201 },
     );
+
+    response.cookies.set("zibmate_token", token, {
+      httpOnly: false, // Set to false to allow client-side access for decoding
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 604800, // 7 days
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Signup error:", error);
     return NextResponse.json({ message: "Server error during signup" }, { status: 500 });

@@ -47,12 +47,13 @@ export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
 
     // Handle both regular token and adminToken
     if (data.token || data.adminToken) {
-      // Store the appropriate token
-      if (data.adminToken) {
-        localStorage.setItem("zibmate_adminToken", data.adminToken);
-      } else {
-        localStorage.setItem("zibmate_token", data.token);
-      }
+      // Tokens are now primarily handled by HTTP-only cookies from the server,
+      // but if we need to set it from client-side for immediate state:
+      const tokenToStore = data.adminToken || data.token;
+
+      // We don't need to manually set it if the server already did via Set-Cookie,
+      // but this ensures it's available if we didn't use HttpOnly.
+      // localStorage.setItem("zibmate_token", tokenToStore); // REMOVED
 
       localStorage.setItem("zibmate_users", JSON.stringify(data.user));
 

@@ -21,6 +21,8 @@ import { Bookmark, Search } from "lucide-react";
 import { SentRequests } from "../../../features/dashboards/user/view/requests";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { getToken } from "@/features/auth/login/repository/token";
+import Cookies from "js-cookie";
 
 // Real components for the user dashboard
 const SavedProperties = () => {
@@ -28,7 +30,7 @@ const SavedProperties = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchSavedPgs = async () => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) {
       setLoading(false);
       return;
@@ -49,7 +51,7 @@ const SavedProperties = () => {
   };
 
   const toggleSavedPg = async (pgId: number) => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) return;
 
     try {
@@ -120,7 +122,8 @@ export default function UserDashboardPage() {
 
   useEffect(() => {
     const userStr = localStorage.getItem("zibmate_users");
-    if (!userStr || !localStorage.getItem("zibmate_token")) {
+    const token = getToken();
+    if (!userStr || !token) {
       router.push("/login");
       return;
     }
@@ -130,7 +133,7 @@ export default function UserDashboardPage() {
 
   const handleLogout = () => {
     localStorage.removeItem("zibmate_users");
-    localStorage.removeItem("zibmate_token");
+    Cookies.remove("zibmate_token");
     router.push("/login");
   };
 

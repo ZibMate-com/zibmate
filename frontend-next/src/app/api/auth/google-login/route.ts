@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     // Create token
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET || "secret", { expiresIn: "24h" });
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         token,
         user: {
@@ -40,6 +40,16 @@ export async function POST(req: Request) {
       },
       { status: 200 },
     );
+
+    response.cookies.set("zibmate_token", token, {
+      httpOnly: false, // Set to false to allow client-side access for decoding
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 86400, // 24 hours
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Google Login error:", error);
     return NextResponse.json({ message: "Server error during Google login" }, { status: 500 });

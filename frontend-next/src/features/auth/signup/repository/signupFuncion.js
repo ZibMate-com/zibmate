@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 const BASE_URL = "/api/auth";
 
 export const signupUser = async (payload) => {
@@ -32,9 +33,8 @@ export const userSignupFunction = async ({ role, userdata, setUserData }) => {
 
     const data = await signupUser(payload);
 
-    if (data.userId && data.token) {
-      // Store token and user data in localStorage
-      localStorage.setItem("zibmate_token", data.token);
+    if (data.userId && (data.token || Cookies.get("zibmate_token"))) {
+      // User info is still kept in localStorage for UI convenience
       localStorage.setItem("zibmate_users", JSON.stringify(data.user));
 
       // Clear form
@@ -56,8 +56,5 @@ export const userSignupFunction = async ({ role, userdata, setUserData }) => {
   }
 };
 export const getToken = () => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("zibmate_token");
-  }
-  return null;
+  return Cookies.get("zibmate_token");
 };

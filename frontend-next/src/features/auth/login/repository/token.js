@@ -1,7 +1,8 @@
 import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
 
 export const getToken = () => {
-  return localStorage.getItem("zibmate_token");
+  return Cookies.get("zibmate_token");
 };
 
 export const verifyToken = () => {
@@ -13,7 +14,7 @@ export const verifyToken = () => {
     const currentTime = Date.now() / 1000;
 
     if (decoded.exp < currentTime) {
-      localStorage.removeItem("zibmate_token");
+      Cookies.remove("zibmate_token");
       localStorage.removeItem("zibmate_users");
       return false;
     }
