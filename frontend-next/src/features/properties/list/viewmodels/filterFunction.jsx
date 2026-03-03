@@ -30,7 +30,7 @@ export const useFilterPGs = () => {
   };
 
   const fetchSavedPgs = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
     if (!token) return;
     try {
       const response = await fetch("/api/pg/save", {
@@ -65,7 +65,7 @@ export const useFilterPGs = () => {
   }, []);
 
   const toggleSavedPg = async (pgId) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
     if (!token) {
       alert("Please login to save PGs");
       return;

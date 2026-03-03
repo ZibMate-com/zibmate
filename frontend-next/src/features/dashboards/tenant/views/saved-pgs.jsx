@@ -10,7 +10,7 @@ export const SavedPgSection = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchSavedPgs = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
     if (!token) {
       setLoading(false);
       return;
@@ -31,7 +31,7 @@ export const SavedPgSection = () => {
   };
 
   const toggleSavedPg = async (pgId) => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
     if (!token) return;
 
     try {
