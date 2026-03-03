@@ -130,6 +130,8 @@ CREATE TABLE IF NOT EXISTS saved_pg (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     pg_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (pg_id) REFERENCES pg_data(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_user_pg (user_id, pg_id)
 );
