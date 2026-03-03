@@ -8,8 +8,8 @@ const initTable = async () => {
   await db.execute(`
     CREATE TABLE IF NOT EXISTS saved_pg (
       id INT AUTO_INCREMENT PRIMARY KEY,
-      user_id INT,
-      pg_id INT,
+      user_id INT NOT NULL,
+      pg_id INT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (pg_id) REFERENCES pg_data(id) ON DELETE CASCADE,
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
@@ -21,14 +21,16 @@ const initTable = async () => {
 export async function GET(req: NextRequest) {
   try {
     const authUser = verifyAuth(req);
-    if (!authUser) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    // Explicitly check for id to ensure we don't query with undefined/null
+    if (!authUser || !authUser.id) {
+      return NextResponse.json({ message: "Unauthorized or invalid user" }, { status: 401 });
     }
 
     await initTable();
 
+    // Use p.* and explicitly set id to p.id to avoid collision with s.id
     const [savedPgs] = await db.execute<RowDataPacket[]>(
-      `SELECT p.* FROM pg_data p
+      `SELECT p.*, p.id as id FROM pg_data p
        JOIN saved_pg s ON p.id = s.pg_id
        WHERE s.user_id = ?`,
       [authUser.id],
@@ -38,9 +40,17 @@ export async function GET(req: NextRequest) {
       const [images] = await db.execute<RowDataPacket[]>("SELECT image_url FROM pg_images WHERE pg_id = ?", [pg.id]);
       pg.images = images.map((img: any) => img.image_url);
 
-      if (typeof pg.facilities === "string") pg.facilities = JSON.parse(pg.facilities);
-      if (typeof pg.occupancy === "string") pg.occupancy = JSON.parse(pg.occupancy);
-      if (typeof pg.prices === "string") pg.prices = JSON.parse(pg.prices);
+      // Recursive JSON parsing with defensive checks
+      try {
+        if (typeof pg.facilities === "string") pg.facilities = JSON.parse(pg.facilities);
+        if (typeof pg.occupancy === "string") pg.occupancy = JSON.parse(pg.occupancy);
+        if (typeof pg.prices === "string") pg.prices = JSON.parse(pg.prices);
+      } catch (e) {
+        console.error("JSON parse error for PG", pg.id, e);
+        pg.facilities = pg.facilities || [];
+        pg.occupancy = pg.occupancy || [];
+        pg.prices = pg.prices || {};
+      }
     }
 
     return NextResponse.json(savedPgs, { status: 200 });
@@ -53,7 +63,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const authUser = verifyAuth(req);
-    if (!authUser) {
+    if (!authUser || !authUser.id) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 

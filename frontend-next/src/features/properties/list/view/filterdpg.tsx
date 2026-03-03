@@ -2,10 +2,16 @@ import { motion } from "framer-motion";
 import { MapPin, Users, Building2, Star, Heart } from "lucide-react";
 import Link from "next/link";
 
-export const FilteredPg = ({ filteredPg, savedPgIds = [], toggleSavedPg }) => {
+interface FilteredPgProps {
+  filteredPg: any[];
+  savedPgIds: any[];
+  toggleSavedPg: (id: number) => void;
+}
+
+export const FilteredPg = ({ filteredPg, savedPgIds = [], toggleSavedPg }: FilteredPgProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-      {filteredPg.map((pg) => {
+      {filteredPg.map((pg: any) => {
         // Parse JSON fields if they're strings
         const occupancy = typeof pg.occupancy === "string" ? JSON.parse(pg.occupancy) : pg.occupancy;
 
@@ -16,7 +22,7 @@ export const FilteredPg = ({ filteredPg, savedPgIds = [], toggleSavedPg }) => {
         const isSaved = savedPgIds.includes(pg.id);
 
         // Get the lowest price from the prices object
-        const lowestPrice = prices ? Math.min(...Object.values(prices)) : 0;
+        const lowestPrice = prices ? Math.min(...(Object.values(prices) as number[])) : 0;
 
         // Get occupancy display text
         const occupancyText = occupancy && occupancy.length > 0 ? occupancy.join(", ") : "N/A";

@@ -22,6 +22,9 @@ export const SavedPgSection = () => {
       if (response.ok) {
         const data = await response.json();
         setSavedPgs(data);
+      } else {
+        const errData = await response.json();
+        console.error("Fetch failed:", errData);
       }
     } catch (error) {
       console.error("Error fetching saved PGs:", error);
