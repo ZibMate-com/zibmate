@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import Mycontext from "../../context/mycontext";
 import logo from "../../assets/logoblack.png";
 import Image from "next/image";
+import { getUser } from "@/features/auth/login/repository/token";
 
 export const NavBar = () => {
   const { isLoggedIn } = useContext(Mycontext);
@@ -17,10 +18,8 @@ export const NavBar = () => {
   const userRole = user?.role;
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userData = localStorage.getItem("zibmate_users");
-      if (userData) setUser(JSON.parse(userData));
-    }
+    const userData = getUser();
+    if (userData) setUser(userData);
   }, [isLoggedIn]);
 
   useEffect(() => {

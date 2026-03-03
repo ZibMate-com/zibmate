@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Phone, User, Mail, Send, CheckCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { getToken } from "../../../auth/login/repository/token";
 
 export const CallBackModal = ({ isOpen, onClose, pgName, pgId }) => {
   const [submitted, setSubmitted] = useState(false);
@@ -27,7 +28,7 @@ export const CallBackModal = ({ isOpen, onClose, pgName, pgId }) => {
 
     try {
       // Get user token (check if user is logged in)
-      const userToken = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_userToken");
+      const userToken = getToken();
 
       if (!userToken) {
         toast.error("Please login to request a callback");

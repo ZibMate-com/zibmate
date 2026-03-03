@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { setUser } from "../../login/repository/token";
 const BASE_URL = "/api/auth";
 
 export const signupUser = async (payload) => {
@@ -34,8 +35,7 @@ export const userSignupFunction = async ({ role, userdata, setUserData }) => {
     const data = await signupUser(payload);
 
     if (data.userId && (data.token || Cookies.get("zibmate_token"))) {
-      // User info is still kept in localStorage for UI convenience
-      localStorage.setItem("zibmate_users", JSON.stringify(data.user));
+      setUser(data.user);
 
       // Clear form
       setUserData({

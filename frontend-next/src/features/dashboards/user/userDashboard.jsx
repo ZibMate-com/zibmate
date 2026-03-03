@@ -20,21 +20,21 @@ import { NullData } from "../../../components/view/null-data";
 import Mycontext from "../../../context/mycontext";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { getUser, clearAuth } from "../../auth/login/repository/token";
 
 export const UserDashBoard = () => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const u = localStorage.getItem("zibmate_users");
-    if (u) setUser(JSON.parse(u));
+    const userData = getUser();
+    if (userData) setUser(userData);
   }, []);
   const [viewTab, setviewtab] = useState("Saved Properties");
   const { setisLoggedIn } = useContext(Mycontext);
   const router = useRouter();
 
   const handlelogout = () => {
-    localStorage.removeItem("zibmate_users");
-    localStorage.removeItem("zibmate_token");
+    clearAuth();
     setisLoggedIn(false);
     router.push("/login");
   };
@@ -90,7 +90,11 @@ export const UserDashBoard = () => {
                 </div>
 
                 <div className="text-center mb-8">
-                  <h2 className="text-2xl font-bold text-slate-900">{user.name}</h2>
+                  <h2 className="text-2xl font-bold text-slate-900">
+                    {user.firstName
+                      ? `${user.firstName} ${user.lastName || ""}`
+                      : user.full_name || user.name || "User"}
+                  </h2>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-orange-600 text-[10px] font-black uppercase tracking-wider mt-2 border border-orange-100">
                     <ShieldCheck className="size-3" />
                     Verified {user.role}

@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import Mycontext from "../../../../context/mycontext";
 import { DocLink } from "../components/doc-links";
+import { getToken } from "../../../auth/login/repository/token";
 
 export const Dashboard = ({ activeTab }) => {
   const { loggedUser } = useContext(Mycontext);
@@ -35,7 +36,7 @@ export const Dashboard = ({ activeTab }) => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const token = localStorage.getItem("zibmate_token");
+        const token = getToken();
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/dashboard/tenant`, {
           headers: {

@@ -19,29 +19,33 @@ import { ListedProperties } from "../../../features/dashboards/owner/view/proper
 import { UserRequests } from "../../../features/dashboards/owner/view/requests";
 import { TenantCallRequests } from "../../../features/dashboards/owner/view/call-requests";
 import { useRouter } from "next/navigation";
+import { getToken, getUser, clearAuth } from "@/features/auth/login/repository/token";
+import Cookies from "js-cookie";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NullData = ({ viewTab }: { viewTab: string }) => <div className="p-4 text-slate-500">No data for {viewTab}</div>;
 
 export default function OwnerProfilePage() {
-  const [user, setUser] = useState<any>({});
+  const [owner, setOwner] = useState<any>({});
   const [viewTab, setViewTab] = useState("Properties");
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const userStr = localStorage.getItem("zibmate_users");
-    if (!userStr || !localStorage.getItem("zibmate_token")) {
-      router.push("/login");
+    const user = getUser();
+    const token = getToken();
+
+    if (!token || !user) {
+      router.push("/login"); // Fixed typo in redirection
       return;
     }
-    setUser(JSON.parse(userStr));
+
+    setOwner(user);
     setLoading(false);
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("zibmate_users");
-    localStorage.removeItem("zibmate_token");
+    clearAuth();
     router.push("/login");
   };
 
@@ -114,7 +118,11 @@ export default function OwnerProfilePage() {
                 </div>
 
                 <div className="text-center">
-                  <h2 className="text-2xl font-bold text-slate-900 leading-tight">{user.name}</h2>
+                  <h2 className="text-2xl font-bold text-slate-900 leading-tight">
+                    {owner.firstName
+                      ? `${owner.firstName} ${owner.lastName || ""}`
+                      : owner.full_name || owner.name || "Owner"}
+                  </h2>
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase tracking-widest mt-3 border border-emerald-100">
                     <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     Authorized Admin
@@ -123,8 +131,8 @@ export default function OwnerProfilePage() {
 
                 <div className="mt-8 space-y-3">
                   {[
-                    { icon: <User className="size-4" />, label: user.email },
-                    { icon: <Phone className="size-4" />, label: user.phone },
+                    { icon: <User className="size-4" />, label: owner.email },
+                    { icon: <Phone className="size-4" />, label: owner.phone },
                   ].map((item, idx) => (
                     <div
                       key={idx}

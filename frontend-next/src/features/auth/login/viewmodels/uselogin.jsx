@@ -5,6 +5,8 @@ import { userLoginFunction, googleLoginUser } from "../repository/login";
 import { useRouter } from "next/navigation";
 import Mycontext from "../../../../context/mycontext";
 import { Auth, provider } from "../../../firebase/firebaseconfig";
+import Cookies from "js-cookie";
+import { setUser as setCookieUser } from "../repository/token";
 import { signInWithPopup } from "firebase/auth";
 
 const useLogin = () => {
@@ -44,17 +46,12 @@ const useLogin = () => {
     setloading(true);
     try {
       const backendRole = role === "buyer" ? "user" : role;
-      const success = await userLoginFunction({ role: backendRole, userCred, setUserCred });
+      const loggedUser = await userLoginFunction({ role: backendRole, userCred, setUserCred });
       setloading(false);
-      if (success) {
+      if (loggedUser) {
         setisLoggedIn(true);
-        const user = JSON.parse(localStorage.getItem("zibmate_users"));
-        setUser(user);
-        if (user.role === "owner") {
-          router.push("/owner-dashboard");
-        } else {
-          router.push("/findpg");
-        }
+        setUser(loggedUser);
+        router.push(role === "owner" ? "/owner-dashboard" : "/findpg");
       }
     } catch (error) {
       setloading(false);
@@ -81,8 +78,8 @@ const useLogin = () => {
       });
 
       if (data.token) {
-        localStorage.setItem("zibmate_token", data.token);
-        localStorage.setItem("zibmate_users", JSON.stringify(data.user));
+        Cookies.set("zibmate_token", data.token, { expires: 7, secure: true });
+        setCookieUser(data.user);
         setisLoggedIn(true);
         setUser(data.user);
 

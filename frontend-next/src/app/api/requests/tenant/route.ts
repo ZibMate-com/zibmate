@@ -27,10 +27,12 @@ export async function GET(req: NextRequest) {
       params = [authUser.id];
     } else {
       // For tenants, show their own requests
-      query = `SELECT r.*, p.property_name as pg_name, CONCAT(u.first_name, ' ', u.last_name) as owner_name, p.owner_phone
+      // Use LEFT JOIN for owner details to ensure the request is visible even if owner data is incomplete
+      // Added p.city as location to display it in the frontend
+      query = `SELECT r.*, p.property_name as pg_name, p.city as location, CONCAT(u.first_name, ' ', u.last_name) as owner_name, p.owner_phone, u.email as owner_email
             FROM tenent_call_requests r
-            JOIN pg_data p ON r.pg_id = p.id
-            JOIN users u ON p.owner_id = u.id
+            LEFT JOIN pg_data p ON r.pg_id = p.id
+            LEFT JOIN users u ON p.owner_id = u.id
             WHERE r.user_id = ?
             ORDER BY r.created_at DESC`;
       params = [authUser.id];

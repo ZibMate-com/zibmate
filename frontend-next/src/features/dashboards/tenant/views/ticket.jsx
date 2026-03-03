@@ -15,6 +15,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import Mycontext from "../../../../context/mycontext";
+import { getToken } from "../../../auth/login/repository/token";
 
 const RaiseTicketSection = () => {
   const { loggedUser } = useContext(Mycontext);
@@ -29,7 +30,7 @@ const RaiseTicketSection = () => {
   useEffect(() => {
     const fetchStay = async () => {
       try {
-        const token = localStorage.getItem("zibmate_token");
+        const token = getToken();
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/dashboard/tenant`, {
           headers: {
@@ -67,7 +68,7 @@ const RaiseTicketSection = () => {
 
     setLoading(true);
     try {
-      const token = localStorage.getItem("zibmate_token");
+      const token = getToken();
       const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const response = await fetch(`${baseUrl}/api/tickets`, {
         method: "POST",

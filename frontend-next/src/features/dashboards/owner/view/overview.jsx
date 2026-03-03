@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { getToken } from "../../../auth/login/repository/token";
 
 import {
   Users,
@@ -38,7 +39,7 @@ export const Overview = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const token = localStorage.getItem("zibmate_token");
+        const token = getToken();
         const headers = { Authorization: `Bearer ${token}` };
 
         const fetchJson = async (url) => {

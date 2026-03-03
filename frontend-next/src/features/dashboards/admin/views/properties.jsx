@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Users, MapPin } from "lucide-react";
+import { getToken } from "../../../auth/login/repository/token";
 
 export const Listedproperties = () => {
   const [properties, setProperties] = useState([]);
@@ -9,7 +10,7 @@ export const Listedproperties = () => {
   useEffect(() => {
     const fetchMyPgs = async () => {
       try {
-        const token = localStorage.getItem("zibmate_token");
+        const token = getToken();
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/pg/my-pgs`, {
           headers: {

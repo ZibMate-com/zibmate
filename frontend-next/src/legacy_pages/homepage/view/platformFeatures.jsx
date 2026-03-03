@@ -23,6 +23,7 @@ import {
   ToolCaseIcon,
 } from "lucide-react";
 import MotionSection from "@/components/view/motionComponents";
+import { getTransientRole } from "@/features/auth/login/repository/token";
 
 const IconMap = {
   LayoutDashboard,
@@ -52,8 +53,8 @@ export const PlatformFeatures = () => {
   const [sectionSubtitle, setSectionSubtitle] = useState("");
 
   useEffect(() => {
-    // Get user role from localStorage
-    const role = localStorage.getItem("zibmate_user-role") || "tenant";
+    // Get user role from cookies
+    const role = getTransientRole() || "tenant";
     setUserRole(role);
 
     const fetchFeatures = async () => {

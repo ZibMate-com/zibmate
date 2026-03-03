@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { User, Phone, Clock, ShieldCheck, Mail, MapPin, Home } from "lucide-react";
+import { getToken } from "../../../auth/login/repository/token";
 
 export const SentRequests = () => {
   const [myBookings, setMyBookings] = useState([]);
@@ -10,7 +11,7 @@ export const SentRequests = () => {
   useEffect(() => {
     const fetchMyBookings = async () => {
       try {
-        const token = localStorage.getItem("zibmate_token");
+        const token = getToken();
 
         if (!token) {
           setError("Please login to view your enquiries");

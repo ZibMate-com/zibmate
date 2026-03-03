@@ -2,13 +2,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Building2, Sparkles, CheckCircle2, ChevronRight } from "lucide-react";
+import { getToken, getTransientRole, setTransientRole } from "../../auth/login/repository/token";
 
 export const UserRoleModal = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    const savedRole = localStorage.getItem("zibmate_user-role");
-    const token = localStorage.getItem("zibmate_token");
+    const savedRole = getTransientRole();
+    const token = getToken();
     if (!token && !savedRole) {
       const timer = setTimeout(() => setIsOpen(true), 1200);
       return () => clearTimeout(timer);
@@ -16,7 +17,7 @@ export const UserRoleModal = () => {
   }, []);
 
   const selectRole = (role) => {
-    localStorage.setItem("zibmate_user-role", role);
+    setTransientRole(role);
     setIsOpen(false);
   };
 

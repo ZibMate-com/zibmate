@@ -4,13 +4,14 @@ import { FilteredPg } from "../../../properties/list/view/filterdpg";
 import { Loader } from "../../../../components/view/loader";
 import { Bookmark, Search } from "lucide-react";
 import { motion } from "framer-motion";
+import { getToken } from "../../../auth/login/repository/token";
 
 export const SavedPgSection = () => {
   const [savedPgs, setSavedPgs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchSavedPgs = async () => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) {
       setLoading(false);
       return;
@@ -34,7 +35,7 @@ export const SavedPgSection = () => {
   };
 
   const toggleSavedPg = async (pgId) => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) return;
 
     try {

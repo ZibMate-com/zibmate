@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { getToken, getBookingDetails, removeBookingDetails } from "@/features/auth/login/repository/token";
 
 export const BookingPage = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ export const BookingPage = () => {
   const [bookingPropertydetails, setbookingPropertyDetails] = useState({});
   useEffect(() => {
     const getPropertyDetails = () => {
-      const data = JSON.parse(localStorage.getItem("BookingDetails"));
+      const data = getBookingDetails();
       setbookingPropertyDetails(data);
     };
     getPropertyDetails();
@@ -42,7 +43,7 @@ export const BookingPage = () => {
   const handleBooked = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("zibmate_token");
+      const token = getToken();
       const payload = {
         pgId: bookingPropertydetails.id,
         fullName: bookingData.fullName,
@@ -67,7 +68,7 @@ export const BookingPage = () => {
 
       if (data.bookingId) {
         toast.success("Booking request sent successfully!");
-        localStorage.removeItem("BookingDetails");
+        removeBookingDetails();
         router.push("/tenent-dashboard");
       }
     } catch (error) {
