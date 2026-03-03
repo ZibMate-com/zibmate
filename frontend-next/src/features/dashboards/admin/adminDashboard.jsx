@@ -20,7 +20,7 @@ import { NullData } from "../../../components/view/null-data";
 import Mycontext from "../../../context/mycontext";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { getToken, getUser, clearAuth } from "../../auth/login/repository/token";
+import { getToken, getUser, clearAuth } from "@/features/auth/login/repository/token";
 import Cookies from "js-cookie";
 
 export const AdminDashboard = () => {

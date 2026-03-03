@@ -2,7 +2,7 @@
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import Mycontext from "../../../../context/mycontext";
-import { getToken } from "../../../auth/login/repository/token";
+import { getToken } from "@/features/auth/login/repository/token";
 
 export const useOwnerOnboardingForm = () => {
   const { setloading, activeStep, setActiveStep } = useContext(Mycontext);

@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { setUser } from "../../login/repository/token";
+import { setUser } from "@/features/auth/login/repository/token";
 const BASE_URL = "/api/auth";
 
 export const signupUser = async (payload) => {

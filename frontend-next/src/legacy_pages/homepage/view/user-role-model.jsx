@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { User, Building2, Sparkles, CheckCircle2, ChevronRight } from "lucide-react";
-import { getToken, getTransientRole, setTransientRole } from "../../auth/login/repository/token";
+import { getToken, getTransientRole, setTransientRole } from "@/features/auth/login/repository/token";
 
 export const UserRoleModal = () => {
   const [isOpen, setIsOpen] = useState(false);
