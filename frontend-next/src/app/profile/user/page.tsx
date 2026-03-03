@@ -15,12 +15,101 @@ import {
   Camera,
 } from "lucide-react";
 import { useEffect, useState, useMemo } from "react";
+import { FilteredPg } from "@/features/properties/list/view/filterdpg";
+import { Loader } from "@/components/view/loader";
+import { Bookmark, Search } from "lucide-react";
 import { SentRequests } from "../../../features/dashboards/user/view/requests";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Placeholder components
-const SavedProperties = () => <div className="p-4">Saved Properties Component</div>;
+// Real components for the user dashboard
+const SavedProperties = () => {
+  const [savedPgs, setSavedPgs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchSavedPgs = async () => {
+    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+    try {
+      const response = await fetch("/api/pg/save", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setSavedPgs(data);
+      }
+    } catch (error) {
+      console.error("Error fetching saved PGs:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleSavedPg = async (pgId: number) => {
+    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    if (!token) return;
+
+    try {
+      const response = await fetch("/api/pg/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ pgId }),
+      });
+
+      if (response.ok) {
+        setSavedPgs((prev) => prev.filter((pg: any) => pg.id !== pgId));
+      }
+    } catch (error) {
+      console.error("Error toggling save PG:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSavedPgs();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="py-20 flex justify-center w-full">
+        <Loader />
+      </div>
+    );
+
+  if (savedPgs.length === 0) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-slate-50/50 rounded-[2rem] p-12 text-center border border-slate-100"
+      >
+        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm">
+          <Bookmark className="w-8 h-8 text-orange-400" />
+        </div>
+        <h3 className="text-lg font-bold text-slate-800 mb-2">No saved PGs yet</h3>
+        <p className="text-slate-500 mb-8 max-w-sm mx-auto text-sm">
+          Start exploring and save your favorite PGs to see them here later!
+        </p>
+        <a
+          href="/findpg"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all shadow-md text-sm"
+        >
+          <Search className="w-4 h-4" />
+          Find Properties
+        </a>
+      </motion.div>
+    );
+  }
+
+  return (
+    <FilteredPg filteredPg={savedPgs} savedPgIds={savedPgs.map((pg: any) => pg.id)} toggleSavedPg={toggleSavedPg} />
+  );
+};
 const NullData = ({ viewTab }: { viewTab: string }) => <div className="p-4 text-slate-500">No data for {viewTab}</div>;
 
 export default function UserDashboardPage() {
@@ -161,10 +250,11 @@ export default function UserDashboardPage() {
                     key={tab.id}
                     onClick={() => setViewTab(tab.id)}
                     className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold transition-all whitespace-nowrap
-                                            ${viewTab === tab.id
-                        ? "bg-white text-orange-600 shadow-sm border border-slate-200 translate-y-0"
-                        : "text-slate-500 hover:bg-white/50 hover:text-slate-700"
-                      }`}
+                                            ${
+                                              viewTab === tab.id
+                                                ? "bg-white text-orange-600 shadow-sm border border-slate-200 translate-y-0"
+                                                : "text-slate-500 hover:bg-white/50 hover:text-slate-700"
+                                            }`}
                   >
                     {tab.icon}
                     {tab.id}

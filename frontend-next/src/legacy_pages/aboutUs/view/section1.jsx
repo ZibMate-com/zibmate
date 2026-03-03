@@ -13,17 +13,15 @@ export const SectionOne = () => {
       </div>
 
       <div className="max-w-8xl mx-auto flex flex-col lg:flex-row items-center gap-20">
-        
         {/* LEFT SIDE: MULTI-LAYERED VISUAL STACK */}
         <div className="w-full lg:w-1/2 relative">
-          
           {/* Main Hero Image */}
           <div className="relative z-10 rounded-[3.5rem] overflow-hidden shadow-[0_40px_80px_-15px_rgba(249,115,22,0.15)]">
             <motion.img
               initial={{ scale: 1.1 }}
               whileInView={{ scale: 1 }}
               transition={{ duration: 1.5, ease: "easeOut" }}
-              src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop" 
+              src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=2071&auto=format&fit=crop"
               className="w-full h-[650px] object-cover"
               alt="Premium PG Accomodation"
             />
@@ -56,11 +54,15 @@ export const SectionOne = () => {
           >
             <div className="flex items-center gap-4 mb-3">
               <div className="flex text-orange-400">
-                {[1, 2, 3, 4, 5].map((s) => <Star key={s} className="size-3 fill-orange-400" />)}
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} className="size-3 fill-orange-400" />
+                ))}
               </div>
               <span className="text-xs font-bold text-slate-400">4.9/5 Rating</span>
             </div>
-            <p className="text-sm font-medium italic text-slate-200">"Found a safe PG in 2 days without <br/> paying a single rupee in brokerage!"</p>
+            <p className="text-sm font-medium italic text-slate-200">
+              "Found a safe PG in 2 days without <br /> paying a single rupee in brokerage!"
+            </p>
             <p className="text-xs text-orange-500 font-bold mt-3">— Rahul S., Software Engineer</p>
           </motion.div>
 
@@ -70,11 +72,7 @@ export const SectionOne = () => {
 
         {/* RIGHT SIDE: TEXT & INTERACTION */}
         <div className="w-full lg:w-1/2 flex flex-col">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="flex items-center gap-3 mb-6">
               <div className="h-[2px] w-12 bg-orange-500" />
               <span className="text-orange-500 font-bold tracking-[0.2em] text-xs uppercase">Your Housing Partner</span>
@@ -84,14 +82,27 @@ export const SectionOne = () => {
               Premium stays. <br />
               <span className="relative inline-block text-orange-500">
                 Direct Deals.
-                <svg className="absolute -bottom-2 left-0 w-full" height="8" viewBox="0 0 100 8" preserveAspectRatio="none">
-                  <path d="M0 7C20 7 30 2 50 2C70 2 80 7 100 7" stroke="#F97316" strokeWidth="4" fill="none" strokeLinecap="round" />
+                <svg
+                  className="absolute -bottom-2 left-0 w-full"
+                  height="8"
+                  viewBox="0 0 100 8"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M0 7C20 7 30 2 50 2C70 2 80 7 100 7"
+                    stroke="#F97316"
+                    strokeWidth="4"
+                    fill="none"
+                    strokeLinecap="round"
+                  />
                 </svg>
               </span>
             </h2>
 
             <p className="text-lg text-slate-600 leading-relaxed mb-10 max-w-xl">
-              Zibmate is India's first <span className="text-slate-900 font-bold">Broker-Free</span> ecosystem for students and professionals. We verify every PG, so you don't have to worry about hidden charges or fake photos.
+              Zibmate is India's first <span className="text-slate-900 font-bold">Broker-Free</span> ecosystem for
+              students and professionals. We verify every PG, so you don't have to worry about hidden charges or fake
+              photos.
             </p>
 
             {/* Feature Pills */}
@@ -101,7 +112,10 @@ export const SectionOne = () => {
                 { label: "Real-Time Site Visits", icon: Search },
                 { label: "Instant Booking", icon: Zap },
               ].map((pill, idx) => (
-                <div key={idx} className="flex items-center gap-2 px-5 py-3 rounded-full bg-slate-50 border border-slate-100 hover:border-orange-200 hover:bg-orange-50 transition-all cursor-default">
+                <div
+                  key={idx}
+                  className="flex items-center gap-2 px-5 py-3 rounded-full bg-slate-50 border border-slate-100 hover:border-orange-200 hover:bg-orange-50 transition-all cursor-default"
+                >
                   <pill.icon className="size-4 text-orange-500" />
                   <span className="text-sm font-bold text-slate-700">{pill.label}</span>
                 </div>
@@ -110,18 +124,18 @@ export const SectionOne = () => {
 
             <div className="flex flex-col sm:flex-row gap-5">
               <Link href={"/findpg"}>
-              <button className="relative group px-10 py-5 bg-orange-500 text-white rounded-2xl font-bold overflow-hidden transition-all active:scale-95 shadow-xl shadow-orange-500/25">
-                <span className="relative z-10 flex items-center gap-2">
-                  Explore PGs Near You
-                  <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 bg-slate-900 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300" />
-              </button>
+                <button className="relative group px-10 py-5 bg-orange-500 text-white rounded-2xl font-bold overflow-hidden transition-all active:scale-95 shadow-xl shadow-orange-500/25">
+                  <span className="relative z-10 flex items-center gap-2">
+                    Explore PGs Near You
+                    <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-slate-900 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300" />
+                </button>
               </Link>
-              <Link href={'/claimyourpg'}>
-              <button className="px-10 py-5 bg-transparent text-slate-900 border-2 border-slate-900 rounded-2xl font-bold hover:bg-slate-900 hover:text-white transition-all active:scale-95">
-                List Your PG
-              </button>
+              <Link href={"/claimyourpg"}>
+                <button className="px-10 py-5 bg-transparent text-slate-900 border-2 border-slate-900 rounded-2xl font-bold hover:bg-slate-900 hover:text-white transition-all active:scale-95">
+                  List Your PG
+                </button>
               </Link>
             </div>
           </motion.div>

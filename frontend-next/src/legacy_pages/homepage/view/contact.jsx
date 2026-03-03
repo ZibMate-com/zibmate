@@ -6,7 +6,7 @@ import Mycontext from "../../../context/mycontext";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Mail, User, MessageSquare, ShieldCheck } from "lucide-react";
-import {FAQ } from "./../models/faq.js"
+import { FAQ } from "./../models/faq.js";
 const Contact = () => {
   const { loading } = useContext(Mycontext);
   const [faqData, setFaqData] = useState(FAQ);

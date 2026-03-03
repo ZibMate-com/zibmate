@@ -46,25 +46,17 @@ export const Toplistsection = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
           {topPgs.map((pg) => {
             // Parse JSON fields if they're strings
-            const occupancy = typeof pg.occupancy === 'string'
-              ? JSON.parse(pg.occupancy)
-              : pg.occupancy;
+            const occupancy = typeof pg.occupancy === "string" ? JSON.parse(pg.occupancy) : pg.occupancy;
 
-            const prices = typeof pg.prices === 'string'
-              ? JSON.parse(pg.prices)
-              : pg.prices;
+            const prices = typeof pg.prices === "string" ? JSON.parse(pg.prices) : pg.prices;
 
-            const images = typeof pg.images === 'string'
-              ? JSON.parse(pg.images)
-              : pg.images;
+            const images = typeof pg.images === "string" ? JSON.parse(pg.images) : pg.images;
 
             // Get the lowest price from the prices object
             const lowestPrice = prices ? Math.min(...Object.values(prices)) : 0;
 
             // Get occupancy display text
-            const occupancyText = occupancy && occupancy.length > 0
-              ? occupancy.join(', ')
-              : 'N/A';
+            const occupancyText = occupancy && occupancy.length > 0 ? occupancy.join(", ") : "N/A";
 
             return (
               <motion.div
@@ -90,7 +82,7 @@ export const Toplistsection = () => {
                     </div>
                   )}
                   <motion.img
-                    src={images && images.length > 0 ? images[0] : '/placeholder-pg.jpg'}
+                    src={images && images.length > 0 ? images[0] : "/placeholder-pg.jpg"}
                     alt={pg.property_name}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
@@ -104,15 +96,14 @@ export const Toplistsection = () => {
                       {pg.property_name}
                     </h2>
                     <div className="flex items-center text-sm text-gray-400 mt-1">
-                      <MapPin className="h-3.5 w-3.5 mr-1 text-orange-500" />{pg.street}, {pg.city} ,{pg.state}
+                      <MapPin className="h-3.5 w-3.5 mr-1 text-orange-500" />
+                      {pg.street}, {pg.city} ,{pg.state}
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <span className="text-2xl font-black text-slate-900">
-                        ₹{lowestPrice - (pg.discount || 0)}
-                      </span>
+                      <span className="text-2xl font-black text-slate-900">₹{lowestPrice - (pg.discount || 0)}</span>
                       <span className="text-xs text-gray-400 ml-1">/mo</span>
                     </div>
                     {pg.discount > 0 && (
@@ -128,7 +119,7 @@ export const Toplistsection = () => {
                       <Users className="h-3 w-3 mr-1" /> {occupancyText}
                     </div>
                     <div className="flex items-center bg-slate-50 px-2 py-1 rounded-md text-[11px] font-medium text-slate-600">
-                      <Building2 className="h-3 w-3 mr-1" /> {pg.looking_for || pg.lookingFor || 'Any'}
+                      <Building2 className="h-3 w-3 mr-1" /> {pg.looking_for || pg.lookingFor || "Any"}
                     </div>
                   </div>
 

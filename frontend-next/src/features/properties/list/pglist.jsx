@@ -8,7 +8,16 @@ import { Loader } from "../../../components/view/loader";
 // import { usePgData } from "./viewmodels/usePgData";
 import { useContext } from "react";
 export const Pglist = () => {
-  const { filteredPg, handlefilters, filters, handleRemoveFilters, handleSearch, searchQuery } = useFilterPGs();
+  const {
+    filteredPg,
+    handlefilters,
+    filters,
+    handleRemoveFilters,
+    handleSearch,
+    searchQuery,
+    savedPgIds,
+    toggleSavedPg,
+  } = useFilterPGs();
   const { loading } = useContext(Mycontext);
   if (loading) {
     return <Loader />;
@@ -24,7 +33,7 @@ export const Pglist = () => {
           searchQuery={searchQuery}
         />
         <div>
-          <FilteredPg filteredPg={filteredPg} />
+          <FilteredPg filteredPg={filteredPg} savedPgIds={savedPgIds} toggleSavedPg={toggleSavedPg} />
         </div>
       </div>
     </MotionSection>

@@ -165,10 +165,11 @@ export default function OwnerProfilePage() {
                     key={tab.id}
                     onClick={() => setViewTab(tab.id)}
                     className={`relative flex items-center gap-2 px-8 py-4 rounded-2xl text-sm font-bold transition-all
-                                            ${viewTab === tab.id
-                        ? "bg-white text-orange-600 shadow-sm text-slate-900"
-                        : "text-slate-400 hover:text-slate-600 hover:bg-white/50"
-                      }`}
+                                            ${
+                                              viewTab === tab.id
+                                                ? "bg-white text-orange-600 shadow-sm text-slate-900"
+                                                : "text-slate-400 hover:text-slate-600 hover:bg-white/50"
+                                            }`}
                   >
                     {tab.icon}
                     {tab.label}

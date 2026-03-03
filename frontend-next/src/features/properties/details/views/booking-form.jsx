@@ -46,20 +46,20 @@ export const BookingButton = ({ handleBooking }) => {
             onClick={() => console.log("Finalizing Booking...")}
           >
             {/* <Link href="/booking" > */}
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col items-start" onClick={handleBooking}>
-                  <span className="text-white font-bold uppercase tracking-widest text-[10px]">Avaible Soon</span>
-                  <span className="text-orange-400 text-xs font-medium group-hover:text-white transition-colors">
-                    {/* Pay 300 Tokens */}
-                  </span>
-                </div>
-                <div className="h-10 w-10 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
-                  <ArrowRight
-                    className="text-white group-hover:text-orange-600 -rotate-45 group-hover:rotate-0 transition-transform"
-                    size={20}
-                  />
-                </div>
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col items-start" onClick={handleBooking}>
+                <span className="text-white font-bold uppercase tracking-widest text-[10px]">Avaible Soon</span>
+                <span className="text-orange-400 text-xs font-medium group-hover:text-white transition-colors">
+                  {/* Pay 300 Tokens */}
+                </span>
               </div>
+              <div className="h-10 w-10 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white transition-all">
+                <ArrowRight
+                  className="text-white group-hover:text-orange-600 -rotate-45 group-hover:rotate-0 transition-transform"
+                  size={20}
+                />
+              </div>
+            </div>
             {/* </Link> */}
           </button>
 

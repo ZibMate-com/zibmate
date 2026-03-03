@@ -11,8 +11,17 @@ export const verifyAuth = (req: NextRequest): AuthUser | null => {
     const token = req.headers.get("authorization")?.split(" ")[1];
     if (!token) return null;
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret") as AuthUser;
-    return decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret") as any;
+
+    // Handle both 'id' and 'userId' payload keys due to project inconsistencies
+    const id = decoded.id ?? decoded.userId;
+
+    if (!id) return null;
+
+    return {
+      id: Number(id),
+      role: decoded.role,
+    };
   } catch (error) {
     return null;
   }

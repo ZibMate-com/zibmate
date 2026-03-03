@@ -136,7 +136,6 @@ export const Overview = () => {
         <StatCard label="My Properties" value={stats.totalPgs.toString()} sub="Total listings on ZibMate" />
       </div>
 
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Tenant & Room Management (2/3 Width) */}
         <div className="lg:col-span-2 space-y-6">

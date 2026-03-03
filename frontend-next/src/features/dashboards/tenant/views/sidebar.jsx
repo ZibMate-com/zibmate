@@ -18,6 +18,7 @@ import {
   PlusCircle,
   Wrench,
   LetterText,
+  Bookmark,
 } from "lucide-react";
 export const SideBar = ({ activeTab, setActiveTab }) => {
   return (
@@ -25,6 +26,7 @@ export const SideBar = ({ activeTab, setActiveTab }) => {
       <div className="p-8">
         <nav className="space-y-2">
           <NavItem id="overview" label="Dashboard" icon={Home} active={activeTab} onClick={setActiveTab} />
+          <NavItem id="saved" label="Saved PGs" icon={Bookmark} active={activeTab} onClick={setActiveTab} />
           <NavItem id="payments" label="Payments & Rent" icon={CreditCard} active={activeTab} onClick={setActiveTab} />
           <NavItem id="docs" label="Documents" icon={FileText} active={activeTab} onClick={setActiveTab} />
           <NavItem id="maintenance" label="Maintenance" icon={Wrench} active={activeTab} onClick={setActiveTab} />

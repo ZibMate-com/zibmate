@@ -36,7 +36,8 @@ const Footer = () => {
               <img src={logo.src || logo} alt="Zibmate" />
             </Link>
             <p className="text-sm text-gray-400 max-w-xs">
-              A platform simplifying PG management for owners and tenants, focusing on connection, security, and ease of use.
+              A platform simplifying PG management for owners and tenants, focusing on connection, security, and ease of
+              use.
             </p>
           </div>
 
