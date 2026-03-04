@@ -21,6 +21,8 @@ import { Bookmark, Search } from "lucide-react";
 import { SentRequests } from "../../../features/dashboards/user/view/requests";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { getToken, getUser, clearAuth } from "@/features/auth/login/repository/token";
+import Cookies from "js-cookie";
 
 // Real components for the user dashboard
 const SavedProperties = () => {
@@ -28,7 +30,7 @@ const SavedProperties = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchSavedPgs = async () => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) {
       setLoading(false);
       return;
@@ -49,7 +51,7 @@ const SavedProperties = () => {
   };
 
   const toggleSavedPg = async (pgId: number) => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) return;
 
     try {
@@ -119,18 +121,20 @@ export default function UserDashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const userStr = localStorage.getItem("zibmate_users");
-    if (!userStr || !localStorage.getItem("zibmate_token")) {
+    const user = getUser();
+    const token = getToken();
+
+    if (!token || !user) {
       router.push("/login");
       return;
     }
-    setUser(JSON.parse(userStr));
+
+    setUser(user);
     setLoading(false);
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("zibmate_users");
-    localStorage.removeItem("zibmate_token");
+    clearAuth();
     router.push("/login");
   };
 
@@ -190,7 +194,11 @@ export default function UserDashboardPage() {
                 </div>
 
                 <div className="text-center mb-8">
-                  <h2 className="text-2xl font-bold text-slate-900">{user.name}</h2>
+                  <h2 className="text-2xl font-bold text-slate-900">
+                    {user.firstName
+                      ? `${user.firstName} ${user.lastName || ""}`
+                      : user.full_name || user.name || "User"}
+                  </h2>
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 text-orange-600 text-[10px] font-black uppercase tracking-wider mt-2 border border-orange-100">
                     <ShieldCheck className="size-3" />
                     Verified {user.role}

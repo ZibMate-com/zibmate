@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 import { User, Phone, Check, X, Clock } from "lucide-react";
+import { getToken } from "../../../auth/login/repository/token";
 
 export const UserRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -10,7 +11,7 @@ export const UserRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const token = localStorage.getItem("zibmate_token");
+      const token = getToken();
       const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const response = await fetch(`${baseUrl}/api/bookings/owner-bookings`, {
         headers: {
@@ -34,7 +35,7 @@ export const UserRequests = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      const token = localStorage.getItem("zibmate_token");
+      const token = getToken();
       const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const response = await fetch(`${baseUrl}/api/bookings/${id}/status`, {
         method: "PUT",

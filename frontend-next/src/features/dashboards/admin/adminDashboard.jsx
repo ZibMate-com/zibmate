@@ -20,21 +20,22 @@ import { NullData } from "../../../components/view/null-data";
 import Mycontext from "../../../context/mycontext";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { getToken, getUser, clearAuth } from "@/features/auth/login/repository/token";
+import Cookies from "js-cookie";
 
 export const AdminDashboard = () => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const u = localStorage.getItem("zibmate_users");
-    if (u) setUser(JSON.parse(u));
+    const userData = getUser();
+    if (userData) setUser(userData);
   }, []);
   const [viewTab, setviewtab] = useState("Properties");
   const { setisLoggedIn } = useContext(Mycontext);
   const router = useRouter();
 
   const handlelogout = () => {
-    localStorage.removeItem("zibmate_users");
-    localStorage.removeItem("zibmate_token");
+    clearAuth();
     setisLoggedIn(false);
     router.push("/login");
   };
@@ -100,7 +101,11 @@ export const AdminDashboard = () => {
                 </div>
 
                 <div className="text-center">
-                  <h2 className="text-2xl font-bold text-slate-900 leading-tight">{user.name}</h2>
+                  <h2 className="text-2xl font-bold text-slate-900 leading-tight">
+                    {user.firstName
+                      ? `${user.firstName} ${user.lastName || ""}`
+                      : user.full_name || user.name || "Admin"}
+                  </h2>
                   <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase tracking-widest mt-3 border border-emerald-100">
                     <div className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     Authorized Admin

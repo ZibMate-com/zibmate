@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   X,
 } from "lucide-react";
+import { getToken } from "@/features/auth/login/repository/token";
 
 export default function ClaimPropertyPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -117,7 +118,7 @@ export default function ClaimPropertyPage() {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("zibmate_token"); // Simplification for migration
+      const token = getToken();
       if (!token) throw new Error("Authentication required");
 
       const response = await fetch(`/api/requests/owner/create`, {

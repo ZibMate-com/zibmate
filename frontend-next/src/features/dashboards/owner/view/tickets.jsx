@@ -14,6 +14,7 @@ import {
   ArrowUpRight,
   MoreHorizontal,
 } from "lucide-react";
+import { getToken } from "../../../auth/login/repository/token";
 
 import { FilterTab } from "../components/filterTab";
 
@@ -24,7 +25,7 @@ const TicketManagementSection = () => {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const token = localStorage.getItem("zibmate_token");
+        const token = getToken();
         const response = await fetch(`/api/tickets/owner`, {
           headers: {
             Authorization: `Bearer ${token}`,

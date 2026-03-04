@@ -8,7 +8,9 @@ export interface AuthUser {
 
 export const verifyAuth = (req: NextRequest): AuthUser | null => {
   try {
-    const token = req.headers.get("authorization")?.split(" ")[1];
+    // Try to get token from cookies first, then fallback to Authorization header
+    const token = req.cookies.get("zibmate_token")?.value || req.headers.get("authorization")?.split(" ")[1];
+
     if (!token) return null;
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET || "secret") as any;

@@ -3,6 +3,7 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { getPgData } from "../models/pgdata";
 import Mycontext from "../../../../context/mycontext";
+import { getToken } from "@/features/auth/login/repository/token";
 // import { pgs } from "../models/pgs";
 
 export const useFilterPGs = () => {
@@ -30,7 +31,7 @@ export const useFilterPGs = () => {
   };
 
   const fetchSavedPgs = async () => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) return;
     try {
       const response = await fetch("/api/pg/save", {
@@ -65,7 +66,7 @@ export const useFilterPGs = () => {
   }, []);
 
   const toggleSavedPg = async (pgId) => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) {
       alert("Please login to save PGs");
       return;

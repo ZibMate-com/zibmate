@@ -15,6 +15,7 @@ import {
   MoreHorizontal,
   IndianRupee,
 } from "lucide-react";
+import { getToken } from "../../../auth/login/repository/token";
 
 const PaymentsRentSection = () => {
   const [payments, setPayments] = useState([]);
@@ -24,7 +25,7 @@ const PaymentsRentSection = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const token = localStorage.getItem("zibmate_token");
+        const token = getToken();
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/bookings`, {
           headers: {

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 import { Home, Users, Info, Wrench, CheckCircle2, XCircle, LayoutGrid, Layers, Filter, Search } from "lucide-react";
+import { getToken } from "../../../auth/login/repository/token";
 
 const RoomStructurePage = () => {
   const [selectedFloor, setSelectedFloor] = useState(1);
@@ -11,7 +12,7 @@ const RoomStructurePage = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const token = localStorage.getItem("zibmate_token");
+        const token = getToken();
         const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
         const response = await fetch(`${baseUrl}/api/dashboard/owner/rooms`, {
           headers: {

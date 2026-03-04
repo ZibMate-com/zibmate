@@ -1,4 +1,5 @@
 const BASE_URL = "/api/auth";
+import { setUser } from "./token";
 
 // Basic fetch wrapper to handle errors
 const fetchRequest = async (url, options) => {
@@ -47,14 +48,8 @@ export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
 
     // Handle both regular token and adminToken
     if (data.token || data.adminToken) {
-      // Store the appropriate token
-      if (data.adminToken) {
-        localStorage.setItem("zibmate_adminToken", data.adminToken);
-      } else {
-        localStorage.setItem("zibmate_token", data.token);
-      }
-
-      localStorage.setItem("zibmate_users", JSON.stringify(data.user));
+      // Tokens are now primarily handled by HTTP-only cookies from the server.
+      setUser(data.user);
 
       setUserCred({
         email: "",
@@ -62,7 +57,7 @@ export const userLoginFunction = async ({ role, userCred, setUserCred }) => {
         phone: "",
       });
 
-      return true;
+      return data.user;
     } else {
       throw new Error("Invalid response from server");
     }

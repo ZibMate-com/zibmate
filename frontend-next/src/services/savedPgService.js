@@ -1,6 +1,8 @@
+import { getToken } from "../features/auth/login/repository/token";
+
 export const savedPgService = {
   savePg: async (pgId) => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) throw new Error("Please login to save PGs");
 
     const response = await fetch("/api/pg/save", {
@@ -21,7 +23,7 @@ export const savedPgService = {
   },
 
   getSavedPgs: async () => {
-    const token = localStorage.getItem("zibmate_token") || localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     if (!token) return [];
 
     const response = await fetch("/api/pg/save", {

@@ -2,6 +2,7 @@
 import { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import Mycontext from "../../../../context/mycontext";
+import { getToken } from "@/features/auth/login/repository/token";
 
 export const useOwnerOnboardingForm = () => {
   const { setloading, activeStep, setActiveStep } = useContext(Mycontext);
@@ -130,7 +131,7 @@ export const useOwnerOnboardingForm = () => {
   const submitAll = async () => {
     setloading(true);
     try {
-      const adminToken = localStorage.getItem("zibmate_adminToken");
+      const adminToken = getToken();
 
       if (!adminToken) {
         throw new Error("No admin token found. Please login again.");

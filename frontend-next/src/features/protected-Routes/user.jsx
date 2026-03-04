@@ -1,18 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getToken, getUser } from "../auth/login/repository/token";
 
 export const UserRoute = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const userStr = localStorage.getItem("zibmate_users");
-    const user = userStr ? JSON.parse(userStr) : null;
-    if (user && user.role === "user") {
+    const user = getUser();
+    const token = getToken();
+    if (user && user.role === "user" && token) {
       setIsAuthorized(true);
     } else {
-      router.push("/login"); // Redirect to login if not authorized
+      router.push("/login");
     }
   }, [router]);
 

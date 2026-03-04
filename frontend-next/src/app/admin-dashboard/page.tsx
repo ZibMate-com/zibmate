@@ -22,6 +22,8 @@ import {
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { getToken, getUser, clearAuth } from "@/features/auth/login/repository/token";
+import Cookies from "js-cookie";
 
 interface RequestProps {
   id: number;
@@ -45,7 +47,7 @@ export default function AdminDashboard() {
   // Authentication check and data fetching
   useEffect(() => {
     const checkAuthAndFetch = async () => {
-      const token = localStorage.getItem("zibmate_adminToken");
+      const token = getToken();
       if (!token) {
         router.push("/login");
         return;
@@ -53,9 +55,8 @@ export default function AdminDashboard() {
 
       try {
         // Mock user check (replace with real auth hook or context)
-        const userStr = localStorage.getItem("zibmate_users");
-        if (userStr) {
-          const user = JSON.parse(userStr);
+        const user = getUser();
+        if (user) {
           if (user.role !== "admin") {
             // alert('Unauthorized'); // Or redirect
             // router.push('/'); // Or dashboard
@@ -89,13 +90,12 @@ export default function AdminDashboard() {
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("zibmate_users");
-    localStorage.removeItem("zibmate_adminToken");
+    clearAuth();
     router.push("/login");
   };
 
   const handleSendDetails = async (requestId: number) => {
-    const token = localStorage.getItem("zibmate_adminToken");
+    const token = getToken();
     const res = await fetch(`/api/requests/sendmail/${requestId}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },

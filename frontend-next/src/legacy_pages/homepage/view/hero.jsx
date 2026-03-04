@@ -9,28 +9,15 @@ import owner from "../../../assets/owner.png";
 import tenent from "../../../assets/tenent.png";
 import Link from "next/link";
 import Image from "next/image";
+import { getUser } from "@/features/auth/login/repository/token";
 export const Hero = () => {
   const { loading } = useContext(Mycontext);
   const [role, setRole] = useState("tenant");
 
   useEffect(() => {
-    const userRole = localStorage.getItem("zibmate_user-role");
-    const usersRaw = localStorage.getItem("zibmate_users");
-
-    if (usersRaw) {
-      try {
-        const users = JSON.parse(usersRaw);
-        if (users?.role) {
-          setRole(users.role);
-          return;
-        }
-      } catch (err) {
-        console.error("Invalid users data in localStorage");
-      }
-    }
-
-    if (userRole) {
-      setRole(userRole);
+    const user = getUser();
+    if (user && user.role) {
+      setRole(user.role);
     }
   }, []);
 

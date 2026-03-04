@@ -38,7 +38,7 @@ export async function POST(req: Request) {
         expiresIn: "24h",
       });
 
-      return NextResponse.json(
+      const response = NextResponse.json(
         {
           adminToken,
           user: {
@@ -52,12 +52,22 @@ export async function POST(req: Request) {
         },
         { status: 200 },
       );
+
+      response.cookies.set("zibmate_token", adminToken, {
+        httpOnly: false, // Set to false to allow client-side access for decoding if needed
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 86400, // 24 hours
+        path: "/",
+      });
+
+      return response;
     }
 
     // Regular user login - return token
     const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET || "secret", { expiresIn: "24h" });
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         token,
         user: {
@@ -71,6 +81,16 @@ export async function POST(req: Request) {
       },
       { status: 200 },
     );
+
+    response.cookies.set("zibmate_token", token, {
+      httpOnly: false, // Set to false to allow client-side access for decoding if needed
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 86400, // 24 hours
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json({ message: "Server error during login" }, { status: 500 });

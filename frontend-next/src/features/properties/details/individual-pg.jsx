@@ -31,10 +31,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CallBackModal } from "./views/callback";
 import { useRouter } from "next/router";
 import { Login } from "@/features/auth/login/login";
+import { getToken, setBookingDetails } from "@/features/auth/login/repository/token";
 
 export const IndividualPg = () => {
   const { loading, setloading } = useContext(Mycontext);
-  const token = localStorage.getItem("zibmate_token");
+  const token = getToken();
   const { id } = useParams();
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
@@ -149,7 +150,7 @@ export const IndividualPg = () => {
     .join(", ");
 
   const handleBooking = () => {
-    localStorage.setItem("BookingDetails", JSON.stringify(product));
+    setBookingDetails(product);
   };
 
   if (loading) return <Loader />;

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { User, Phone, Clock } from "lucide-react";
 import toast from "react-hot-toast";
+import { getToken } from "../../../auth/login/repository/token";
 
 export const TenantCallRequests = () => {
   const [requests, setRequests] = useState<any[]>([]);
@@ -9,7 +10,7 @@ export const TenantCallRequests = () => {
 
   const fetchRequests = async () => {
     try {
-      const token = localStorage.getItem("zibmate_token");
+      const token = getToken();
       const response = await fetch(`/api/requests/tenant`, {
         headers: {
           Authorization: `Bearer ${token}`,

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Mycontext from "./mycontext";
+import { getToken, getUser } from "@/features/auth/login/repository/token";
 
 export const MyState = ({ children }) => {
   const [loading, setloading] = useState(false);
@@ -9,10 +10,10 @@ export const MyState = ({ children }) => {
   const [activeStep, setActiveStep] = useState(1);
 
   useEffect(() => {
-    const user = localStorage.getItem("zibmate_users");
-    const token = localStorage.getItem("zibmate_token");
+    const user = getUser();
+    const token = getToken();
     if (user && token) {
-      setUser(JSON.parse(user));
+      setUser(user);
       setisLoggedIn(true);
     }
   }, []);
