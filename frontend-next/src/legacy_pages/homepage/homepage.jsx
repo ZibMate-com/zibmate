@@ -17,7 +17,7 @@ const Home = () => {
       <PlatformFeatures />
       <PgManagement />
       {/* <Categories /> */}
-      <Toplistsection />
+      {/* <Toplistsection /> */}
       <Contact />
     </section>
   );

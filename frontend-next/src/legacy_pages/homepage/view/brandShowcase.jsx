@@ -21,7 +21,7 @@ export const Brandshowcase = () => {
   const stats = [
     {
       label: "Active Users",
-      value: 5000,
+      value: 0,
       suffix: "+",
       sub: "Owners and Tenants trust us",
       icon: <Users className="size-6 text-orange-500" />,
@@ -29,7 +29,7 @@ export const Brandshowcase = () => {
     },
     {
       label: "Buildings Listed",
-      value: 1200,
+      value: 0,
       suffix: "+",
       sub: "Managed through our system",
       icon: <Building2 className="size-6 text-blue-500" />,
@@ -37,7 +37,7 @@ export const Brandshowcase = () => {
     },
     {
       label: "Payments processed",
-      value: 8000,
+      value: 0,
       suffix: "+",
       sub: "Secure monthly transactions",
       icon: <CreditCard className="size-6 text-emerald-500" />,

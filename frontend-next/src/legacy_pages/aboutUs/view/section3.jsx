@@ -31,7 +31,7 @@ export const SectionThree = () => {
               Unified Ecosystem
             </span>
 
-            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+            <h1 className="text-4xl md:text-[40px] font-bold text-white leading-tight">
               Connecting owners and <br />
               <span className="text-orange-500">guests seamlessly.</span>
             </h1>

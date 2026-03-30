@@ -68,13 +68,13 @@ export const Hero = () => {
           {role == "owner" ? "Manage your PG" : "Simplify your PG stay"} <br />
           <span className="text-orange-500">
             {" "}
-            {role == "owner" ? "without the stress" : "with total peace of mind."}
+            {role == "owner" ? "without the stress" : "with total peace of mind"}
           </span>
         </motion.h1>
 
         <motion.p variants={itemVariants} className="mt-6 text-lg text-slate-600 leading-relaxed max-w-lg">
           {role == "owner"
-            ? "Automate rent collection, track occupancy, and manage tenants from one powerful dashboard—built to simplify PG ownership."
+            ? "Automate rent collection, track occupancy, and manage tenants from one powerful dashboard—built to simplify PG ownership"
             : "Pay rent online, raise maintenance requests, and discover nearby services—all from one seamless platform."}
         </motion.p>
 
