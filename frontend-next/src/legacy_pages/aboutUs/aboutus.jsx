@@ -9,7 +9,7 @@ import { Users, Home, ShieldCheck, Heart } from "lucide-react";
 export const AboutUs = () => {
   return (
     <main className="overflow-x-hidden bg-white">
-      {/* --- HERO SECTION: The Big Picture --- */}
+     
       <section className="relative pt-20 pb-20 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
@@ -19,8 +19,7 @@ export const AboutUs = () => {
               <span className="text-orange-500">just four walls</span>
             </h1>
             <p className="mt-8 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              Zibmate was born out of a simple realization: finding a PG shouldn't feel like a gamble. We've built a
-              bridge between transparent owners and seekers like you.
+              Zibmate was born out of a simple realization: finding a PG shouldn't feel like a gamble. We've built a bridge between transparent owners and seekers like you.
             </p>
           </motion.div>
         </div>
@@ -32,19 +31,18 @@ export const AboutUs = () => {
         </div>
       </section>
 
-      {/* --- INTEGRATED SECTIONS --- */}
-
-      {/* Section 01: Focus on Features & Technology */}
+  
       <SectionOne />
 
-      {/* --- QUICK STATS / TRUST BAND --- */}
-      <div className="w-full py-12 bg-slate-900 border-y border-slate-800">
+    {/* ---------Trustbar section to be uncomented before final launch------------------- */}
+
+      {/* <div className="w-full py-12 bg-slate-900 border-y border-slate-800">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
             { label: "Direct Connections", value: "100%", icon: Users },
-            { label: "Verified PGs", value: "2,500+", icon: Home },
+            { label: "Verified PGs", value: "0", icon: Home },
             { label: "Brokerage Paid", value: "₹0", icon: ShieldCheck },
-            { label: "Happy Residents", value: "15k+", icon: Heart },
+            { label: "Happy Residents", value: "0", icon: Heart },
           ].map((stat, i) => (
             <div key={i} className="text-center group">
               <stat.icon className="size-6 text-orange-500 mx-auto mb-3 group-hover:scale-110 transition-transform" />
@@ -53,12 +51,12 @@ export const AboutUs = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
-      {/* Section 02: Focus on Philosophy & Community */}
+     {/* ----------------------------------------------------------------------------------------- */}
       <SectionTwo />
 
-      {/* --- THE VALUES SECTION: Why Zibmate? --- */}
+     
       <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">

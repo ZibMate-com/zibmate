@@ -39,7 +39,19 @@ export const useSignup = () => {
     } else if (userdata.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
-
+    if (!userdata.phone.trim()) {
+      newErrors.phone = "Phone number is required.";
+      isValid = false;
+    } else if (!/^[6-9]\d{9}$/.test(userdata.phone)) {
+      newErrors.phone = "Enter a valid 10-digit phone number.";
+    } else if (/^(\d)\1{9}$/.test(userdata.phone)) {
+      newErrors.phone = "Enter a valid phone number.";
+    } else if (["1234567890", "0987654321", "1234512345", "9876543210"].includes(userdata.phone)) {
+      newErrors.phone = "Enter a valid phone number.";
+    } else if (/^(\d{5})\1$/.test(userdata.phone)) {
+      newErrors.phone = "Enter a valid phone number.";
+     
+    }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };

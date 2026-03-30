@@ -77,23 +77,23 @@ const Contact = () => {
 
   return (
     <MotionSection className="relative w-full py-20 px-6 max-w-7xl mx-auto" id="contact">
-      {/* Background Accent */}
+     
       <div className="absolute top-0 right-0 -z-10 w-96 h-96 bg-orange-100/50 rounded-full blur-3xl" />
 
       <div className="flex flex-col lg:flex-row gap-16 justify-between">
-        {/* Left Side: FAQs */}
+      
         <div className="w-full lg:w-1/2">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} className="mb-10">
             <span className="text-orange-500 font-semibold tracking-wider uppercase text-sm">Support Center</span>
             <h1 className="text-4xl md:text-5xl font-bold mt-2 text-gray-900">
-              Frequently Asked <span className="text-orange-500">Questions.</span>
+              Frequently Asked <span className="text-orange-500">Questions</span>
             </h1>
             <p className="text-gray-500 mt-4 text-lg">Can't find what you're looking for? Reach out to our team.</p>
             <div className="mt-6 flex items-center gap-3 text-gray-700 bg-orange-50 w-fit px-4 py-2 rounded-full border border-orange-100">
               <Mail className="size-5 text-orange-500" />
               <span className="font-medium">Direct Support:</span>
               <a
-                href="mailto:support@yourdomain.com"
+                href="mailto:zibmate.service@gmail.com"
                 className="text-orange-600 font-bold hover:underline transition-all"
               >
                 zibmate.service@gmail.com
