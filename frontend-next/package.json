@@ -11,7 +11,10 @@
     "lint:biome": "biome lint ."
   },
   "dependencies": {
+    "@flags-sdk/vercel": "^1.2.1",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/flags": "^3.1.1",
+    "@vercel/speed-insights": "^2.0.0",
     "bcryptjs": "^3.0.3",
     "firebase": "^12.8.0",
     "js-cookie": "^3.0.5",

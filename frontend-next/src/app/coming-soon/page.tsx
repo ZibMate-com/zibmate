@@ -82,9 +82,9 @@ const ComingSoon = () => {
           transition={{ delay: 0.1 }}
           className="text-[clamp(2.5rem,8vw,4.5rem)] font-medium text-white tracking-tight leading-[1.05] mb-6"
         >
-         One Platfrom. <br />
+         Stop Managing <br />
           <span className="bg-gradient-to-b from-white via-white to-white/40 bg-clip-text text-transparent">
-            Total PG control.
+            Start living
           </span>
         </motion.h1>
 
@@ -94,7 +94,7 @@ const ComingSoon = () => {
           transition={{ delay: 0.2 }}
           className="text-[16px] md:text-[18px] text-white/40 leading-relaxed max-w-[520px] mx-auto mb-14 font-light"
         >
-        We’re spending the next <span className="text-white font-normal">4 months</span> building the bridge between <span className="text-orange-500/80 font-medium">seamless owner management</span> and <span className="text-orange-500/80 font-medium">effortless pg discovery for tenents</span>.
+        In th next <span className="text-orange-500 font-normal">4 months</span> we're ending the chaos of PG management forever. A seamless ecosystem built for the modern era.
         </motion.p>
 
       
