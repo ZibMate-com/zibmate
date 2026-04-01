@@ -9,7 +9,6 @@ import { Users, Home, ShieldCheck, Heart } from "lucide-react";
 export const AboutUs = () => {
   return (
     <main className="overflow-x-hidden bg-white">
-     
       <section className="relative pt-20 pb-20 px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
@@ -19,7 +18,8 @@ export const AboutUs = () => {
               <span className="text-orange-500">just four walls</span>
             </h1>
             <p className="mt-8 text-lg md:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              Zibmate was born out of a simple realization: finding a PG shouldn't feel like a gamble. We've built a bridge between transparent owners and seekers like you.
+              Zibmate was born out of a simple realization: finding a PG shouldn't feel like a gamble. We've built a
+              bridge between transparent owners and seekers like you.
             </p>
           </motion.div>
         </div>
@@ -31,10 +31,9 @@ export const AboutUs = () => {
         </div>
       </section>
 
-  
       <SectionOne />
 
-    {/* ---------Trustbar section to be uncomented before final launch------------------- */}
+      {/* ---------Trustbar section to be uncomented before final launch------------------- */}
 
       {/* <div className="w-full py-12 bg-slate-900 border-y border-slate-800">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -53,10 +52,9 @@ export const AboutUs = () => {
         </div>
       </div> */}
 
-     {/* ----------------------------------------------------------------------------------------- */}
+      {/* ----------------------------------------------------------------------------------------- */}
       <SectionTwo />
 
-     
       <section className="py-24 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">

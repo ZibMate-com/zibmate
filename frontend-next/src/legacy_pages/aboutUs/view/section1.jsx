@@ -7,7 +7,6 @@ import Link from "next/link";
 export const SectionOne = () => {
   return (
     <MotionSection className="w-full py-24 px-6 md:px-12 lg:px-24 bg-white relative overflow-hidden">
-     
       <div className="absolute top-20 left-0 text-[12rem] font-bold text-slate-50 select-none -z-10 leading-none">
         ZIB
       </div>
@@ -44,7 +43,7 @@ export const SectionOne = () => {
               <p className="text-sm font-extrabold text-slate-900">Near Tech Parks & Unis</p>
             </div>
           </motion.div>
-      {/* --------------------------------Floating Card-------------------------------------------- */}
+          {/* --------------------------------Floating Card-------------------------------------------- */}
           {/* <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -64,12 +63,11 @@ export const SectionOne = () => {
             </p>
             <p className="text-xs text-orange-500 font-bold mt-3">— Rahul S., Software Engineer</p>
           </motion.div> */}
-      {/* ------------------------------------------------------------------------------------------- */}
+          {/* ------------------------------------------------------------------------------------------- */}
           {/* Abstract Pattern Decor */}
           <div className="absolute -bottom-6 -left-6 size-32 bg-orange-100 rounded-full mix-blend-multiply filter blur-2xl opacity-70 animate-blob" />
         </div>
 
-      
         <div className="w-full lg:w-1/2 flex flex-col">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="flex items-center gap-3 mb-6">

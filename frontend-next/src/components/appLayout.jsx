@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const AppLayout = ({ children }) => {
   const pathname = usePathname();
 
-  const hideRoutes = ["/login", "/signup", "/booking", "/postproperty"];
+  const hideRoutes = ["/login", "/signup", "/booking", "/postproperty", "/survey-form"];
   const shouldHideHeaderFooter = hideRoutes.includes(pathname);
   return (
     <div className="">

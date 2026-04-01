@@ -13,11 +13,14 @@ const ComingSoon = () => {
   const [email, setEmail] = useState<string>("");
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
-    days: 0, hours: 0, minutes: 0, seconds: 0,
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
   });
 
   useEffect(() => {
-    const targetDate = new Date("2026-08-01T00:00:00"); 
+    const targetDate = new Date("2026-08-01T00:00:00");
     const interval = setInterval(() => {
       const now = new Date();
       const difference = targetDate.getTime() - now.getTime();
@@ -39,14 +42,11 @@ const ComingSoon = () => {
 
   return (
     <div className="relative min-h-screen w-full bg-[#050505] flex flex-col items-center justify-center overflow-hidden font-sans px-6 selection:bg-orange-500/30">
-      
-    
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-      
+
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-orange-600/10 blur-[160px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-600/5 blur-[160px] rounded-full pointer-events-none" />
 
-     
       <nav className="absolute top-0 w-full px-8 py-10 flex justify-between items-center z-30">
         {/* <div className="text-white font-semibold text-lg tracking-tighter flex items-center gap-2">
           <div className="w-6 h-6 bg-gradient-to-tr from-orange-500 to-rose-600 rounded-md" />
@@ -60,8 +60,7 @@ const ComingSoon = () => {
       </nav>
 
       <main className="z-10 text-center max-w-2xl w-full pt-12">
-       
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 shadow-2xl"
@@ -75,30 +74,29 @@ const ComingSoon = () => {
           </span>
         </motion.div>
 
-       
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
           className="text-[clamp(2.5rem,8vw,4.5rem)] font-medium text-white tracking-tight leading-[1.05] mb-6"
         >
-         Stop Managing <br />
+          Stop Managing <br />
           <span className="bg-gradient-to-b from-white via-white to-white/40 bg-clip-text text-transparent">
             Start living
           </span>
         </motion.h1>
 
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="text-[16px] md:text-[18px] text-white/40 leading-relaxed max-w-[520px] mx-auto mb-14 font-light"
         >
-        In th next <span className="text-orange-500 font-normal">4 months</span> we're ending the chaos of PG management forever. A seamless ecosystem built for the modern era.
+          In th next <span className="text-orange-500 font-normal">4 months</span> we're ending the chaos of PG
+          management forever. A seamless ecosystem built for the modern era.
         </motion.p>
 
-      
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
@@ -111,13 +109,14 @@ const ComingSoon = () => {
                   {String(value).padStart(2, "0")}
                 </span>
               </div>
-              <span className="text-[10px] font-medium tracking-[0.2em] text-white/20 uppercase group-hover:text-orange-500/50 transition-colors">{unit}</span>
+              <span className="text-[10px] font-medium tracking-[0.2em] text-white/20 uppercase group-hover:text-orange-500/50 transition-colors">
+                {unit}
+              </span>
             </div>
           ))}
         </motion.div>
 
-       
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -146,7 +145,7 @@ const ComingSoon = () => {
                 </button>
               </motion.form>
             ) : (
-              <motion.div 
+              <motion.div
                 key="success"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
