@@ -135,3 +135,26 @@ CREATE TABLE IF NOT EXISTS saved_pg (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE KEY unique_user_pg (user_id, pg_id)
 );
+CREATE TABLE IF NOT EXISTS survey_form (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(100) ,
+  email VARCHAR(150) ,
+  phone VARCHAR(15) ,
+  status           ENUM('Student', 'Professional', 'Intern', 'Other') NOT NULL,
+  city             VARCHAR(100) NOT NULL,
+  stay_duration    ENUM('< 1 month', '1-3 months', '3-6 months', '6+ months') NOT NULL,
+  room_type        ENUM('Single', 'Double sharing', 'Triple or more') NOT NULL,
+  monthly_rent     ENUM('< ₹5,000', '₹5,000-₹8,000', '₹8,000-₹12,000', '₹12,000+') NOT NULL,
+  food_quality     TEXT,
+  referral_source  ENUM('Broker', 'Friend / reference', 'Google / online', 'Walking / offline search', 'Facebook / WhatsApp groups', 'Other') NOT NULL,
+  other_source     VARCHAR(255),
+  finding_problems     JSON NOT NULL,
+  current_problems     JSON NOT NULL,
+  wish_i_knew          TEXT,
+  other_finding_problem VARCHAR(255),
+  top_priorities    JSON NOT NULL,
+  review_importance ENUM('Very', 'Somewhat', 'Not') NOT NULL,
+  final_comments    TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

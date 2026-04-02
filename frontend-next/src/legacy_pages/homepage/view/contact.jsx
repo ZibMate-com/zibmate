@@ -77,11 +77,9 @@ const Contact = () => {
 
   return (
     <MotionSection className="relative w-full py-20 px-6 max-w-7xl mx-auto" id="contact">
-     
       <div className="absolute top-0 right-0 -z-10 w-96 h-96 bg-orange-100/50 rounded-full blur-3xl" />
 
       <div className="flex flex-col lg:flex-row gap-16 justify-between">
-      
         <div className="w-full lg:w-1/2">
           <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} className="mb-10">
             <span className="text-orange-500 font-semibold tracking-wider uppercase text-sm">Support Center</span>

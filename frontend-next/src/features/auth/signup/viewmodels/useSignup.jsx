@@ -50,7 +50,6 @@ export const useSignup = () => {
       newErrors.phone = "Enter a valid phone number.";
     } else if (/^(\d{5})\1$/.test(userdata.phone)) {
       newErrors.phone = "Enter a valid phone number.";
-     
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

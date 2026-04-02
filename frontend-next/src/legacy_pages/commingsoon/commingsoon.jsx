@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const ComingSoon = () => {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
+
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
