@@ -87,13 +87,7 @@ export const useSurveyForm = () => {
       //     newErrors.basic_details.fullName = 'Full name is required';
       //     isValid = false;
       //   }
-      //   if (!formData.basic_details.email.trim()) {
-      //     newErrors.basic_details.email = 'Email is required';
-      //     isValid = false;
-      //   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.basic_details.email)) {
-      //     newErrors.basic_details.email = 'Enter a valid email';
-      //     isValid = false;
-      //   }
+
       //   if (!formData.basic_details.phone.trim()) {
       //     newErrors.basic_details.phone = 'Phone number is required';
       //     isValid = false;
@@ -101,6 +95,13 @@ export const useSurveyForm = () => {
       //     newErrors.basic_details.phone = 'Enter a valid 10-digit Indian phone number';
       //     isValid = false;
       //   }
+      if (!formData.basic_details.email.trim()) {
+        newErrors.basic_details.email = "Email is required";
+        isValid = false;
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.basic_details.email)) {
+        newErrors.basic_details.email = "Enter a valid email";
+        isValid = false;
+      }
       if (!formData.basic_details.status) {
         newErrors.basic_details.status = "Please select your status";
         isValid = false;
@@ -162,29 +163,31 @@ export const useSurveyForm = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validateSection('reviews')) return;
+    e.preventDefault();
+    if (!validateSection("reviews")) return;
 
-  try {
-    const res = await fetch('/api/survey-form/create', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const res = await fetch("/api/survey-form/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (data.success) {
-      toast.success("Thank you for submitting the form!");
-      resetForm();
-      router.push("/coming-soon");
-    } else {
-      toast.error(data.message || "Something went wrong");
+      if (data.success) {
+        toast.success("Thank you for submitting the form!");
+        resetForm();
+        router.push("/coming-soon");
+      } else if (res.status === 409) {
+        toast.error("You've already submitted the survey with this email");
+      } else {
+        toast.error(data.message || "Something went wrong");
+      }
+    } catch (error) {
+      toast.error("Failed to submit. Please try again.");
     }
-  } catch (error) {
-    toast.error("Failed to submit. Please try again.");
-  }
-};
+  };
 
   return {
     formData,
