@@ -161,13 +161,30 @@ export const useSurveyForm = () => {
     setErrors(initialErrors);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateSection("reviews")) return;
-    router.push("/coming-soon");
-    toast.success("Thank You for Submitting Form");
-    resetForm();
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateSection('reviews')) return;
+
+  try {
+    const res = await fetch('/api/survey-form/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      toast.success("Thank you for submitting the form!");
+      resetForm();
+      router.push("/coming-soon");
+    } else {
+      toast.error(data.message || "Something went wrong");
+    }
+  } catch (error) {
+    toast.error("Failed to submit. Please try again.");
+  }
+};
 
   return {
     formData,

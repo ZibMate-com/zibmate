@@ -83,7 +83,7 @@ const SurveySectionOne = ({ formData, handleChange, errors, onNext }) => {
               <input
                 type="tel"
                 name="phone"
-                placeholder="+91 00000 00000"
+                placeholder="00000 00000"
                 value={formData.basic_details.phone}
                 onChange={(e) => handleChange("basic_details", e)}
                 className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border-2 focus:bg-white focus:ring-0 transition-all ${
