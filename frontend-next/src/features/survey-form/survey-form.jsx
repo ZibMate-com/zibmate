@@ -11,7 +11,20 @@ export const SurveyForm = () => {
   const [activeTab, setActiveTab] = useState(1);
   const totalSteps = 4;
 
-  const { formData, errors, handleChange, handleCheckbox, handleSubmit, validateSection } = useSurveyForm();
+  const { 
+    formData, 
+    errors, 
+    handleChange, 
+    handleCheckbox, 
+    handleSubmit, 
+    validateSection, 
+    otp,
+    setOtp,
+    otpSent,
+    otpVerified,
+    otpLoading,
+    sendOtp,
+    verifyOtp, } = useSurveyForm();
 
   const nextStep = () => {
     const currentSection = sectionKeys[activeTab - 1];
@@ -39,7 +52,19 @@ export const SurveyForm = () => {
   const renderSection = () => {
     switch (activeTab) {
       case 1:
-        return <SurveySectionOne onNext={nextStep} formData={formData} errors={errors} handleChange={handleChange} />;
+        return <SurveySectionOne
+          onNext={nextStep}
+          formData={formData}
+          errors={errors}
+          handleChange={handleChange}
+          otp={otp}
+          setOtp={setOtp}
+          otpSent={otpSent}
+          otpVerified={otpVerified}
+          otpLoading={otpLoading}
+          sendOtp={sendOtp}
+          verifyOtp={verifyOtp}
+        />;
       case 2:
         return (
           <SurveySectionTwo

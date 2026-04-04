@@ -76,7 +76,7 @@ const SurveySectionTwo = ({ formData, handleChange, errors, onNext, onBack }) =>
               Monthly Rent (Approx)
             </label>
             <div className="grid grid-cols-2 gap-3">
-              {["< ₹5,000", "₹5,000–₹8,000", "₹8,000–₹12,000", "₹12,000+"].map((range) => (
+              {["< ₹5,000", "₹5,000–₹10,000", "₹10,000–₹15,000", "₹15,000+"].map((range) => (
                 <label
                   key={range}
                   className={`flex items-center p-4 rounded-xl border cursor-pointer hover:bg-white hover:shadow-sm transition-all ${

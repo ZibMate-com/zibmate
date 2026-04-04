@@ -46,6 +46,7 @@ const SurveySectionThree = ({ formData, handleChange, handleCheckbox, errors, on
                 "Had to visit many places",
                 "Owner not responsive",
                 "Safety concerns",
+                "High Security Deposit",
                 "Other",
               ].map((problem) => (
                 <label
@@ -97,7 +98,6 @@ const SurveySectionThree = ({ formData, handleChange, handleCheckbox, errors, on
             </AnimatePresence>
           </section>
 
-          {/* Current Problems */}
           <section>
             <label className="block text-sm font-bold text-gray-800 uppercase tracking-wider mb-6">
               Current Pain Points
@@ -111,6 +111,7 @@ const SurveySectionThree = ({ formData, handleChange, handleCheckbox, errors, on
                 "Hidden charges",
                 "Maintenance issues",
                 "Roommate issues",
+                "Non-Refundable Security Deposits",
                 "No privacy",
                 "None",
               ].map((issue) => {
@@ -141,7 +142,6 @@ const SurveySectionThree = ({ formData, handleChange, handleCheckbox, errors, on
             <ErrorMsg msg={errors?.problems?.currentProblems} />
           </section>
 
-          {/* Wish I Knew — optional, no error */}
           <section>
             <label className="block text-sm font-bold text-gray-800 uppercase tracking-wider mb-3">
               The "Wish I Knew" Factor
@@ -155,7 +155,6 @@ const SurveySectionThree = ({ formData, handleChange, handleCheckbox, errors, on
             />
           </section>
 
-          {/* Navigation */}
           <footer className="pt-8 border-t border-gray-100 flex justify-between items-center">
             <button
               onClick={onBack}

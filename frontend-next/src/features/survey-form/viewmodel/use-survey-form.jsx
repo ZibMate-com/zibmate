@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
+
 const initialData = {
   basic_details: {
     fullName: "",
@@ -43,6 +44,11 @@ export const useSurveyForm = () => {
   const [formData, setFormData] = useState(initialData);
   const [errors, setErrors] = useState(initialErrors);
 
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpLoading, setOtpLoading] = useState(false);
+
   const handleChange = (section, e) => {
     const { name, value } = e.target;
 
@@ -61,12 +67,20 @@ export const useSurveyForm = () => {
         [name]: "",
       },
     }));
+
+    if (section === "basic_details" && name === "email") {
+      setOtpSent(false);
+      setOtpVerified(false);
+      setOtp("");
+    }
   };
 
   const handleCheckbox = (section, field, value) => {
     setFormData((prev) => {
       const current = prev[section][field];
-      const updated = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
+      const updated = current.includes(value)
+        ? current.filter((v) => v !== value)
+        : [...current, value];
 
       return {
         ...prev,
@@ -78,38 +92,100 @@ export const useSurveyForm = () => {
     });
   };
 
+  const sendOtp = async () => {
+    const email = formData.basic_details.email;
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErrors((prev) => ({
+        ...prev,
+        basic_details: { ...prev.basic_details, email: "Enter a valid email first" },
+      }));
+      return;
+    }
+
+    setOtpLoading(true);
+    try {
+      const res = await fetch("/api/otp-verification/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setOtpSent(true);
+        setOtp("");
+        toast.success("OTP sent to your email!");
+      } else {
+        toast.error(data.message || "Failed to send OTP");
+      }
+    } catch {
+      toast.error("Failed to send OTP. Please try again.");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const verifyOtp = async () => {
+    if (!otp || otp.length !== 6) return;
+
+    setOtpLoading(true);
+    try {
+      const res = await fetch("/api/otp-verification/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.basic_details.email, otp }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setOtpVerified(true);
+        setOtp("");
+        // ✅ Clear email error if any
+        setErrors((prev) => ({
+          ...prev,
+          basic_details: { ...prev.basic_details, email: "" },
+        }));
+        toast.success("Email verified! ✅");
+      } else {
+        toast.error(data.message || "Invalid OTP");
+      }
+    } catch {
+      toast.error("Verification failed. Please try again.");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
   const validateSection = (section) => {
     const newErrors = { ...initialErrors };
     let isValid = true;
 
     if (section === "basic_details") {
-      //   if (!formData.basic_details.fullName.trim()) {
-      //     newErrors.basic_details.fullName = 'Full name is required';
-      //     isValid = false;
-      //   }
-
-      //   if (!formData.basic_details.phone.trim()) {
-      //     newErrors.basic_details.phone = 'Phone number is required';
-      //     isValid = false;
-      //   } else if (!/^[6-9]\d{9}$/.test(formData.basic_details.phone)) {
-      //     newErrors.basic_details.phone = 'Enter a valid 10-digit Indian phone number';
-      //     isValid = false;
-      //   }
       if (!formData.basic_details.email.trim()) {
         newErrors.basic_details.email = "Email is required";
         isValid = false;
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.basic_details.email)) {
         newErrors.basic_details.email = "Enter a valid email";
         isValid = false;
+      } else if (!otpVerified) {
+        // ✅ Check OTP only if email is valid
+        newErrors.basic_details.email = "Please verify your email with OTP";
+        isValid = false;
       }
+
       if (!formData.basic_details.status) {
         newErrors.basic_details.status = "Please select your status";
         isValid = false;
       }
+
       if (!formData.basic_details.city.trim()) {
         newErrors.basic_details.city = "City is required";
         isValid = false;
       }
+
       if (!formData.basic_details.stayDuration) {
         newErrors.basic_details.stayDuration = "Please select stay duration";
         isValid = false;
@@ -160,6 +236,9 @@ export const useSurveyForm = () => {
   const resetForm = () => {
     setFormData(initialData);
     setErrors(initialErrors);
+    setOtp("");
+    setOtpSent(false);
+    setOtpVerified(false);  
   };
 
   const handleSubmit = async (e) => {
@@ -197,5 +276,12 @@ export const useSurveyForm = () => {
     handleCheckbox,
     handleSubmit,
     resetForm,
+    otp,
+    setOtp,
+    otpSent,
+    otpVerified,
+    otpLoading,
+    sendOtp,
+    verifyOtp,
   };
 };
