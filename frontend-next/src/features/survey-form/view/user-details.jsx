@@ -1,8 +1,35 @@
 import React from "react";
-import { motion,AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from 'react';
 
 const SurveySectionOne = ({ formData, handleChange, errors, onNext,
   otp, setOtp, otpSent, otpVerified, otpLoading, sendOtp, verifyOtp }) => {
+
+  const [timer, setTimer] = useState(30);
+  const [canResend, setCanResend] = useState(false);
+  const timerRef = useRef(null);
+
+  const startTimer = () => {
+    setTimer(30);
+    setCanResend(false);
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          setCanResend(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  useEffect(() => {
+    if (otpSent && !otpVerified) startTimer();
+    return () => clearInterval(timerRef.current);
+  }, [otpSent]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -56,17 +83,24 @@ const SurveySectionOne = ({ formData, handleChange, errors, onNext,
             <ErrorMsg msg={errors?.basic_details?.fullName} />
           </motion.div>
 
-          {/* Email & Phone */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <div className="flex justify-between items-end mb-2">
                 <label className="text-sm font-bold text-gray-800 uppercase tracking-wider">
                   Email Address
                 </label>
-                {/* Option to reset if they made a mistake after sending OTP */}
+                {/* Change email button */}
                 {otpSent && !otpVerified && (
                   <button
-                    onClick={() => { setOtpSent(false); setOtp(""); }}
+                    type="button"
+                    onClick={() => {
+                      setOtp("");
+                      setCanResend(false);
+                      setTimer(30);
+                      clearInterval(timerRef.current);
+
+                      sendOtp && setCanResend(false);
+                    }}
                     className="text-[10px] text-orange-600 hover:underline font-bold uppercase"
                   >
                     Change Email
@@ -83,15 +117,13 @@ const SurveySectionOne = ({ formData, handleChange, errors, onNext,
                     value={formData.basic_details.email}
                     disabled={otpVerified || otpLoading}
                     onChange={(e) => handleChange("basic_details", e)}
-                    className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border-2 transition-all duration-200 outline-none
-          ${otpVerified
-                        ? 'border-green-500 bg-green-50 text-green-700'
-                        : errors?.basic_details?.email
-                          ? "border-red-300 focus:border-red-500 bg-red-50"
-                          : "border-gray-100 focus:border-orange-500 focus:bg-white"
+                    className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border-2 transition-all duration-200 outline-none ${otpVerified
+                      ? "border-green-500 bg-green-50 text-green-700"
+                      : errors?.basic_details?.email
+                        ? "border-red-300 focus:border-red-500 bg-red-50"
+                        : "border-gray-100 focus:border-orange-500 focus:bg-white"
                       }`}
                   />
-                  {/* Visual Success Icon inside the input */}
                   {otpVerified && (
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 text-green-500">
                       <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
@@ -104,8 +136,11 @@ const SurveySectionOne = ({ formData, handleChange, errors, onNext,
                 {!otpVerified && (
                   <button
                     type="button"
-                    onClick={sendOtp}
-                    disabled={otpLoading || !formData.basic_details.email.includes('@')}
+                    onClick={() => {
+                      sendOtp();
+                      startTimer(); 
+                    }}
+                    disabled={otpLoading || !formData.basic_details.email.includes('@') || otpSent}
                     className="px-6 py-2 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-200 disabled:text-gray-400 text-white text-xs font-black rounded-2xl transition-all shadow-sm active:scale-95 whitespace-nowrap"
                   >
                     {otpLoading ? (
@@ -113,7 +148,7 @@ const SurveySectionOne = ({ formData, handleChange, errors, onNext,
                         <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         Sending
                       </span>
-                    ) : otpSent ? 'Resend' : 'Send OTP'}
+                    ) :  'Send OTP'}
                   </button>
                 )}
               </div>
@@ -122,13 +157,39 @@ const SurveySectionOne = ({ formData, handleChange, errors, onNext,
               <AnimatePresence>
                 {otpSent && !otpVerified && (
                   <motion.div
-                    initial={{ opacity: 0, height: 0, mt: 0 }}
-                    animate={{ opacity: 1, height: 'auto', mt: 12 }}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden"
+                    className="overflow-hidden mt-3"
                   >
                     <div className="bg-orange-50 p-4 rounded-2xl border border-orange-100">
-                      <p className="text-[11px] text-orange-700 font-bold mb-2 ml-1 uppercase">Enter Verification Code</p>
+                      <div className="flex justify-between items-center mb-2 ml-1">
+                        <p className="text-[11px] text-orange-700 font-bold uppercase">
+                          Enter Verification Code
+                        </p>
+                        {/* Timer / Resend */}
+                        {canResend ? (
+                          <button
+                            type="button"
+                            disabled={otpLoading}
+                            onClick={() => {
+                              sendOtp();
+                              startTimer(); // ✅ restart timer on resend
+                            }}
+                            className="text-[11px] text-orange-600 font-bold hover:text-orange-800 underline underline-offset-2 transition-colors disabled:opacity-50"
+                          >
+                            {otpLoading ? 'Sending...' : 'Resend OTP'}
+                          </button>
+                        ) : (
+                          <span className="text-[11px] text-gray-400 font-semibold">
+                            Resend in{' '}
+                            <span className="text-orange-500 font-black">
+                              {String(timer).padStart(2, '0')}s
+                            </span>
+                          </span>
+                        )}
+                      </div>
+
                       <div className="flex flex-col gap-2">
                         <input
                           type="text"
@@ -146,7 +207,12 @@ const SurveySectionOne = ({ formData, handleChange, errors, onNext,
                           disabled={otp.length !== 6 || otpLoading}
                           className="px-6 py-2 bg-gray-900 hover:bg-black disabled:bg-gray-300 text-white text-xs font-bold rounded-xl transition-all"
                         >
-                          {otpLoading ? '...' : 'Verify'}
+                          {otpLoading ? (
+                            <span className="flex items-center justify-center gap-2">
+                              <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                              Verifying
+                            </span>
+                          ) : 'Verify'}
                         </button>
                       </div>
                     </div>
@@ -156,6 +222,7 @@ const SurveySectionOne = ({ formData, handleChange, errors, onNext,
 
               <ErrorMsg msg={errors?.basic_details?.email} />
             </div>
+
             <div>
               <label className="block text-sm font-bold text-gray-800 uppercase tracking-wider mb-2">
                 Phone Number
