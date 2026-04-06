@@ -17,8 +17,7 @@ export async function POST(req: NextRequest) {
       !pg_details?.referralSource ||
       !problems?.findingProblems?.length ||
       !problems?.currentProblems?.length ||
-      !reviews?.topPriorities?.length ||
-      !reviews?.reviewImportance
+      !reviews?.topPriorities?.length
     ) {
       return NextResponse.json({ success: false, message: "Missing required fields" }, { status: 400 });
     }
@@ -28,8 +27,8 @@ export async function POST(req: NextRequest) {
         full_name, email, phone, status, city, stay_duration,
         room_type, monthly_rent, food_quality, referral_source, other_source,
         finding_problems, current_problems, wish_i_knew, other_finding_problem,
-        top_priorities, review_importance, final_comments
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        top_priorities, final_comments
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         basic_details.fullName,
         basic_details.email,
@@ -47,7 +46,6 @@ export async function POST(req: NextRequest) {
         problems.wishIKnew || null,
         problems.otherFindingProblem || null,
         JSON.stringify(reviews.topPriorities),
-        reviews.reviewImportance,
         reviews.finalComments || null,
       ],
     );

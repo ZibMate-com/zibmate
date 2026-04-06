@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS survey_form (
   city             VARCHAR(100) NOT NULL,
   stay_duration    ENUM('< 1 month', '1-3 months', '3-6 months', '6+ months') NOT NULL,
   room_type        ENUM('Single', 'Double sharing', 'Triple or more') NOT NULL,
-  monthly_rent     ENUM('< ₹5,000', '₹5,000-₹10,000', '₹10,000-₹15,000', '₹15,000+') NOT NULL,
+  monthly_rent    VARCHAR(50) NOT NULL,
   food_quality     TEXT,
   referral_source  ENUM('Broker', 'Friend / reference', 'Google / online', 'Walking / offline search', 'Facebook / WhatsApp groups', 'Other') NOT NULL,
   other_source     VARCHAR(255),

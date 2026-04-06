@@ -27,7 +27,6 @@ const initialData = {
   },
   reviews: {
     topPriorities: [],
-    reviewImportance: "",
     finalComments: "",
   },
 };
@@ -143,7 +142,6 @@ export const useSurveyForm = () => {
       if (data.success) {
         setOtpVerified(true);
         setOtp("");
-        // ✅ Clear email error if any
         setErrors((prev) => ({
           ...prev,
           basic_details: { ...prev.basic_details, email: "" },
@@ -171,7 +169,6 @@ export const useSurveyForm = () => {
         newErrors.basic_details.email = "Enter a valid email";
         isValid = false;
       } else if (!otpVerified) {
-        // ✅ Check OTP only if email is valid
         newErrors.basic_details.email = "Please verify your email with OTP";
         isValid = false;
       }
@@ -221,10 +218,6 @@ export const useSurveyForm = () => {
     if (section === "reviews") {
       if (formData.reviews.topPriorities.length === 0) {
         newErrors.reviews.topPriorities = "Select at least one priority";
-        isValid = false;
-      }
-      if (!formData.reviews.reviewImportance) {
-        newErrors.reviews.reviewImportance = "Please select review importance";
         isValid = false;
       }
     }
