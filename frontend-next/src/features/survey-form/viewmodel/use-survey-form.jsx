@@ -77,18 +77,19 @@ export const useSurveyForm = () => {
   const handleCheckbox = (section, field, value) => {
     setFormData((prev) => {
       const current = prev[section][field];
-      const updated = current.includes(value)
-        ? current.filter((v) => v !== value)
-        : [...current, value];
+      const updated = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
 
       return {
         ...prev,
-        [section]: {
-          ...prev[section],
-          [field]: updated,
-        },
+        [section]: { ...prev[section], [field]: updated },
       };
     });
+
+    // Clear error for this checkbox group as soon as user picks something
+    setErrors((prev) => ({
+      ...prev,
+      [section]: { ...prev[section], [field]: "" },
+    }));
   };
 
   const sendOtp = async () => {
@@ -158,72 +159,65 @@ export const useSurveyForm = () => {
   };
 
   const validateSection = (section) => {
-    const newErrors = { ...initialErrors };
-    let isValid = true;
+    const sectionErrors = {};
 
     if (section === "basic_details") {
       if (!formData.basic_details.email.trim()) {
-        newErrors.basic_details.email = "Email is required";
-        isValid = false;
+        sectionErrors.email = "Email is required";
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.basic_details.email)) {
-        newErrors.basic_details.email = "Enter a valid email";
-        isValid = false;
+        sectionErrors.email = "Enter a valid email";
       } else if (!otpVerified) {
-        newErrors.basic_details.email = "Please verify your email with OTP";
-        isValid = false;
+        sectionErrors.email = "Please verify your email with OTP";
       }
 
       if (!formData.basic_details.status) {
-        newErrors.basic_details.status = "Please select your status";
-        isValid = false;
+        sectionErrors.status = "Please select your status";
       }
 
       if (!formData.basic_details.city.trim()) {
-        newErrors.basic_details.city = "City is required";
-        isValid = false;
+        sectionErrors.city = "City is required";
       }
 
       if (!formData.basic_details.stayDuration) {
-        newErrors.basic_details.stayDuration = "Please select stay duration";
-        isValid = false;
+        sectionErrors.stayDuration = "Please select stay duration";
       }
     }
 
     if (section === "pg_details") {
       if (!formData.pg_details.roomType) {
-        newErrors.pg_details.roomType = "Please select room type";
-        isValid = false;
+        sectionErrors.roomType = "Please select room type";
       }
       if (!formData.pg_details.monthlyRent) {
-        newErrors.pg_details.monthlyRent = "Please select monthly rent range";
-        isValid = false;
+        sectionErrors.monthlyRent = "Please select monthly rent range";
       }
       if (!formData.pg_details.referralSource) {
-        newErrors.pg_details.referralSource = "Please select how you found your PG";
-        isValid = false;
+        sectionErrors.referralSource = "Please select how you found your PG";
       }
     }
 
     if (section === "problems") {
       if (formData.problems.findingProblems.length === 0) {
-        newErrors.problems.findingProblems = "Select at least one problem";
-        isValid = false;
+        sectionErrors.findingProblems = "Select at least one problem";
       }
       if (formData.problems.currentProblems.length === 0) {
-        newErrors.problems.currentProblems = "Select at least one current problem";
-        isValid = false;
+        sectionErrors.currentProblems = "Select at least one current problem";
       }
     }
 
     if (section === "reviews") {
       if (formData.reviews.topPriorities.length === 0) {
-        newErrors.reviews.topPriorities = "Select at least one priority";
-        isValid = false;
+        sectionErrors.topPriorities = "Select at least one priority";
       }
     }
 
-    setErrors(newErrors);
-    return isValid;
+    // Only update the current section's errors, leave others untouched
+    setErrors((prev) => ({
+      ...prev,
+      [section]: sectionErrors,
+    }));
+
+    // Valid if no error keys exist in this section
+    return Object.keys(sectionErrors).length === 0;
   };
 
   const resetForm = () => {
@@ -231,7 +225,7 @@ export const useSurveyForm = () => {
     setErrors(initialErrors);
     setOtp("");
     setOtpSent(false);
-    setOtpVerified(false);  
+    setOtpVerified(false);
   };
 
   const handleSubmit = async (e) => {
