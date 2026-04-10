@@ -154,6 +154,7 @@ CREATE TABLE IF NOT EXISTS survey_form (
   other_finding_problem VARCHAR(255),
   top_priorities    JSON NOT NULL,
   final_comments    TEXT,
+  country VARCHAR(100) NOT NULL DEFAULT 'India'
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

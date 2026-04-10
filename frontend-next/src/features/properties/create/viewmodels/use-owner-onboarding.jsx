@@ -65,7 +65,6 @@ export const useOwnerOnboardingForm = () => {
     return Object.keys(e).length === 0;
   };
 
-  /* ------------------ HANDLERS ------------------ */
   const handleChange = (e, section, occupancyType = null) => {
     const { name, value } = e.target;
 
