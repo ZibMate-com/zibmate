@@ -7,7 +7,7 @@ import Mycontext from "../../../../context/mycontext";
 
 export const useSignup = () => {
   const router = useRouter();
-  const { setloading, setisLoggedIn } = useContext(Mycontext);
+  const { loading, setloading, setisLoggedIn } = useContext(Mycontext);
   const [role, setRole] = useState("owner");
   const [errors, setErrors] = useState({});
   const [userdata, setUserData] = useState({
@@ -41,7 +41,6 @@ export const useSignup = () => {
     }
     if (!userdata.phone.trim()) {
       newErrors.phone = "Phone number is required.";
-      isValid = false;
     } else if (!/^[6-9]\d{9}$/.test(userdata.phone)) {
       newErrors.phone = "Enter a valid 10-digit phone number.";
     } else if (/^(\d)\1{9}$/.test(userdata.phone)) {
@@ -67,15 +66,14 @@ export const useSignup = () => {
 
       if (success) {
         toast.success("Signup successful! Welcome aboard!");
+        setloading(false);
 
-        // Redirect based on role
         if (role === "owner") {
-          router.push("/owner-dashboard"); // Owner dashboard
+          router.push("/owner-dashboard");
         } else {
-          router.push("/findpg"); // Buyer/User page
+          router.push("/findpg");
         }
       }
-      setloading(false);
     } catch (error) {
       setloading(false);
       toast.error(error.message || "Signup failed");
@@ -94,5 +92,6 @@ export const useSignup = () => {
     setRole,
     handleInputChange,
     handleSignup,
+    loading,
   };
 };
