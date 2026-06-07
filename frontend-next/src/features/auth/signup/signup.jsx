@@ -1,15 +1,16 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useSignup } from "./viewmodels/useSignup";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Mail, Lock, Phone, ArrowRight, Home, CheckCircle2 } from "lucide-react";
+import { User, Mail, Lock, Phone, ArrowRight, Home, CheckCircle2 ,Eye,EyeOff} from "lucide-react";
 import logo from "@/assets/logoorange.png";
 import Image from "next/image";
 
 const Signup = () => {
   const { role, userdata, errors, setRole, handleInputChange, handleSignup, loading } = useSignup();
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="flex min-h-screen bg-white font-Montserrat">
@@ -141,13 +142,21 @@ const Signup = () => {
                 <div className="relative">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     placeholder="Secure Password"
                     value={userdata.password}
                     onChange={handleInputChange}
-                    className="w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm text-black placeholder-black"
+                    className="w-full pl-11 pr-12 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-sm text-black placeholder-black"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-orange-500 transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                  </button>
                   {errors.password && (
                     <p className="text-rose-500 text-[10px] mt-1 ml-2 font-bold uppercase">{errors.password}</p>
                   )}

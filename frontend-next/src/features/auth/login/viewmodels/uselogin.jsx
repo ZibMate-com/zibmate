@@ -11,7 +11,7 @@ import { signInWithPopup } from "firebase/auth";
 
 const useLogin = () => {
   const router = useRouter();
-  const { setloading, setisLoggedIn, setUser } = useContext(Mycontext);
+  const {loading, setloading, setisLoggedIn, setUser } = useContext(Mycontext);
 
   const [role, setRole] = useState("owner");
   const [userCred, setUserCred] = useState({
@@ -51,12 +51,14 @@ const useLogin = () => {
       if (loggedUser) {
         setisLoggedIn(true);
         setUser(loggedUser);
+        toast.success("Logged in Succesfully")
         router.push(role === "owner" ? "/owner-dashboard" : "/findpg");
       }
     } catch (error) {
       setloading(false);
       setisLoggedIn(false);
       setErrors({ general: error.message || "Login failed" });
+      toast.error(error.message)
     }
   };
 
@@ -82,7 +84,7 @@ const useLogin = () => {
         setCookieUser(data.user);
         setisLoggedIn(true);
         setUser(data.user);
-
+        toast.success("Logged in Succesfully")
         if (data.user.role === "owner") {
           router.push("/owner-dashboard");
         } else {
@@ -105,6 +107,7 @@ const useLogin = () => {
     setUserCred,
     handleLogin,
     handleGoogleSignIn,
+    loading
   };
 };
 

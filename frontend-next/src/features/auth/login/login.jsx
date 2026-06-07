@@ -2,14 +2,16 @@
 import Link from "next/link";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Lock, Phone, ArrowRight } from "lucide-react";
+import { Mail, Lock, Phone, ArrowRight, Eye, EyeOff } from "lucide-react";
 import logo from "@/assets/logoorange.png";
 import useLogin from "./viewmodels/uselogin";
 import Image from "next/image";
+import { useState } from "react";
 
 export const Login = () => {
   const { role, setRole, errors, userCred, setUserCred, handleLogin, loading, isLoggedIn, handleGoogleSignIn } =
     useLogin();
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <div className="flex min-h-screen bg-white font-Montserrat">
       {loading && <Loader />}
@@ -75,6 +77,38 @@ export const Login = () => {
             </button>
           </div>
 
+
+          <button
+            onClick={handleGoogleSignIn}
+            className="w-full py-4 bg-white border border-slate-200 hover:bg-slate-50 rounded-2xl flex items-center justify-center gap-3 transition-all font-bold text-slate-700 active:scale-[0.98]"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="h-5 w-5">
+              <path
+                fill="#FFC107"
+                d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,19.034-8.159,19.611-18.917V20.083z"
+              />
+              <path
+                fill="#FF3D00"
+                d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.664,8.307,6.306,14.691z"
+              />
+              <path
+                fill="#4CAF50"
+                d="M24,44c5.166,0,9.914-1.841,13.25-4.908l-6.643-4.898C29.622,34.02,26.963,35,24,35c-5.263,0-9.734-2.887-12.063-7.108l-6.848,5.326C9.522,39.73,16.299,44,24,44z"
+              />
+              <path
+                fill="#1976D2"
+                d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.002,0.001-0.003,0.002-0.005l6.848,5.326c-0.106,0.083-0.224,0.162-0.347,0.237C39.673,38.874,44,33.483,44,28C44,26.919,43.864,25.867,43.611,24.84V20.083z"
+              />
+            </svg>
+            Sign in with Google
+          </button>
+
+          <div className="my-6 flex items-center gap-4">
+            <div className="flex-1 h-px bg-slate-200" />
+            <span className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]"> Connect via email</span>
+            <div className="flex-1 h-px bg-slate-200" />
+          </div>
+
           <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
             <AnimatePresence mode="wait">
               {role === "owner" ? (
@@ -99,12 +133,20 @@ export const Login = () => {
                   <div className="relative">
                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-slate-400" />
                     <input
-                      type="password"
+                      type={showPassword ? "test" : "password"}
                       placeholder="Password"
                       value={userCred.password}
                       onChange={(e) => setUserCred({ ...userCred, password: e.target.value })}
                       className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 transition-all font-medium text-black placeholder-black"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-orange-500 transition-colors"
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                    </button>
                   </div>
                 </motion.div>
               ) : (
@@ -136,36 +178,7 @@ export const Login = () => {
             </button>
           </form>
 
-          <div className="my-6 flex items-center gap-4">
-            <div className="flex-1 h-px bg-slate-200" />
-            <span className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em]">Quick Connect</span>
-            <div className="flex-1 h-px bg-slate-200" />
-          </div>
 
-          <button
-            onClick={handleGoogleSignIn}
-            className="w-full py-4 bg-white border border-slate-200 hover:bg-slate-50 rounded-2xl flex items-center justify-center gap-3 transition-all font-bold text-slate-700 active:scale-[0.98]"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="h-5 w-5">
-              <path
-                fill="#FFC107"
-                d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,19.034-8.159,19.611-18.917V20.083z"
-              />
-              <path
-                fill="#FF3D00"
-                d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.664,8.307,6.306,14.691z"
-              />
-              <path
-                fill="#4CAF50"
-                d="M24,44c5.166,0,9.914-1.841,13.25-4.908l-6.643-4.898C29.622,34.02,26.963,35,24,35c-5.263,0-9.734-2.887-12.063-7.108l-6.848,5.326C9.522,39.73,16.299,44,24,44z"
-              />
-              <path
-                fill="#1976D2"
-                d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.002,0.001-0.003,0.002-0.005l6.848,5.326c-0.106,0.083-0.224,0.162-0.347,0.237C39.673,38.874,44,33.483,44,28C44,26.919,43.864,25.867,43.611,24.84V20.083z"
-              />
-            </svg>
-            Sign in with Google
-          </button>
 
           <p className="mt-8 text-center text-slate-500 font-medium text-lg">
             Not part of the community yet?{" "}
