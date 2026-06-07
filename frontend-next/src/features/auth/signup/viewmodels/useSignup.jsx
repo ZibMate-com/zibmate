@@ -7,7 +7,7 @@ import Mycontext from "../../../../context/mycontext";
 
 export const useSignup = () => {
   const router = useRouter();
-  const {loading, setloading, setisLoggedIn } = useContext(Mycontext);
+  const { loading, setloading, setisLoggedIn } = useContext(Mycontext);
   const [role, setRole] = useState("owner");
   const [errors, setErrors] = useState({});
   const [userdata, setUserData] = useState({
@@ -69,12 +69,11 @@ export const useSignup = () => {
         setloading(false);
 
         if (role === "owner") {
-          router.push("/owner-dashboard"); 
+          router.push("/owner-dashboard");
         } else {
-          router.push("/findpg"); 
+          router.push("/findpg");
         }
       }
-      
     } catch (error) {
       setloading(false);
       toast.error(error.message || "Signup failed");
@@ -93,6 +92,6 @@ export const useSignup = () => {
     setRole,
     handleInputChange,
     handleSignup,
-    loading
+    loading,
   };
 };

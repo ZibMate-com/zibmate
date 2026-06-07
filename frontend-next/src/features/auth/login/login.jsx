@@ -77,7 +77,6 @@ export const Login = () => {
             </button>
           </div>
 
-
           <button
             onClick={handleGoogleSignIn}
             className="w-full py-4 bg-white border border-slate-200 hover:bg-slate-50 rounded-2xl flex items-center justify-center gap-3 transition-all font-bold text-slate-700 active:scale-[0.98]"
@@ -177,8 +176,6 @@ export const Login = () => {
               <ArrowRight className="size-5" />
             </button>
           </form>
-
-
 
           <p className="mt-8 text-center text-slate-500 font-medium text-lg">
             Not part of the community yet?{" "}

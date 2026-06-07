@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSignup } from "./viewmodels/useSignup";
 import { Loader } from "../../../components/view/loader";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Mail, Lock, Phone, ArrowRight, Home, CheckCircle2 ,Eye,EyeOff} from "lucide-react";
+import { User, Mail, Lock, Phone, ArrowRight, Home, CheckCircle2, Eye, EyeOff } from "lucide-react";
 import logo from "@/assets/logoorange.png";
 import Image from "next/image";
 
